@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Gift, HeartPulse, Home, MessageCircle } from "lucide-react";
+import { Heart, Home, MessageCircle, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   { href: "/child/home", label: "홈", icon: Home },
   { href: "/child/signal", label: "안부", icon: MessageCircle },
-  { href: "/child/care", label: "케어", icon: HeartPulse },
-  { href: "/child/gift", label: "선물", icon: Gift }
+  { href: "/child/care", label: "근황", icon: Heart },
+  { href: "/child/settings", label: "설정", icon: Settings }
 ];
 
 export function BottomTabBar() {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Bell, ChevronRight, Sparkles } from "lucide-react";
 import { ParentBriefingCard } from "@/components/child/ParentBriefingCard";
 import { ChildAppShell } from "@/components/child/ChildAppShell";
 import { RelationshipTemperatureGrid } from "@/components/child/RelationshipTemperatureGrid";
@@ -141,6 +142,77 @@ export default function ChildHomePage() {
               </div>
             );
           })}
+        </div>
+
+        {/* 넛지 알림 카드 */}
+        <div
+          style={{
+            background: "linear-gradient(135deg, #FFF1DA, #FFE5DA)",
+            borderRadius: "18px",
+            padding: "16px 18px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            cursor: "pointer"
+          }}
+        >
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.6)",
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Bell size={18} style={{ color: "#E07856" }} />
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: "12px", color: "#8A3E25", margin: "0 0 2px", fontWeight: 500 }}>안부 알림</p>
+            <p style={{ fontSize: "14px", color: "#3D2419", margin: 0, fontWeight: 500, lineHeight: 1.4 }}>
+              {selectedParentId === demoDataset.parents[0].id
+                ? "어머니께 마지막 연락한 지 4일째예요"
+                : "아버지께 마지막 연락한 지 2일째예요"}
+            </p>
+          </div>
+          <ChevronRight size={16} style={{ color: "#B07A5C", flexShrink: 0 }} />
+        </div>
+
+        {/* 오늘의 질문 미리보기 */}
+        <div
+          style={{
+            background: "white",
+            borderRadius: "18px",
+            padding: "18px",
+            boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+            cursor: "pointer"
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+            <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>오늘의 질문</p>
+            <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#7AB87A", fontWeight: 600 }}>
+              <Sparkles size={12} /> AI
+            </span>
+          </div>
+          <p style={{ fontSize: "16px", color: "#3D2419", margin: "0 0 10px", fontWeight: 500, lineHeight: 1.4 }}>
+            어릴 때 가장 기억에 남는 가족 여행이 있으신가요?
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              background: "#FBF6F0",
+              borderRadius: "12px",
+              padding: "10px 14px"
+            }}
+          >
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0 }}>답변하러 가기</p>
+            <ChevronRight size={14} style={{ color: "#B07A5C" }} />
+          </div>
         </div>
 
         {/* AI 브리핑 */}
