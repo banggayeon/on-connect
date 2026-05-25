@@ -18,11 +18,11 @@ const PARENT_DATA: Record<string, {
 }> = {
   parent_mother: {
     keywords: [
-      { word: "허리", count: 3, color: "#E07856" },
-      { word: "저녁 식사", count: 8, color: "#7AB87A" },
-      { word: "화분", count: 2, color: "#7DA8C8" },
-      { word: "생신", count: 4, color: "#E8A04E" },
-      { word: "반찬", count: 5, color: "#7AB87A" }
+      { word: "허리", count: 3, color: "#F1D6CC" },
+      { word: "저녁 식사", count: 8, color: "#CDDCC8" },
+      { word: "화분", count: 2, color: "#D9D0E5" },
+      { word: "생신", count: 4, color: "#F6D6BD" },
+      { word: "반찬", count: 5, color: "#D8E0A6" }
     ],
     pattern: "3주 전부터 허리 이야기가 반복되고 있어요. 식사 주제에는 빠르게 답장하는 패턴이에요.",
     memos: [
@@ -37,11 +37,11 @@ const PARENT_DATA: Record<string, {
   },
   parent_father: {
     keywords: [
-      { word: "등산", count: 6, color: "#7AB87A" },
-      { word: "무릎", count: 1, color: "#E07856" },
-      { word: "야구", count: 3, color: "#E8A04E" },
-      { word: "산책", count: 4, color: "#7DA8C8" },
-      { word: "뉴스", count: 2, color: "#B07A5C" }
+      { word: "등산", count: 6, color: "#CDDCC8" },
+      { word: "무릎", count: 1, color: "#F1D6CC" },
+      { word: "야구", count: 3, color: "#F6D6BD" },
+      { word: "산책", count: 4, color: "#D9D0E5" },
+      { word: "뉴스", count: 2, color: "#D8E0A6" }
     ],
     pattern: "사진에 빠르게 반응할 때 대화가 이어지는 패턴이에요. 무릎 뻐근 언급이 최근 시작됐어요.",
     memos: [
@@ -57,9 +57,9 @@ const PARENT_DATA: Record<string, {
 };
 
 const TONE_STYLE: Record<string, { bg: string; color: string; label: string }> = {
-  warm: { bg: "#E8F3E5", color: "#3A6B3A", label: "😊" },
-  neutral: { bg: "#FBF6F0", color: "#8A6B5C", label: "😐" },
-  concerned: { bg: "#FFE5DA", color: "#8A3E25", label: "😟" }
+  warm:     { bg: "#CDDCC8", color: "#241E1A", label: "😊" },
+  neutral:  { bg: "#F0E7D7", color: "#3D332C", label: "😐" },
+  concerned:{ bg: "#F1D6CC", color: "#241E1A", label: "😟" }
 };
 
 function calculateGranularityTrend(checkIns: typeof mockCheckIns) {
@@ -73,7 +73,7 @@ function calculateGranularityTrend(checkIns: typeof mockCheckIns) {
 }
 
 export default function CareSummaryPage() {
-  const { selectedParentId, parentProfile } = useSelectedParent();
+  const { selectedParentId } = useSelectedParent();
   const data = PARENT_DATA[selectedParentId] ?? PARENT_DATA.parent_mother;
   const maxCount = Math.max(...data.keywords.map((k) => k.count));
   const granularity = calculateGranularityTrend(mockCheckIns);
@@ -86,29 +86,31 @@ export default function CareSummaryPage() {
     } catch {}
   }, []);
 
+  const trendColor = granularity.trend === "up" ? "#CDDCC8" : granularity.trend === "down" ? "#F1D6CC" : "#F6D6BD";
+
   return (
-    <DetailScreen title="근황 상세" className="bg-gradient-to-b from-[#FBF6F0] to-white">
+    <DetailScreen title="근황 상세">
       {/* 키워드 트렌드 */}
       <div
         style={{
-          background: "white",
-          borderRadius: "18px",
+          background: "#FFFBF2",
+          borderRadius: "26px",
           padding: "18px",
-          boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+          border: "1px solid #E8DECF",
           marginBottom: "14px"
         }}
       >
-        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 14px", fontWeight: 500 }}>
+        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 14px", fontWeight: 500 }}>
           자주 나온 키워드
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {data.keywords.sort((a, b) => b.count - a.count).map((kw) => (
             <div key={kw.word}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-                <span style={{ fontSize: "13px", color: "#3D2419", fontWeight: 500 }}>{kw.word}</span>
-                <span style={{ fontSize: "12px", color: "#B07A5C" }}>{kw.count}회</span>
+                <span style={{ fontSize: "13px", color: "#241E1A", fontWeight: 500 }}>{kw.word}</span>
+                <span style={{ fontSize: "12px", color: "#8A6B5C" }}>{kw.count}회</span>
               </div>
-              <div style={{ height: "6px", background: "#F0E4D8", borderRadius: "999px", overflow: "hidden" }}>
+              <div style={{ height: "6px", background: "#E8DECF", borderRadius: "999px", overflow: "hidden" }}>
                 <div
                   style={{
                     height: "100%",
@@ -126,24 +128,24 @@ export default function CareSummaryPage() {
       {/* 패턴 분석 */}
       <div
         style={{
-          background: "#E8F3E5",
-          borderRadius: "14px",
+          background: "#D8E0A6",
+          borderRadius: "22px",
           padding: "14px 16px",
           marginBottom: "14px"
         }}
       >
-        <p style={{ fontSize: "12px", color: "#3A6B3A", margin: "0 0 6px", fontWeight: 500 }}>패턴 분석</p>
-        <p style={{ fontSize: "14px", color: "#1F4A1F", margin: 0, lineHeight: 1.5 }}>{data.pattern}</p>
+        <p style={{ fontSize: "12px", color: "#3D332C", margin: "0 0 6px", fontWeight: 500 }}>패턴 분석</p>
+        <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, lineHeight: 1.5 }}>{data.pattern}</p>
       </div>
 
       {/* 감정 흐름 (동의 기반) */}
       {consent.moodShare && (
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+            border: "1px solid #E8DECF",
             marginBottom: "14px",
             display: "flex",
             flexDirection: "column",
@@ -153,22 +155,21 @@ export default function CareSummaryPage() {
           <WeeklyEmotionFlow checkIns={mockCheckIns} label="최근 2주 기분 흐름" />
           <EmotionSignalTags checkIns={mockCheckIns} maxTags={6} />
 
-          {/* 감정 세분화 트렌드 */}
           <div>
-            <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 8px", fontWeight: 500 }}>감정 세분화 트렌드</p>
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 8px", fontWeight: 500 }}>감정 세분화 트렌드</p>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div style={{ flex: 1, height: "6px", background: "#F0E4D8", borderRadius: "999px", overflow: "hidden" }}>
+              <div style={{ flex: 1, height: "6px", background: "#E8DECF", borderRadius: "999px", overflow: "hidden" }}>
                 <div
                   style={{
                     height: "100%",
                     width: `${Math.round(granularity.ratio * 100)}%`,
-                    background: granularity.trend === "up" ? "#7AB87A" : granularity.trend === "down" ? "#E07856" : "#E8A04E",
+                    background: trendColor,
                     borderRadius: "999px",
                     transition: "width 0.5s"
                   }}
                 />
               </div>
-              <span style={{ fontSize: "12px", color: "#3D2419", whiteSpace: "nowrap", fontWeight: 500 }}>
+              <span style={{ fontSize: "12px", color: "#241E1A", whiteSpace: "nowrap", fontWeight: 500 }}>
                 {granularity.label}
               </span>
             </div>
@@ -177,7 +178,7 @@ export default function CareSummaryPage() {
       )}
 
       {/* 대화 타임라인 */}
-      <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 12px", fontWeight: 500 }}>
+      <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 12px", fontWeight: 500 }}>
         대화 기반 타임라인
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -196,20 +197,20 @@ export default function CareSummaryPage() {
             <div
               key={memo.date + memo.summary}
               style={{
-                background: "white",
-                borderRadius: "14px",
+                background: "#FFFBF2",
+                borderRadius: "18px",
                 padding: "14px",
-                boxShadow: "0 2px 8px rgba(61,36,25,0.04)",
+                border: "1px solid #E8DECF",
                 display: "flex",
                 gap: "12px"
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "36px", flexShrink: 0 }}>
-                <span style={{ fontSize: "10px", color: "#B07A5C", fontWeight: 500 }}>{parseInt(mm)}월</span>
-                <span style={{ fontSize: "16px", color: "#3D2419", fontWeight: 600 }}>{parseInt(dd)}</span>
+                <span style={{ fontSize: "10px", color: "#8A6B5C", fontWeight: 500 }}>{parseInt(mm)}월</span>
+                <span style={{ fontSize: "16px", color: "#241E1A", fontWeight: 600 }}>{parseInt(dd)}</span>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: "14px", color: "#3D2419", margin: "0 0 6px", lineHeight: 1.45 }}>{memo.summary}</p>
+                <p style={{ fontSize: "14px", color: "#241E1A", margin: "0 0 6px", lineHeight: 1.45 }}>{memo.summary}</p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
                   {memo.tags.map((tag) => (
                     <span
@@ -230,9 +231,8 @@ export default function CareSummaryPage() {
                       key={sig.emotion}
                       style={{
                         fontSize: "11px",
-                        background: "#FFF1E6",
-                        color: "#C05A2A",
-                        border: "1px solid #F5C8A0",
+                        background: "#F6D6BD",
+                        color: "#3D332C",
                         borderRadius: "999px",
                         padding: "2px 8px"
                       }}

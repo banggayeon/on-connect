@@ -45,9 +45,9 @@ export function ParentTabBar() {
               justifyContent: "center",
               borderRadius: "999px",
               fontSize: "var(--parent-font-caption, 16px)",
-              fontWeight: active ? 600 : 500,
-              color: active ? "#FBF6EC" : "#3D332C",
-              background: active ? "#241E1A" : "transparent",
+              fontWeight: active ? 700 : 500,
+              color: active ? "#241E1A" : "#8A6B5C",
+              background: active ? "#F1E5C8" : "transparent",
               textDecoration: "none",
               letterSpacing: "-0.01em"
             }}

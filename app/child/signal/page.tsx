@@ -1,34 +1,31 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronRight, MessageCirclePlus } from "lucide-react";
 import { ChildAppShell } from "@/components/child/ChildAppShell";
 import { ParentToggle } from "@/components/child/ParentToggle";
 import { SignalCard } from "@/components/SignalCard";
 import { useSelectedParent } from "@/contexts/SelectedParentContext";
 import { careMessages, mockCareActions } from "@/lib/mockData";
-import { demoDataset } from "@/lib/demoDataset";
 
-// 5월 연락 날짜 맵 (parentId → set of day strings)
 const MAY_CONTACT_DAYS: Record<string, Record<string, string>> = {
   parent_mother: {
-    "1": "#E07856","2": "#E07856","3": "#E07856","4": "#E07856","5": "#E07856",
-    "6": "#E07856","7": "#E07856","8": "#7AB87A","9": "#E07856","10": "#E07856",
-    "11": "#E07856","12": "#E07856","13": "#E07856","14": "#E07856","15": "#E07856",
-    "16": "#E8A04E"
+    "1": "#F1D6CC","2": "#F1D6CC","3": "#F1D6CC","4": "#F1D6CC","5": "#F1D6CC",
+    "6": "#F1D6CC","7": "#F1D6CC","8": "#CDDCC8","9": "#F1D6CC","10": "#F1D6CC",
+    "11": "#F1D6CC","12": "#F1D6CC","13": "#F1D6CC","14": "#F1D6CC","15": "#F1D6CC",
+    "16": "#F6D6BD"
   },
   parent_father: {
-    "1": "#E8A04E","2": "#E8A04E","3": "#E8A04E","4": "#E8A04E","5": "#E8A04E",
-    "6": "#E8A04E","7": "#E8A04E","8": "#7AB87A","9": "#E8A04E","10": "#E8A04E",
-    "11": "#E8A04E","12": "#E8A04E","13": "#E8A04E","14": "#E8A04E","15": "#E8A04E",
-    "16": "#E8A04E"
+    "1": "#F6D6BD","2": "#F6D6BD","3": "#F6D6BD","4": "#F6D6BD","5": "#F6D6BD",
+    "6": "#F6D6BD","7": "#F6D6BD","8": "#CDDCC8","9": "#F6D6BD","10": "#F6D6BD",
+    "11": "#F6D6BD","12": "#F6D6BD","13": "#F6D6BD","14": "#F6D6BD","15": "#F6D6BD",
+    "16": "#F6D6BD"
   }
 };
 
 const WEEK_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
 function buildMayCalendar() {
-  const firstDay = new Date(2026, 4, 1).getDay(); // 5 = Friday
+  const firstDay = new Date(2026, 4, 1).getDay();
   const cells: (number | null)[] = Array(firstDay).fill(null);
   for (let d = 1; d <= 31; d++) cells.push(d);
   while (cells.length % 7 !== 0) cells.push(null);
@@ -39,24 +36,17 @@ const MAY_CELLS = buildMayCalendar();
 
 export default function ChildSignalPage() {
   const router = useRouter();
-  const { selectedParentId, parentProfile } = useSelectedParent();
+  const { selectedParentId } = useSelectedParent();
   const isMom = selectedParentId === "parent_mother";
   const contactDays = MAY_CONTACT_DAYS[selectedParentId] ?? {};
-  const accentColor = isMom ? "#E07856" : "#E8A04E";
-  const accentBg = isMom ? "#FFE5DA" : "#FFF1DA";
-  const bgGradient = isMom
-    ? "bg-gradient-to-b from-[#FFF1DA] via-cream-50 to-white"
-    : "bg-gradient-to-b from-[#FFF5E8] via-cream-50 to-white";
-
-  const signals = mockCareActions.filter((a) => a.parentId === selectedParentId && a.type === "message");
 
   return (
-    <ChildAppShell className={bgGradient}>
+    <ChildAppShell>
       <header style={{ marginBottom: "16px" }}>
-        <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 4px", fontWeight: 500 }}>
+        <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500 }}>
           {careMessages.screen.eyebrow}
         </p>
-        <h1 style={{ fontSize: "24px", color: "#3D2419", margin: "0 0 6px", fontWeight: 500, lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: "26px", color: "#241E1A", margin: "0 0 6px", fontWeight: 700, lineHeight: 1.25, letterSpacing: "-0.03em" }}>
           {careMessages.screen.title}
         </h1>
         <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
@@ -64,28 +54,27 @@ export default function ChildSignalPage() {
         </p>
       </header>
 
-      {/* 부모 토글 */}
       <ParentToggle />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
         {/* 안부 캘린더 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-            <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>
               5월 안부 캘린더
             </p>
             <span
               style={{
                 fontSize: "11px",
-                color: accentColor,
-                background: accentBg,
+                color: "#241E1A",
+                background: isMom ? "#F1D6CC" : "#F6D6BD",
                 padding: "3px 10px",
                 borderRadius: "999px",
                 fontWeight: 500
@@ -96,7 +85,7 @@ export default function ChildSignalPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "4px" }}>
             {WEEK_LABELS.map((w) => (
-              <div key={w} style={{ textAlign: "center", fontSize: "10px", color: "#B07A5C", fontWeight: 500, paddingBottom: "4px" }}>
+              <div key={w} style={{ textAlign: "center", fontSize: "10px", color: "#8A6B5C", fontWeight: 500, paddingBottom: "4px" }}>
                 {w}
               </div>
             ))}
@@ -119,7 +108,7 @@ export default function ChildSignalPage() {
                     gap: "3px",
                     padding: "4px 0",
                     background: "none",
-                    border: isToday ? `2px solid ${accentColor}` : "none",
+                    border: isToday ? "2px solid #241E1A" : "none",
                     borderRadius: "8px",
                     cursor: day !== null ? "pointer" : "default"
                   }}
@@ -129,7 +118,7 @@ export default function ChildSignalPage() {
                       <span
                         style={{
                           fontSize: "11px",
-                          color: hasContact ? "#3D2419" : "#C5A898",
+                          color: hasContact ? "#241E1A" : "#9A8B7D",
                           fontWeight: hasContact ? 600 : 400
                         }}
                       >
@@ -155,14 +144,14 @@ export default function ChildSignalPage() {
         {/* 안부 시그널 추천 미리보기 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-            <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>
               {careMessages.parentPromptTitle}
             </p>
             <button
@@ -170,7 +159,7 @@ export default function ChildSignalPage() {
               onClick={() => router.push("/child/signal/recommend")}
               style={{
                 fontSize: "12px",
-                color: accentColor,
+                color: "#3D332C",
                 background: "none",
                 border: "none",
                 cursor: "pointer",
@@ -203,26 +192,26 @@ export default function ChildSignalPage() {
         {/* Warm Reply AI */}
         <div
           style={{
-            background: "linear-gradient(135deg, #FFE5DA, #FFF1DA)",
-            borderRadius: "18px",
+            background: "#F6D6BD",
+            borderRadius: "26px",
             padding: "18px"
           }}
         >
-          <p style={{ fontSize: "12px", color: "#8A3E25", margin: "0 0 6px", fontWeight: 500 }}>
+          <p style={{ fontSize: "12px", color: "#6E4A39", margin: "0 0 6px", fontWeight: 500 }}>
             {careMessages.warmReplyAI.label}
           </p>
-          <p style={{ fontSize: "16px", color: "#3D2419", margin: "0 0 12px", fontWeight: 500, lineHeight: 1.4 }}>
+          <p style={{ fontSize: "16px", color: "#241E1A", margin: "0 0 12px", fontWeight: 600, lineHeight: 1.4 }}>
             {careMessages.warmReplyAI.title}
           </p>
           <div
             style={{
-              background: "rgba(255,255,255,0.75)",
+              background: "rgba(255,255,255,0.6)",
               borderRadius: "14px",
               padding: "14px 16px"
             }}
           >
-            <p style={{ fontSize: "11px", color: "#B07A5C", margin: "0 0 5px", fontWeight: 500 }}>AI가 다듬은 답장</p>
-            <p style={{ fontSize: "15px", color: "#3D2419", margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: "11px", color: "#6E4A39", margin: "0 0 5px", fontWeight: 500 }}>AI가 다듬은 답장</p>
+            <p style={{ fontSize: "15px", color: "#241E1A", margin: 0, lineHeight: 1.5 }}>
               &quot;{careMessages.warmReplyAI.suggestedReply}&quot;
             </p>
           </div>
@@ -233,11 +222,10 @@ export default function ChildSignalPage() {
           type="button"
           onClick={() => router.push("/child/signal/first-contact")}
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
-            border: "none",
+            border: "1px solid #E8DECF",
             cursor: "pointer",
             textAlign: "left",
             width: "100%",
@@ -247,9 +235,11 @@ export default function ChildSignalPage() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <MessageCirclePlus size={20} style={{ color: "#B07A5C", flexShrink: 0 }} />
+            <div style={{ width: "36px", height: "36px", borderRadius: "999px", background: "#D9D0E5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span style={{ fontSize: "18px" }}>💬</span>
+            </div>
             <div>
-              <p style={{ fontSize: "14px", color: "#3D2419", margin: "0 0 2px", fontWeight: 500 }}>
+              <p style={{ fontSize: "14px", color: "#241E1A", margin: "0 0 2px", fontWeight: 600 }}>
                 첫 대화 시작 도우미
               </p>
               <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0 }}>
@@ -257,7 +247,9 @@ export default function ChildSignalPage() {
               </p>
             </div>
           </div>
-          <ChevronRight size={16} style={{ color: "#B07A5C", flexShrink: 0 }} />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       </div>
     </ChildAppShell>

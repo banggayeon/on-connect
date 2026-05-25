@@ -28,7 +28,7 @@ export function WeeklyEmotionFlow({ checkIns, label = "이번 주 기분 흐름"
 
   return (
     <div>
-      <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 10px", fontWeight: 500 }}>{label}</p>
+      <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 10px", fontWeight: 500 }}>{label}</p>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         {days.map(({ day, ci, isToday }) => (
           <div
@@ -45,8 +45,8 @@ export function WeeklyEmotionFlow({ checkIns, label = "이번 주 기분 흐름"
             <span
               style={{
                 fontSize: "11px",
-                color: isToday ? "#E07856" : "#B07A5C",
-                fontWeight: isToday ? 600 : 400,
+                color: isToday ? "#241E1A" : "#8A6B5C",
+                fontWeight: isToday ? 700 : 400,
               }}
             >
               {day}

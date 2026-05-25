@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppScreen } from "@/components/AppScreen";
-import { childProfile, consentSharing, parentHome } from "@/lib/mockData";
+import { FONT_SIZE_CONFIGS } from "@/contexts/FontSizeContext";
+import type { FontSizeLevel } from "@/contexts/FontSizeContext";
+import { childProfile, parentHome } from "@/lib/mockData";
+
+const FONT_SIZE_LEVELS: FontSizeLevel[] = ["xs", "sm", "md", "lg", "xl"];
 
 function FlowShell({
   children,
@@ -128,8 +132,11 @@ export function WelcomeScreen() {
 
 export function ParentWelcomeScreen() {
   const router = useRouter();
+  const [selectedSize, setSelectedSize] = useState<FontSizeLevel | null>(null);
 
   function start() {
+    if (!selectedSize) return;
+    window.localStorage.setItem("parentFontSize", selectedSize);
     window.localStorage.setItem("role", "parent");
     router.push("/onboarding/parent/profile");
   }
@@ -177,28 +184,92 @@ export function ParentWelcomeScreen() {
         </p>
       </div>
 
-      <h1 style={{ fontSize: "32px", color: "#241E1A", margin: "0 0 10px", fontWeight: 700, lineHeight: 1.3, letterSpacing: "-0.03em" }}>
-        큰 글씨로<br/>안부를 보내요
+      <h1 style={{ fontSize: "32px", color: "#241E1A", margin: "0 0 8px", fontWeight: 700, lineHeight: 1.3, letterSpacing: "-0.03em" }}>
+        편한 글씨 크기를<br/>골라요
       </h1>
-      <p style={{ fontSize: "19px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
-        버튼 하나로 자녀에게 안부를 보내고, 공유할 정보는 직접 고를 수 있어요.
+      <p style={{ fontSize: "17px", color: "#8A6B5C", margin: "0 0 20px", lineHeight: 1.5 }}>
+        선택한 크기로 앱이 맞춰져요. 나중에 바꿀 수도 있어요.
       </p>
 
-      <div
-        style={{
-          background: "#FFFBF2",
-          borderRadius: "20px",
-          padding: "20px",
-          marginTop: "20px",
-          border: "1px solid #E8DECF"
-        }}
-      >
-        <p style={{ fontSize: "17px", color: "#8A6B5C", margin: "0 0 8px", fontWeight: 500 }}>{consentSharing.title}</p>
-        <p style={{ fontSize: "18px", color: "#241E1A", margin: 0, lineHeight: 1.5 }}>{consentSharing.description}</p>
+      {/* 글씨 크기 선택 */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {FONT_SIZE_LEVELS.map((level) => {
+          const cfg = FONT_SIZE_CONFIGS[level];
+          const isSelected = selectedSize === level;
+          return (
+            <button
+              key={level}
+              type="button"
+              onClick={() => setSelectedSize(level)}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                background: isSelected ? "#F1E5C8" : "#FFFBF2",
+                borderRadius: "22px",
+                padding: isSelected ? "17px 19px" : "18px 20px",
+                border: isSelected ? "2px solid #6E4A39" : "1px solid #E8DECF",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "14px",
+                transition: "background 0.12s, border-color 0.12s",
+              }}
+            >
+              <div
+                style={{
+                  width: "22px", height: "22px", borderRadius: "50%", flexShrink: 0,
+                  border: `2px solid ${isSelected ? "#6E4A39" : "#D5C9BB"}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}
+              >
+                {isSelected && (
+                  <div style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#6E4A39" }} />
+                )}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{
+                  fontSize: "15px",
+                  color: "#241E1A",
+                  margin: "0 0 4px",
+                  fontWeight: isSelected ? 700 : 600,
+                }}>
+                  {cfg.label}{level === "md" ? " (기본)" : ""}
+                </p>
+                <p style={{
+                  fontSize: `${cfg.baseSize}px`,
+                  color: isSelected ? "#6E4A39" : "#8A6B5C",
+                  margin: 0,
+                  lineHeight: 1.3,
+                }}>
+                  안녕하세요, 잘 지내셨어요?
+                </p>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
-      <div style={{ marginTop: "auto" }}>
-        <PrimaryButton senior onClick={start}>시작하기</PrimaryButton>
+      <div style={{ marginTop: "auto", paddingTop: "20px" }}>
+        <button
+          type="button"
+          onClick={start}
+          disabled={!selectedSize}
+          style={{
+            width: "100%",
+            background: selectedSize ? "#241E1A" : "#D5CFC8",
+            color: selectedSize ? "#FBF6EC" : "#9A8B7D",
+            border: "none",
+            borderRadius: "999px",
+            padding: "22px 26px",
+            fontSize: "18px",
+            fontWeight: 500,
+            cursor: selectedSize ? "pointer" : "default",
+            letterSpacing: "-0.012em",
+            transition: "background 0.15s, color 0.15s",
+          }}
+        >
+          {selectedSize ? "시작하기" : "글씨 크기를 먼저 골라주세요"}
+        </button>
       </div>
     </FlowShell>
   );

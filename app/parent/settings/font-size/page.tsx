@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { useFontSize, FONT_SIZE_CONFIGS } from "@/contexts/FontSizeContext";
 import type { FontSizeLevel } from "@/contexts/FontSizeContext";
@@ -28,16 +27,18 @@ export default function FontSizeSettingPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#3D2419" }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#241E1A" }}
         >
-          <ChevronLeft style={{ width: "var(--parent-icon-size)", height: "var(--parent-icon-size)" }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18L9 12L15 6" />
+          </svg>
         </button>
-        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#3D2419", margin: 0, fontWeight: 600 }}>
+        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#241E1A", margin: 0, fontWeight: 600 }}>
           글씨 크기
         </h1>
       </div>
 
-      <p style={{ fontSize: "var(--parent-font-base)", color: "#B07A5C", margin: "0 0 24px" }}>
+      <p style={{ fontSize: "var(--parent-font-base)", color: "#8A6B5C", margin: "0 0 24px" }}>
         편한 글씨 크기를 선택해주세요
       </p>
 
@@ -52,12 +53,10 @@ export default function FontSizeSettingPage() {
               type="button"
               onClick={() => setPreview(level)}
               style={{
-                width: "100%", textAlign: "left", background: "white",
-                borderRadius: "20px", padding: "20px",
-                border: isSelected ? "2px solid #FF8A65" : "2px solid transparent",
-                boxShadow: isSelected
-                  ? "0 4px 16px rgba(224,120,86,0.18)"
-                  : "0 2px 12px rgba(61,36,25,0.06)",
+                width: "100%", textAlign: "left",
+                background: isSelected ? "#241E1A" : "#FFFBF2",
+                borderRadius: "26px", padding: "20px",
+                border: isSelected ? "none" : "1px solid #E8DECF",
                 cursor: "pointer",
                 display: "flex", alignItems: "center", gap: "12px",
               }}
@@ -65,15 +64,15 @@ export default function FontSizeSettingPage() {
               <div
                 style={{
                   width: "20px", height: "20px", borderRadius: "50%", flexShrink: 0,
-                  border: isSelected ? "6px solid #FF8A65" : "2px solid #FFCBB0",
-                  background: "white",
+                  border: isSelected ? "6px solid #FBF6EC" : "2px solid #E8DECF",
+                  background: isSelected ? "#241E1A" : "#FFFBF2",
                 }}
               />
               <div>
-                <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: "0 0 6px", fontWeight: 600 }}>
+                <p style={{ fontSize: "var(--parent-font-base)", color: isSelected ? "#FBF6EC" : "#241E1A", margin: "0 0 6px", fontWeight: 600 }}>
                   {cfg.label}{level === "md" ? " (기본)" : ""}
                 </p>
-                <p style={{ fontSize: `${cfg.baseSize}px`, color: "#6B4C3B", margin: 0, lineHeight: 1.4 }}>
+                <p style={{ fontSize: `${cfg.baseSize}px`, color: isSelected ? "#FBF6EC" : "#8A6B5C", margin: 0, lineHeight: 1.4 }}>
                   안녕하세요, 좋은 하루 보내세요.
                 </p>
               </div>
@@ -87,11 +86,11 @@ export default function FontSizeSettingPage() {
         style={{
           position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
           width: "100%", maxWidth: "430px", padding: "16px 22px 28px",
-          background: "white", borderTop: "1px solid #FFE4CC",
+          background: "#FAF6EE", borderTop: "1px solid #F0E7D7",
         }}
       >
         {toast && (
-          <p style={{ fontSize: "var(--parent-font-caption)", color: "#FF8A65", textAlign: "center", margin: "0 0 8px", fontWeight: 500 }}>
+          <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", textAlign: "center", margin: "0 0 8px", fontWeight: 500 }}>
             글씨 크기가 변경됐어요! ✓
           </p>
         )}
@@ -100,8 +99,8 @@ export default function FontSizeSettingPage() {
           onClick={handleApply}
           style={{
             width: "100%", minHeight: "var(--parent-btn-height)",
-            background: "linear-gradient(135deg, #FF8A65, #E07856)",
-            color: "white", border: "none", borderRadius: "16px",
+            background: "#241E1A",
+            color: "#FBF6EC", border: "none", borderRadius: "999px",
             fontSize: "var(--parent-font-base)", fontWeight: 600, cursor: "pointer",
           }}
         >

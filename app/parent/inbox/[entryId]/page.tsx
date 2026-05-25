@@ -2,7 +2,6 @@
 
 import { use, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Mic, MicOff } from "lucide-react";
 import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { mockInbox } from "@/lib/mockData";
 import type { InboxEntry } from "@/lib/mockData";
@@ -26,7 +25,6 @@ export default function InboxDetailPage({ params }: { params: Promise<{ entryId:
 
   const [entry, setEntry] = useState<InboxEntry | null>(null);
   const [reaction, setReaction] = useState<Reaction | null>(null);
-  const [reactionToast, setReactionToast] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [replySent, setReplySent] = useState(false);
   const [listening, setListening] = useState(false);
@@ -44,12 +42,6 @@ export default function InboxDetailPage({ params }: { params: Promise<{ entryId:
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     setSpeechSupported(!!SR);
   }, []);
-
-  function handleReaction(key: Reaction) {
-    setReaction(key);
-    setReactionToast(true);
-    setTimeout(() => setReactionToast(false), 2000);
-  }
 
   function handleSendReply() {
     if (!replyText.trim()) return;
@@ -85,7 +77,7 @@ export default function InboxDetailPage({ params }: { params: Promise<{ entryId:
   if (!entry) {
     return (
       <ParentAppShell>
-        <p style={{ fontSize: "var(--parent-font-base)", color: "#B07A5C", textAlign: "center", paddingTop: "60px" }}>
+        <p style={{ fontSize: "var(--parent-font-base)", color: "#8A6B5C", textAlign: "center", paddingTop: "60px" }}>
           안부를 찾을 수 없어요.
         </p>
       </ParentAppShell>
@@ -99,78 +91,70 @@ export default function InboxDetailPage({ params }: { params: Promise<{ entryId:
         <button
           type="button"
           onClick={() => router.back()}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#3D2419" }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#241E1A" }}
         >
-          <ChevronLeft style={{ width: "var(--parent-icon-size)", height: "var(--parent-icon-size)" }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18L9 12L15 6" />
+          </svg>
         </button>
-        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#3D2419", margin: 0, fontWeight: 600 }}>
+        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#241E1A", margin: 0, fontWeight: 600 }}>
           {entry.senderName}이의 안부
         </h1>
       </div>
 
-      <p style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C", margin: "0 0 12px" }}>
+      <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", margin: "0 0 12px" }}>
         {formatDate(entry.date)}
       </p>
 
       {/* 사진 (있으면) */}
       {entry.imageUrl && (
-        <div style={{ borderRadius: "16px", overflow: "hidden", marginBottom: "16px" }}>
+        <div style={{ borderRadius: "22px", overflow: "hidden", marginBottom: "16px" }}>
           <img src={entry.imageUrl} alt="안부 사진" style={{ width: "100%", display: "block" }} />
         </div>
       )}
 
       {/* 안부 텍스트 */}
-      <div style={{ background: "white", borderRadius: "20px", padding: "20px", marginBottom: "20px", boxShadow: "0 2px 12px rgba(61,36,25,0.06)" }}>
-        <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: 0, lineHeight: 1.7 }}>
+      <div style={{ background: "#FFFBF2", borderRadius: "26px", padding: "20px", marginBottom: "20px", border: "1px solid #E8DECF" }}>
+        <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: 0, lineHeight: 1.7 }}>
           {entry.text}
         </p>
       </div>
 
-      <hr style={{ border: "none", borderTop: "1px solid #FFE4CC", marginBottom: "20px" }} />
-
-      {/* 퀵 리액션 */}
-      <p style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C", margin: "0 0 10px", fontWeight: 500 }}>
-        빠른 반응 보내기
-      </p>
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-        {REACTIONS.map(({ key, label }) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => handleReaction(key)}
-            style={{
-              flex: 1, minHeight: "var(--parent-btn-height)",
-              background: reaction === key ? "#FFEDE0" : "white",
-              border: reaction === key ? "2px solid #FF8A65" : "1px solid #FFE4CC",
-              borderRadius: "14px", fontSize: "var(--parent-font-caption)",
-              color: reaction === key ? "#E07856" : "#6B4C3B",
-              fontWeight: reaction === key ? 600 : 400,
-              cursor: "pointer",
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      {reactionToast && (
-        <p style={{ fontSize: "var(--parent-font-caption)", color: "#FF8A65", textAlign: "center", margin: "-12px 0 12px", fontWeight: 500 }}>
-          전달했어요! ✓
-        </p>
-      )}
-
-      {/* 답장 영역 */}
-      <p style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C", margin: "0 0 10px", fontWeight: 500 }}>
-        답장 쓰기
-      </p>
+      <hr style={{ border: "none", borderTop: "1px solid #F0E7D7", marginBottom: "20px" }} />
 
       {replySent ? (
-        <div style={{ background: "#FFF8F0", borderRadius: "16px", padding: "20px", textAlign: "center" }}>
-          <p style={{ fontSize: "var(--parent-font-base)", color: "#FF8A65", margin: 0, fontWeight: 600 }}>
+        <div style={{ background: "#CDDCC8", borderRadius: "26px", padding: "20px", textAlign: "center" }}>
+          <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: 0, fontWeight: 600 }}>
             답장을 전달했어요! 💛
           </p>
         </div>
       ) : (
         <>
+          {/* 리액션 칩 */}
+          <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
+            {REACTIONS.map(({ key, label }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setReaction(reaction === key ? null : key)}
+                style={{
+                  background: reaction === key ? "#F1E5C8" : "#F0E7D7",
+                  border: reaction === key ? "2px solid #6E4A39" : "2px solid transparent",
+                  borderRadius: "999px",
+                  padding: reaction === key ? "6px 13px" : "7px 14px",
+                  fontSize: "var(--parent-font-caption)",
+                  color: "#241E1A",
+                  fontWeight: reaction === key ? 600 : 400,
+                  cursor: "pointer",
+                  transition: "background 0.12s, border-color 0.12s"
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* 답장 텍스트 영역 */}
           <div style={{ position: "relative", marginBottom: "12px" }}>
             <textarea
               value={replyText}
@@ -178,10 +162,11 @@ export default function InboxDetailPage({ params }: { params: Promise<{ entryId:
               placeholder="답장을 적어보세요"
               style={{
                 width: "100%", minHeight: "120px", fontSize: "var(--parent-font-base)",
-                border: "1px solid #FFCBB0", borderRadius: "16px", padding: "16px",
+                border: "1px solid #E8DECF", borderRadius: "22px", padding: "16px",
                 paddingRight: speechSupported ? "52px" : "16px",
                 resize: "none", outline: "none", boxSizing: "border-box",
-                fontFamily: "inherit", color: "#3D2419", lineHeight: 1.6,
+                fontFamily: "inherit", color: "#241E1A", lineHeight: 1.6,
+                background: "#FFFBF2",
               }}
             />
             {speechSupported && (
@@ -190,30 +175,43 @@ export default function InboxDetailPage({ params }: { params: Promise<{ entryId:
                 onClick={toggleVoice}
                 style={{
                   position: "absolute", right: "12px", bottom: "12px",
-                  background: listening ? "#FF8A65" : "#FFEDE0",
+                  background: listening ? "#241E1A" : "#F0E7D7",
                   border: "none", borderRadius: "50%", width: "40px", height: "40px",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  cursor: "pointer", color: listening ? "white" : "#E07856",
+                  cursor: "pointer", color: listening ? "#FBF6EC" : "#3D332C",
                 }}
               >
-                {listening ? <MicOff size={18} /> : <Mic size={18} />}
+                {listening ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+                    <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                )}
               </button>
             )}
           </div>
           {listening && (
-            <p style={{ fontSize: "var(--parent-font-caption)", color: "#FF8A65", textAlign: "center", margin: "-4px 0 12px" }}>
-              <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#FF8A65", marginRight: "6px", animation: "pulse 1s infinite" }} />
+            <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", textAlign: "center", margin: "-4px 0 12px" }}>
+              <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#241E1A", marginRight: "6px" }} />
               듣고 있어요...
             </p>
           )}
           <button
             type="button"
             onClick={handleSendReply}
+            disabled={!replyText.trim() && !reaction}
             style={{
               width: "100%", minHeight: "var(--parent-btn-height)",
-              background: "linear-gradient(135deg, #FF8A65, #E07856)",
-              color: "white", border: "none", borderRadius: "16px",
-              fontSize: "var(--parent-font-base)", fontWeight: 600, cursor: "pointer",
+              background: (!replyText.trim() && !reaction) ? "#D5CFC8" : "#241E1A",
+              color: (!replyText.trim() && !reaction) ? "#9A8B7D" : "#FBF6EC",
+              border: "none", borderRadius: "999px",
+              fontSize: "var(--parent-font-base)", fontWeight: 600,
+              cursor: (!replyText.trim() && !reaction) ? "not-allowed" : "pointer",
             }}
           >
             보내기

@@ -1,8 +1,9 @@
-import { Gift, Sparkles } from "lucide-react";
 import { CareActionCard, type CareActionItem } from "@/components/child/CareActionCard";
 import { ChildAppShell } from "@/components/child/ChildAppShell";
 import { demoFather, demoMother } from "@/lib/demoDataset";
 import { consentSharing, giftRecommendations } from "@/lib/mockData";
+
+const GIFT_TONES = ["#F1D6CC", "#CDDCC8", "#D9D0E5", "#F6D6BD"];
 
 export default function ChildGiftPage() {
   const careActions: CareActionItem[] = [
@@ -50,12 +51,11 @@ export default function ChildGiftPage() {
 
   return (
     <ChildAppShell>
-      {/* Header */}
       <header style={{ marginBottom: "20px" }}>
-        <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 4px", fontWeight: 500 }}>
+        <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500 }}>
           {giftRecommendations.screen.eyebrow}
         </p>
-        <h1 style={{ fontSize: "24px", color: "#3D2419", margin: "0 0 6px", fontWeight: 500, lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: "26px", color: "#241E1A", margin: "0 0 6px", fontWeight: 700, lineHeight: 1.25, letterSpacing: "-0.03em" }}>
           {giftRecommendations.screen.title}
         </h1>
         <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
@@ -67,19 +67,17 @@ export default function ChildGiftPage() {
         {/* D-day 배너 */}
         <div
           style={{
-            background: "linear-gradient(135deg, #FF8A65, #E07856)",
-            borderRadius: "20px",
-            padding: "18px 20px",
-            color: "white",
-            boxShadow: "0 8px 20px rgba(224,120,86,0.28)"
+            background: "#F1E5C8",
+            borderRadius: "26px",
+            padding: "18px 20px"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
-              <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.88)", margin: "0 0 4px" }}>
+              <p style={{ fontSize: "13px", color: "#6E4A39", margin: "0 0 4px" }}>
                 {giftRecommendations.occasion.dDay}
               </p>
-              <h2 style={{ fontSize: "22px", fontWeight: 500, margin: 0, color: "white" }}>
+              <h2 style={{ fontSize: "22px", fontWeight: 700, margin: 0, color: "#241E1A", letterSpacing: "-0.02em" }}>
                 {giftRecommendations.occasion.label}
               </h2>
             </div>
@@ -87,8 +85,8 @@ export default function ChildGiftPage() {
               style={{
                 fontSize: "13px",
                 fontWeight: 600,
-                color: "white",
-                background: "rgba(255,255,255,0.22)",
+                color: "#241E1A",
+                background: "rgba(255,255,255,0.6)",
                 padding: "6px 14px",
                 borderRadius: "999px"
               }}
@@ -101,55 +99,60 @@ export default function ChildGiftPage() {
         {/* 맞춤 추천 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-            <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>
               {giftRecommendations.sectionTitle}
             </p>
-            <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#7AB87A", fontWeight: 600 }}>
-              <Sparkles size={14} /> AI
+            <span style={{ fontSize: "11px", color: "#241E1A", background: "#D8E0A6", padding: "3px 8px", borderRadius: "999px", fontWeight: 600 }}>
+              AI
             </span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {giftRecommendations.items.map((gift) => (
+            {giftRecommendations.items.map((gift, idx) => (
               <div
                 key={gift.id}
                 style={{
                   display: "flex",
                   gap: "12px",
-                  background: "#FBF6F0",
-                  borderRadius: "14px",
+                  background: "#FAF6EE",
+                  borderRadius: "18px",
                   padding: "12px"
                 }}
               >
-                <span
-                  className={`bg-gradient-to-br ${gift.gradientClass}`}
+                <div
                   style={{
                     width: "60px",
                     height: "60px",
-                    borderRadius: "14px",
+                    borderRadius: "16px",
+                    background: GIFT_TONES[idx % GIFT_TONES.length],
                     flexShrink: 0,
-                    display: "block"
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "24px"
                   }}
-                />
+                >
+                  🎁
+                </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: "15px", color: "#3D2419", margin: "0 0 4px", fontWeight: 600 }}>
+                  <p style={{ fontSize: "15px", color: "#241E1A", margin: "0 0 4px", fontWeight: 600 }}>
                     {gift.name}
                   </p>
                   <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 6px" }}>{gift.meta}</p>
                   <span
                     style={{
                       display: "inline-block",
-                      background: "white",
+                      background: "#F0E7D7",
                       borderRadius: "999px",
                       padding: "3px 10px",
                       fontSize: "11px",
-                      color: "#B07A5C",
+                      color: "#3D332C",
                       fontWeight: 500
                     }}
                   >
@@ -164,25 +167,15 @@ export default function ChildGiftPage() {
         {/* 추천 이유 */}
         <div
           style={{
-            background: "#E8F3E5",
-            borderRadius: "16px",
+            background: "#D8E0A6",
+            borderRadius: "22px",
             padding: "16px 18px"
           }}
         >
-          <p
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              fontSize: "13px",
-              color: "#3A6B3A",
-              margin: "0 0 8px",
-              fontWeight: 600
-            }}
-          >
-            <Gift size={16} /> {giftRecommendations.recommendationReasonTitle}
+          <p style={{ fontSize: "13px", color: "#3D332C", margin: "0 0 8px", fontWeight: 600 }}>
+            🎁 {giftRecommendations.recommendationReasonTitle}
           </p>
-          <p style={{ fontSize: "14px", color: "#1F4A1F", margin: 0, lineHeight: 1.55 }}>
+          <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, lineHeight: 1.55 }}>
             {giftRecommendations.recommendationReason}
           </p>
         </div>
@@ -190,16 +183,16 @@ export default function ChildGiftPage() {
         {/* 케어 액션 안내 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
-          <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 6px", fontWeight: 500 }}>
+          <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 6px", fontWeight: 500 }}>
             {giftRecommendations.careActionTitle}
           </p>
-          <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 6px", fontWeight: 500, lineHeight: 1.4 }}>
+          <p style={{ fontSize: "17px", color: "#241E1A", margin: "0 0 6px", fontWeight: 600, lineHeight: 1.4 }}>
             선물보다 먼저, 부모님이 부담 없이 받을 수 있는 케어 액션을 추천해요.
           </p>
           <p style={{ fontSize: "13px", color: "#8A6B5C", margin: 0, lineHeight: 1.55 }}>
@@ -212,15 +205,14 @@ export default function ChildGiftPage() {
           type="button"
           style={{
             width: "100%",
-            background: "linear-gradient(135deg, #FF8A65, #E07856)",
-            color: "white",
+            background: "#241E1A",
+            color: "#FBF6EC",
             border: "none",
-            borderRadius: "16px",
+            borderRadius: "999px",
             padding: "16px",
             fontSize: "16px",
             fontWeight: 600,
-            cursor: "pointer",
-            boxShadow: "0 8px 20px rgba(224,120,86,0.28)"
+            cursor: "pointer"
           }}
         >
           {giftRecommendations.ctaLabel}

@@ -49,6 +49,13 @@ a {
 button,
 input {
   font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Universal tactile press — every button gets a gentle scale-down */
+button:active:not(:disabled) {
+  transform: scale(0.98);
+  transition: transform 0.08s ease;
 }
 
 .no-scrollbar::-webkit-scrollbar {

@@ -12,11 +12,11 @@ const CHANNEL_LABEL: Record<string, string> = {
 };
 
 const CHANNEL_COLOR: Record<string, { bg: string; dot: string }> = {
-  text: { bg: "#FBF6F0", dot: "#E07856" },
-  call: { bg: "#E8F3E5", dot: "#7AB87A" },
-  photo: { bg: "#FFF1DA", dot: "#E8A04E" },
-  video: { bg: "#E0EDF5", dot: "#7DA8C8" },
-  missed: { bg: "#F5F0F5", dot: "#C5A898" }
+  text: { bg: "#FAF6EE", dot: "#F1D6CC" },
+  call: { bg: "#FAF6EE", dot: "#CDDCC8" },
+  photo: { bg: "#FAF6EE", dot: "#F6D6BD" },
+  video: { bg: "#FAF6EE", dot: "#D9D0E5" },
+  missed: { bg: "#FAF6EE", dot: "#F0E7D7" }
 };
 
 const SENTIMENT_TAG: Record<string, string> = {
@@ -40,7 +40,7 @@ export default function ContactHistoryPage() {
   const dates = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <DetailScreen title="연락 기록" className="bg-gradient-to-b from-[#FBF6F0] to-white">
+    <DetailScreen title="연락 기록">
       <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 20px", lineHeight: 1.5 }}>
         {parentProfile.displayName}와 나눈 최근 30일 연락 기록이에요.
       </p>
@@ -53,7 +53,7 @@ export default function ContactHistoryPage() {
             <p
               style={{
                 fontSize: "12px",
-                color: "#B07A5C",
+                color: "#8A6B5C",
                 fontWeight: 600,
                 margin: "0 0 8px",
                 display: "flex",
@@ -66,7 +66,7 @@ export default function ContactHistoryPage() {
                   width: "6px",
                   height: "6px",
                   borderRadius: "50%",
-                  background: "#E07856",
+                  background: "#241E1A",
                   display: "inline-block"
                 }}
               />
@@ -79,8 +79,9 @@ export default function ContactHistoryPage() {
                   <div
                     key={record.id}
                     style={{
-                      background: colors.bg,
-                      borderRadius: "14px",
+                      background: "#FFFBF2",
+                      border: "1px solid #E8DECF",
+                      borderRadius: "18px",
                       padding: "12px 14px",
                       display: "flex",
                       gap: "12px",
@@ -99,15 +100,15 @@ export default function ContactHistoryPage() {
                     />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                        <span style={{ fontSize: "12px", color: "#B07A5C", fontWeight: 500 }}>
+                        <span style={{ fontSize: "12px", color: "#8A6B5C", fontWeight: 500 }}>
                           {CHANNEL_LABEL[record.channel] ?? record.channel}
                           {record.durationMinutes ? ` · ${record.durationMinutes}분` : ""}
                         </span>
                         <span style={{ fontSize: "13px" }}>{SENTIMENT_TAG[record.sentiment]}</span>
                       </div>
-                      <p style={{ fontSize: "14px", color: "#3D2419", margin: 0, lineHeight: 1.5 }}>{record.summary}</p>
+                      <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, lineHeight: 1.5 }}>{record.summary}</p>
                       {record.responseLatencyMinutes && (
-                        <p style={{ fontSize: "11px", color: "#B07A5C", margin: "4px 0 0" }}>
+                        <p style={{ fontSize: "11px", color: "#8A6B5C", margin: "4px 0 0" }}>
                           답장까지 {record.responseLatencyMinutes}분
                         </p>
                       )}

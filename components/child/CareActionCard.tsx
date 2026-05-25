@@ -36,35 +36,30 @@ export function CareActionCard({
   const [selectedAction, setSelectedAction] = useState<CareActionItem | null>(null);
 
   return (
-    <section
-      style={{
-        background: "linear-gradient(180deg, #FFF8F0 0%, #FFFFFF 100%)",
-        padding: "0 22px 30px"
-      }}
-    >
+    <section style={{ padding: "0 22px 30px" }}>
       <div
         style={{
-          background: "linear-gradient(135deg, #FFF1DA, #FFE5DA)",
+          background: "#F1D6CC",
           borderRadius: "22px",
           padding: "18px",
           marginBottom: "14px"
         }}
       >
-        <p style={{ fontSize: "13px", color: "#8A3E25", margin: "0 0 8px", fontWeight: 500 }}>동의 기반 공유</p>
-        <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 8px", fontWeight: 500, lineHeight: 1.45 }}>{consentNotice.title}</p>
-        <p style={{ fontSize: "14px", color: "#5F4534", margin: 0, lineHeight: 1.55 }}>{consentNotice.body}</p>
+        <p style={{ fontSize: "13px", color: "#6E4A39", margin: "0 0 8px", fontWeight: 500 }}>동의 기반 공유</p>
+        <p style={{ fontSize: "17px", color: "#241E1A", margin: "0 0 8px", fontWeight: 500, lineHeight: 1.45 }}>{consentNotice.title}</p>
+        <p style={{ fontSize: "14px", color: "#3D332C", margin: 0, lineHeight: 1.55 }}>{consentNotice.body}</p>
       </div>
 
       <div
         style={{
-          background: "white",
+          background: "#FFFBF2",
           borderRadius: "22px",
           padding: "20px",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.04)"
+          border: "1px solid #E8DECF"
         }}
       >
-        <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 8px", fontWeight: 500 }}>{title}</p>
-        <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 14px", fontWeight: 500, lineHeight: 1.45 }}>{description}</p>
+        <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 8px", fontWeight: 500 }}>{title}</p>
+        <p style={{ fontSize: "17px", color: "#241E1A", margin: "0 0 14px", fontWeight: 500, lineHeight: 1.45 }}>{description}</p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {actions.map((action) => (
@@ -74,8 +69,8 @@ export function CareActionCard({
               onClick={() => setSelectedAction(action)}
               style={{
                 width: "100%",
-                border: "1px solid #F0E4D8",
-                background: "#FFF8F0",
+                border: "1px solid #E8DECF",
+                background: "#FAF6EE",
                 borderRadius: "18px",
                 padding: "15px",
                 textAlign: "left",
@@ -84,17 +79,17 @@ export function CareActionCard({
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px", marginBottom: "8px" }}>
                 <div style={{ minWidth: 0 }}>
-                  <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 5px", fontWeight: 500 }}>
+                  <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 5px", fontWeight: 500 }}>
                     {action.parentName} · {getKindLabel(action.kind)}
                   </p>
-                  <p style={{ fontSize: "16px", color: "#3D2419", margin: 0, fontWeight: 500, lineHeight: 1.4 }}>{action.title}</p>
+                  <p style={{ fontSize: "16px", color: "#241E1A", margin: 0, fontWeight: 500, lineHeight: 1.4 }}>{action.title}</p>
                 </div>
                 <span
                   style={{
                     flexShrink: 0,
                     fontSize: "12px",
-                    color: action.kind === "care-action" ? "#3A6B3A" : "#7A5A1A",
-                    background: action.kind === "care-action" ? "#E8F3E5" : "#FFF1DA",
+                    color: "#241E1A",
+                    background: action.kind === "care-action" ? "#D8E0A6" : "#F6D6BD",
                     borderRadius: "999px",
                     padding: "6px 9px",
                     fontWeight: 500
@@ -104,8 +99,8 @@ export function CareActionCard({
                 </span>
               </div>
               <p style={{ fontSize: "14px", color: "#8A6B5C", margin: "0 0 10px", lineHeight: 1.5 }}>{action.description}</p>
-              <div style={{ background: "#E8F3E5", borderRadius: "14px", padding: "11px" }}>
-                <p style={{ fontSize: "13px", color: "#1F4A1F", margin: 0, lineHeight: 1.45 }}>{action.actionLabel}</p>
+              <div style={{ background: "#CDDCC8", borderRadius: "14px", padding: "11px" }}>
+                <p style={{ fontSize: "13px", color: "#241E1A", margin: 0, lineHeight: 1.45 }}>{action.actionLabel}</p>
               </div>
             </button>
           ))}
@@ -120,7 +115,7 @@ export function CareActionCard({
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(44,36,32,0.32)",
+            background: "rgba(36,30,26,0.32)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -134,20 +129,20 @@ export function CareActionCard({
               width: "min(340px, 100%)",
               maxHeight: "min(620px, calc(100vh - 48px))",
               overflowY: "auto",
-              background: "#FFF8F0",
-              borderRadius: "18px",
+              background: "#FFFBF2",
+              borderRadius: "26px",
               padding: "20px",
-              boxShadow: "0 10px 24px rgba(61, 36, 25, 0.16)"
+              boxShadow: "0 10px 24px rgba(36,30,26,0.18)"
             }}
           >
-            <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 7px", fontWeight: 500 }}>추천 이유</p>
-            <p style={{ fontSize: "19px", color: "#3D2419", margin: "0 0 8px", fontWeight: 500, lineHeight: 1.35 }}>{selectedAction.title}</p>
+            <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 7px", fontWeight: 500 }}>추천 이유</p>
+            <p style={{ fontSize: "19px", color: "#241E1A", margin: "0 0 8px", fontWeight: 600, lineHeight: 1.35 }}>{selectedAction.title}</p>
             <p style={{ fontSize: "14px", color: "#8A6B5C", margin: "0 0 14px", lineHeight: 1.55 }}>{selectedAction.reasoning}</p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {selectedAction.evidence.slice(0, 3).map((item) => (
-                <div key={item} style={{ background: "#E8F3E5", borderRadius: "14px", padding: "12px" }}>
-                  <p style={{ fontSize: "14px", color: "#1F4A1F", margin: 0, lineHeight: 1.5 }}>{item}</p>
+                <div key={item} style={{ background: "#CDDCC8", borderRadius: "14px", padding: "12px" }}>
+                  <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, lineHeight: 1.5 }}>{item}</p>
                 </div>
               ))}
             </div>
@@ -160,12 +155,12 @@ export function CareActionCard({
                 width: "100%",
                 minHeight: "48px",
                 border: 0,
-                background: "linear-gradient(135deg, #FF8A65, #E07856)",
-                borderRadius: "12px",
+                background: "#241E1A",
+                borderRadius: "999px",
                 padding: "14px",
-                color: "white",
+                color: "#FBF6EC",
                 fontSize: "15px",
-                fontWeight: 500,
+                fontWeight: 600,
                 cursor: "pointer"
               }}
             >

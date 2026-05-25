@@ -1,45 +1,46 @@
 "use client";
 
 import { useState } from "react";
-import { User } from "lucide-react";
 import { DetailScreen } from "@/components/child/DetailScreen";
 import { childProfile, demoDataset } from "@/lib/mockData";
+
+const PARENT_TONES = ["#F1D6CC", "#CDDCC8"];
 
 export default function ProfilePage() {
   const [name, setName] = useState(childProfile.name);
   const [saved, setSaved] = useState(false);
 
   return (
-    <DetailScreen title="프로필 수정" className="bg-gradient-to-b from-[#FBF6F0] to-white">
+    <DetailScreen title="프로필 수정">
       {/* 프로필 이미지 */}
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "28px" }}>
         <div
           style={{
             width: "80px",
             height: "80px",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #FF8A65, #E07856)",
+            borderRadius: "999px",
+            background: "#F1D6CC",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 8px 20px rgba(224,120,86,0.28)"
+            fontSize: "36px"
           }}
         >
-          <User size={36} style={{ color: "white" }} />
+          👤
         </div>
       </div>
 
       {/* 기본 정보 */}
       <div
         style={{
-          background: "white",
-          borderRadius: "18px",
+          background: "#FFFBF2",
+          borderRadius: "26px",
           padding: "18px",
-          boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+          border: "1px solid #E8DECF",
           marginBottom: "14px"
         }}
       >
-        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 14px", fontWeight: 500 }}>기본 정보</p>
+        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 14px", fontWeight: 500 }}>기본 정보</p>
         <div style={{ marginBottom: "14px" }}>
           <label style={{ fontSize: "13px", color: "#8A6B5C", display: "block", marginBottom: "6px" }}>이름</label>
           <input
@@ -47,12 +48,12 @@ export default function ProfilePage() {
             onChange={(e) => { setName(e.target.value); setSaved(false); }}
             style={{
               width: "100%",
-              border: "1.5px solid #F0E4D8",
-              borderRadius: "12px",
+              border: "1px solid #E8DECF",
+              borderRadius: "16px",
               padding: "12px 14px",
               fontSize: "15px",
-              color: "#3D2419",
-              background: "#FBF6F0",
+              color: "#241E1A",
+              background: "#FAF6EE",
               outline: "none",
               fontFamily: "inherit",
               boxSizing: "border-box"
@@ -63,12 +64,12 @@ export default function ProfilePage() {
           <label style={{ fontSize: "13px", color: "#8A6B5C", display: "block", marginBottom: "6px" }}>역할</label>
           <p
             style={{
-              border: "1.5px solid #F0E4D8",
-              borderRadius: "12px",
+              border: "1px solid #E8DECF",
+              borderRadius: "16px",
               padding: "12px 14px",
               fontSize: "15px",
-              color: "#B07A5C",
-              background: "#FBF6F0",
+              color: "#9A8B7D",
+              background: "#FAF6EE",
               margin: 0
             }}
           >
@@ -79,12 +80,12 @@ export default function ProfilePage() {
           <label style={{ fontSize: "13px", color: "#8A6B5C", display: "block", marginBottom: "6px" }}>나이</label>
           <p
             style={{
-              border: "1.5px solid #F0E4D8",
-              borderRadius: "12px",
+              border: "1px solid #E8DECF",
+              borderRadius: "16px",
               padding: "12px 14px",
               fontSize: "15px",
-              color: "#B07A5C",
-              background: "#FBF6F0",
+              color: "#9A8B7D",
+              background: "#FAF6EE",
               margin: 0
             }}
           >
@@ -96,15 +97,15 @@ export default function ProfilePage() {
       {/* 연결된 부모님 */}
       <div
         style={{
-          background: "white",
-          borderRadius: "18px",
+          background: "#FFFBF2",
+          borderRadius: "26px",
           padding: "18px",
-          boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+          border: "1px solid #E8DECF",
           marginBottom: "20px"
         }}
       >
-        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 12px", fontWeight: 500 }}>연결된 부모님</p>
-        {demoDataset.parents.map((parent) => (
+        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 12px", fontWeight: 500 }}>연결된 부모님</p>
+        {demoDataset.parents.map((parent, idx) => (
           <div
             key={parent.id}
             style={{
@@ -112,17 +113,15 @@ export default function ProfilePage() {
               alignItems: "center",
               gap: "12px",
               padding: "10px 0",
-              borderBottom: "1px solid #F5EDE6"
+              borderBottom: idx < demoDataset.parents.length - 1 ? "1px solid #F0E7D7" : "none"
             }}
           >
             <div
               style={{
                 width: "40px",
                 height: "40px",
-                borderRadius: "50%",
-                background: parent.role === "mother"
-                  ? "linear-gradient(135deg, #FFB088, #FF8A65)"
-                  : "linear-gradient(135deg, #FFD9B8, #E8A04E)",
+                borderRadius: "999px",
+                background: PARENT_TONES[idx] ?? "#F0E7D7",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -133,7 +132,7 @@ export default function ProfilePage() {
               {parent.role === "mother" ? "👩" : "👨"}
             </div>
             <div>
-              <p style={{ fontSize: "15px", color: "#3D2419", margin: "0 0 2px", fontWeight: 500 }}>
+              <p style={{ fontSize: "15px", color: "#241E1A", margin: "0 0 2px", fontWeight: 500 }}>
                 {parent.displayName}
               </p>
               <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0 }}>
@@ -150,15 +149,14 @@ export default function ProfilePage() {
         onClick={() => setSaved(true)}
         style={{
           width: "100%",
-          background: "linear-gradient(135deg, #FF8A65, #E07856)",
-          color: "white",
+          background: saved ? "#CDDCC8" : "#241E1A",
+          color: saved ? "#241E1A" : "#FBF6EC",
           border: "none",
-          borderRadius: "16px",
+          borderRadius: "999px",
           padding: "16px",
           fontSize: "16px",
           fontWeight: 600,
-          cursor: "pointer",
-          boxShadow: "0 8px 20px rgba(224,120,86,0.28)"
+          cursor: "pointer"
         }}
       >
         {saved ? "저장됐어요 ✓" : "변경사항 저장"}

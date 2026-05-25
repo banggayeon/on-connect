@@ -117,42 +117,6 @@ export default function ChildHomePage() {
           ))}
         </div>
 
-        {/* 안부 추천 넛지 */}
-        <button
-          type="button"
-          onClick={() => router.push("/child/signal/recommend")}
-          style={{
-            background: "#CDDCC8",
-            borderRadius: "18px",
-            padding: "16px 18px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "12px",
-            border: "none",
-            cursor: "pointer",
-            width: "100%",
-            textAlign: "left"
-          }}
-        >
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: "15px", fontWeight: 600, color: "#241E1A", margin: "0 0 4px", letterSpacing: "-0.015em" }}>
-              말문 열기 도움
-            </p>
-            <p style={{ fontSize: "12.5px", color: "#241E1A", opacity: 0.7, margin: 0, lineHeight: 1.45 }}>
-              부담스럽지 않은 한마디를 골라드려요.
-            </p>
-          </div>
-          <div style={{
-            width: "36px", height: "36px", borderRadius: "999px",
-            border: "1px solid rgba(36,30,26,0.5)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: "rgba(255,251,242,0.5)", flexShrink: 0
-          }}>
-            <ArrowDot/>
-          </div>
-        </button>
-
         {/* 오늘의 질문 */}
         <button
           type="button"
@@ -178,23 +142,33 @@ export default function ChildHomePage() {
         </button>
 
         {/* AI 브리핑 */}
-        <div
+        <button
+          type="button"
+          onClick={() => router.push("/child/signal/recommend")}
           style={{
             background: "#F6D6BD",
             borderRadius: "18px",
-            padding: "18px"
+            padding: "18px",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+            width: "100%",
+            display: "block"
           }}
         >
-          <p style={{ fontSize: "12.5px", color: "#3D332C", margin: "0 0 8px", fontWeight: 500, letterSpacing: "-0.005em" }}>
-            AI 브리핑
-          </p>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+            <p style={{ fontSize: "12.5px", color: "#3D332C", margin: 0, fontWeight: 500, letterSpacing: "-0.005em" }}>
+              AI 브리핑
+            </p>
+            <ArrowDot color="#3D332C" size={13}/>
+          </div>
           <p style={{ fontSize: "16px", color: "#241E1A", margin: "0 0 6px", fontWeight: 600, lineHeight: 1.45, letterSpacing: "-0.015em" }}>
             엄마는 오늘 가벼운<br/>식사 안부가 좋아요.
           </p>
           <p style={{ fontSize: "13px", color: "#241E1A", opacity: 0.7, margin: 0, lineHeight: 1.5 }}>
             최근 식사 주제에 빠르게 반응했어요.
           </p>
-        </div>
+        </button>
 
         {/* CTA 버튼들 */}
         <button
@@ -210,18 +184,6 @@ export default function ChildHomePage() {
         >
           가볍게 안부 보내기
           <ArrowDot color="#FBF6EC"/>
-        </button>
-        <button
-          type="button"
-          onClick={() => router.push("/child/signal")}
-          style={{
-            width: "100%", background: "#FFFBF2", color: "#241E1A",
-            border: "1px solid #E8DECF", borderRadius: "999px",
-            padding: "16px 22px", fontSize: "15px", fontWeight: 500,
-            cursor: "pointer", letterSpacing: "-0.012em"
-          }}
-        >
-          오늘의 말 추천받기
         </button>
       </div>
     </ChildAppShell>

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { mockCheckIns } from "@/lib/mockData";
 
@@ -39,18 +38,20 @@ export default function CheckinHistoryPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#3D2419" }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#241E1A" }}
         >
-          <ChevronLeft style={{ width: "var(--parent-icon-size)", height: "var(--parent-icon-size)" }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18L9 12L15 6" />
+          </svg>
         </button>
-        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#3D2419", margin: 0, fontWeight: 600 }}>
+        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#241E1A", margin: 0, fontWeight: 600 }}>
           지난 기록
         </h1>
       </div>
 
       {/* 이번 주 흐름 */}
-      <div style={{ background: "white", borderRadius: "20px", padding: "20px", marginBottom: "20px", boxShadow: "0 2px 12px rgba(61,36,25,0.06)" }}>
-        <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: "0 0 16px", fontWeight: 600 }}>
+      <div style={{ background: "#FFFBF2", borderRadius: "26px", padding: "20px", marginBottom: "20px", border: "1px solid #E8DECF" }}>
+        <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: "0 0 16px", fontWeight: 600 }}>
           이번 주 기분 흐름
         </p>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
@@ -59,7 +60,7 @@ export default function CheckinHistoryPage() {
               <span style={{ fontSize: "22px" }}>
                 {ci ? MOOD_EMOJIS[ci.mood - 1] : "○"}
               </span>
-              <span style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C" }}>{day}</span>
+              <span style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C" }}>{day}</span>
             </div>
           ))}
         </div>
@@ -75,14 +76,14 @@ export default function CheckinHistoryPage() {
               type="button"
               onClick={() => setOpenId(isOpen ? null : ci.id)}
               style={{
-                width: "100%", textAlign: "left", background: "white", borderRadius: "20px",
-                padding: "18px 20px", boxShadow: "0 2px 12px rgba(61,36,25,0.06)",
-                border: "none", cursor: "pointer",
+                width: "100%", textAlign: "left", background: "#FFFBF2", borderRadius: "26px",
+                padding: "18px 20px", border: "1px solid #E8DECF",
+                cursor: "pointer",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: isOpen && (ci.memo || ci.detailedEmotion) ? "10px" : "0" }}>
                 <div>
-                  <p style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C", margin: 0 }}>
+                  <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", margin: 0 }}>
                     {formatDate(ci.date)}
                   </p>
                   {ci.detailedEmotion && (
@@ -91,8 +92,8 @@ export default function CheckinHistoryPage() {
                         display: "inline-block",
                         marginTop: "4px",
                         fontSize: "var(--parent-font-caption)",
-                        background: "#FFEDE0",
-                        color: "#C05A2A",
+                        background: "#F1D6CC",
+                        color: "#3D332C",
                         borderRadius: "999px",
                         padding: "2px 10px",
                         fontWeight: 500,
@@ -108,7 +109,7 @@ export default function CheckinHistoryPage() {
                 </div>
               </div>
               {isOpen && ci.memo && (
-                <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: "10px 0 0", lineHeight: 1.5, borderTop: "1px solid #FFF0E6", paddingTop: "10px" }}>
+                <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: "10px 0 0", lineHeight: 1.5, borderTop: "1px solid #F0E7D7", paddingTop: "10px" }}>
                   {ci.memo}
                 </p>
               )}

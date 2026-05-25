@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { childProfile, mockDailyQuestions } from "@/lib/mockData";
 import type { DailyQuestion } from "@/lib/mockData";
@@ -44,11 +43,13 @@ export default function QuestionArchivePage() {
         <button
           type="button"
           onClick={() => router.back()}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#3D2419" }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#241E1A" }}
         >
-          <ChevronLeft style={{ width: "var(--parent-icon-size)", height: "var(--parent-icon-size)" }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18L9 12L15 6" />
+          </svg>
         </button>
-        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#3D2419", margin: 0, fontWeight: 600 }}>
+        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#241E1A", margin: 0, fontWeight: 600 }}>
           지난 질문들
         </h1>
       </div>
@@ -60,7 +61,7 @@ export default function QuestionArchivePage() {
           const inAnswerMode = answerMode === q.id;
 
           return (
-            <div key={q.id} style={{ background: "white", borderRadius: "20px", boxShadow: "0 2px 12px rgba(61,36,25,0.06)", overflow: "hidden" }}>
+            <div key={q.id} style={{ background: "#FFFBF2", borderRadius: "26px", border: "1px solid #E8DECF", overflow: "hidden" }}>
               <button
                 type="button"
                 onClick={() => toggle(q.id)}
@@ -70,10 +71,10 @@ export default function QuestionArchivePage() {
                 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C", margin: "0 0 4px" }}>
+                  <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", margin: "0 0 4px" }}>
                     {formatDate(q.date)}
                   </p>
-                  <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: 0, fontWeight: 500, lineHeight: 1.4 }}>
+                  <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: 0, fontWeight: 500, lineHeight: 1.4 }}>
                     {q.question}
                   </p>
                 </div>
@@ -81,26 +82,31 @@ export default function QuestionArchivePage() {
                   <span
                     style={{
                       fontSize: "var(--parent-font-caption)",
-                      background: answered ? "#E8F3E5" : "#FFEDE0",
-                      color: answered ? "#2A6B2A" : "#B07A5C",
-                      padding: "3px 10px", borderRadius: "99px", fontWeight: 500,
+                      background: answered ? "#CDDCC8" : "#F0E7D7",
+                      color: answered ? "#3D332C" : "#8A6B5C",
+                      padding: "3px 10px", borderRadius: "999px", fontWeight: 500,
                     }}
                   >
                     {answered ? "답변 완료" : "답변 전"}
                   </span>
-                  {open ? <ChevronUp size={18} color="#B07A5C" /> : <ChevronDown size={18} color="#B07A5C" />}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6B5C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {open
+                      ? <path d="M18 15L12 9L6 15" />
+                      : <path d="M6 9L12 15L18 9" />
+                    }
+                  </svg>
                 </div>
               </button>
 
               {open && (
-                <div style={{ padding: "0 20px 20px", borderTop: "1px solid #FFF0E6" }}>
+                <div style={{ padding: "0 20px 20px", borderTop: "1px solid #F0E7D7" }}>
                   {/* 내 답변 */}
                   {answered && !inAnswerMode ? (
                     <div style={{ marginTop: "12px" }}>
-                      <p style={{ fontSize: "var(--parent-font-caption)", color: "#B07A5C", margin: "0 0 4px", fontWeight: 500 }}>
+                      <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500 }}>
                         내 답변
                       </p>
-                      <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: 0, lineHeight: 1.6 }}>
+                      <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: 0, lineHeight: 1.6 }}>
                         {q.parentAnswer ?? draftAnswers[q.id]}
                       </p>
                     </div>
@@ -112,9 +118,9 @@ export default function QuestionArchivePage() {
                         placeholder="답변을 적어보세요"
                         style={{
                           width: "100%", minHeight: "100px", fontSize: "var(--parent-font-base)",
-                          border: "1px solid #FFCBB0", borderRadius: "12px", padding: "12px",
+                          border: "1px solid #E8DECF", borderRadius: "18px", padding: "12px",
                           resize: "none", outline: "none", boxSizing: "border-box",
-                          fontFamily: "inherit", color: "#3D2419",
+                          fontFamily: "inherit", color: "#241E1A", background: "#FAF6EE",
                         }}
                       />
                       <button
@@ -122,8 +128,8 @@ export default function QuestionArchivePage() {
                         onClick={() => handleSubmit(q)}
                         style={{
                           width: "100%", minHeight: "var(--parent-btn-height)", marginTop: "8px",
-                          background: "linear-gradient(135deg, #FF8A65, #E07856)",
-                          color: "white", border: "none", borderRadius: "12px",
+                          background: "#241E1A",
+                          color: "#FBF6EC", border: "none", borderRadius: "999px",
                           fontSize: "var(--parent-font-base)", fontWeight: 600, cursor: "pointer",
                         }}
                       >
@@ -136,8 +142,8 @@ export default function QuestionArchivePage() {
                       onClick={() => setAnswerMode(q.id)}
                       style={{
                         width: "100%", minHeight: "var(--parent-btn-height)", marginTop: "12px",
-                        background: "linear-gradient(135deg, #FF8A65, #E07856)",
-                        color: "white", border: "none", borderRadius: "12px",
+                        background: "#241E1A",
+                        color: "#FBF6EC", border: "none", borderRadius: "999px",
                         fontSize: "var(--parent-font-base)", fontWeight: 600, cursor: "pointer",
                       }}
                     >
@@ -147,11 +153,11 @@ export default function QuestionArchivePage() {
 
                   {/* 자녀 답변 */}
                   {q.childAnswer && (
-                    <div style={{ marginTop: "12px", background: "#FFE5DA", borderRadius: "12px", padding: "14px" }}>
-                      <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A3E25", margin: "0 0 4px", fontWeight: 500 }}>
+                    <div style={{ marginTop: "12px", background: "#F1D6CC", borderRadius: "18px", padding: "14px" }}>
+                      <p style={{ fontSize: "var(--parent-font-caption)", color: "#6E4A39", margin: "0 0 4px", fontWeight: 500 }}>
                         {childProfile.name}이의 답변
                       </p>
-                      <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: 0, lineHeight: 1.6 }}>
+                      <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: 0, lineHeight: 1.6 }}>
                         {q.childAnswer}
                       </p>
                     </div>

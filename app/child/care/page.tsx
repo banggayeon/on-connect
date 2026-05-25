@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sparkles } from "lucide-react";
 import { ChildAppShell } from "@/components/child/ChildAppShell";
 import { ParentToggle } from "@/components/child/ParentToggle";
 import { WeeklyEmotionFlow } from "@/components/child/WeeklyEmotionFlow";
@@ -46,13 +45,15 @@ export default function ChildCarePage() {
     } catch {}
   }, []);
 
+  const keywordTone = isMom ? "#F1D6CC" : "#CDDCC8";
+
   return (
-    <ChildAppShell className={`bg-gradient-to-b ${isMom ? "from-[#E8F3E5]" : "from-[#E0EDF5]"} via-cream-50 to-white`}>
+    <ChildAppShell>
       <header style={{ marginBottom: "16px" }}>
-        <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 4px", fontWeight: 500 }}>
+        <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500 }}>
           부모님 근황
         </p>
-        <h1 style={{ fontSize: "24px", color: "#3D2419", margin: "0 0 6px", fontWeight: 500, lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: "26px", color: "#241E1A", margin: "0 0 6px", fontWeight: 700, lineHeight: 1.25, letterSpacing: "-0.03em" }}>
           최근 대화 요약
         </h1>
         <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
@@ -60,7 +61,6 @@ export default function ChildCarePage() {
         </p>
       </header>
 
-      {/* 부모 토글 */}
       <ParentToggle variant="green" />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -69,25 +69,24 @@ export default function ChildCarePage() {
           type="button"
           onClick={() => router.push("/child/care/summary")}
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
-            border: "none",
+            border: "1px solid #E8DECF",
             cursor: "pointer",
             textAlign: "left",
             width: "100%"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-            <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>
               {parentProfile.displayName} 근황 요약
             </p>
-            <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#7AB87A", fontWeight: 600 }}>
-              <Sparkles size={12} /> AI
+            <span style={{ fontSize: "11px", color: "#241E1A", background: "#D8E0A6", padding: "3px 8px", borderRadius: "999px", fontWeight: 600 }}>
+              AI
             </span>
           </div>
-          <p style={{ fontSize: "16px", color: "#3D2419", margin: "0 0 12px", fontWeight: 500, lineHeight: 1.4 }}>
+          <p style={{ fontSize: "16px", color: "#241E1A", margin: "0 0 12px", fontWeight: 600, lineHeight: 1.4 }}>
             {summary.headline}
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "12px" }}>
@@ -96,8 +95,8 @@ export default function ChildCarePage() {
                 key={kw}
                 style={{
                   fontSize: "12px",
-                  background: isMom ? "#E8F3E5" : "#E0EDF5",
-                  color: isMom ? "#3A6B3A" : "#2C5A7A",
+                  background: keywordTone,
+                  color: "#241E1A",
                   borderRadius: "999px",
                   padding: "4px 12px",
                   fontWeight: 500
@@ -114,7 +113,7 @@ export default function ChildCarePage() {
               <EmotionSignalTags checkIns={mockCheckIns} />
             </div>
           ) : (
-            <p style={{ fontSize: "12px", color: "#C5A898", margin: "0 0 12px" }}>
+            <p style={{ fontSize: "12px", color: "#9A8B7D", margin: "0 0 12px" }}>
               기분 공유를 설정하면 이번 주 감정 흐름을 볼 수 있어요
             </p>
           )}
@@ -124,29 +123,31 @@ export default function ChildCarePage() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              background: "#FBF6F0",
-              borderRadius: "12px",
+              background: "#F0E7D7",
+              borderRadius: "999px",
               padding: "10px 14px"
             }}
           >
-            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0 }}>상세 타임라인 보기</p>
-            <ChevronRight size={14} style={{ color: "#B07A5C" }} />
+            <p style={{ fontSize: "12px", color: "#3D332C", margin: 0 }}>상세 타임라인 보기</p>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M5 11L9 7L5 3" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
         </button>
 
         {/* 케어 액션 추천 리스트 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-            <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>케어 액션 추천</p>
-            <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#7AB87A", fontWeight: 600 }}>
-              <Sparkles size={12} /> AI
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>케어 액션 추천</p>
+            <span style={{ fontSize: "11px", color: "#241E1A", background: "#D8E0A6", padding: "3px 8px", borderRadius: "999px", fontWeight: 600 }}>
+              AI
             </span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -156,9 +157,9 @@ export default function ChildCarePage() {
                 type="button"
                 onClick={() => router.push(`/child/care/action/${action.id}`)}
                 style={{
-                  background: "#FBF6F0",
+                  background: "#FAF6EE",
                   border: "none",
-                  borderRadius: "14px",
+                  borderRadius: "18px",
                   padding: "14px",
                   cursor: "pointer",
                   textAlign: "left",
@@ -170,7 +171,7 @@ export default function ChildCarePage() {
               >
                 <span style={{ fontSize: "22px", flexShrink: 0 }}>{ACTION_TYPE_ICON[action.type]}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: "14px", color: "#3D2419", margin: "0 0 3px", fontWeight: 600 }}>{action.title}</p>
+                  <p style={{ fontSize: "14px", color: "#241E1A", margin: "0 0 3px", fontWeight: 600 }}>{action.title}</p>
                   <p
                     style={{
                       fontSize: "12px",
@@ -184,7 +185,9 @@ export default function ChildCarePage() {
                     {action.reason}
                   </p>
                 </div>
-                <ChevronRight size={14} style={{ color: "#B07A5C", flexShrink: 0 }} />
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M5 11L9 7L5 3" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
             ))}
           </div>
@@ -193,18 +196,18 @@ export default function ChildCarePage() {
         {/* 오늘의 따뜻한 일 */}
         <div
           style={{
-            background: "linear-gradient(135deg, #FFF1DA, #FFE5DA)",
-            borderRadius: "18px",
+            background: "#D8E0A6",
+            borderRadius: "26px",
             padding: "18px"
           }}
         >
-          <p style={{ fontSize: "12px", color: "#8A3E25", margin: "0 0 6px", fontWeight: 500 }}>
+          <p style={{ fontSize: "12px", color: "#6E4A39", margin: "0 0 6px", fontWeight: 500 }}>
             {careReport.warmAction.title}
           </p>
-          <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 6px", fontWeight: 500, lineHeight: 1.4 }}>
+          <p style={{ fontSize: "17px", color: "#241E1A", margin: "0 0 6px", fontWeight: 600, lineHeight: 1.4 }}>
             {careReport.warmAction.headline}
           </p>
-          <p style={{ fontSize: "13px", color: "#5F4534", margin: 0, lineHeight: 1.55 }}>
+          <p style={{ fontSize: "13px", color: "#3D332C", margin: 0, lineHeight: 1.55 }}>
             {careReport.warmAction.body}
           </p>
         </div>

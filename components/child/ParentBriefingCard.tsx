@@ -33,6 +33,8 @@ function formatDelta(delta: number) {
   return delta > 0 ? `+${delta}°` : `${delta}°`;
 }
 
+const PARENT_TONES = ["#F1D6CC", "#CDDCC8"];
+
 export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefings }: ParentBriefingCardProps) {
   const [selectedParentId, setSelectedParentId] = useState(parentTemperatures[0]?.parentId ?? "");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
@@ -85,15 +87,14 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
 
   return (
     <section style={{ padding: "0 0 32px" }}>
-      {/* 섹션 구분 */}
-      <div style={{ height: "1px", background: "#F0E4D8", margin: "24px 0 20px" }} />
-      <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 14px", fontWeight: 500 }}>
+      <div style={{ height: "1px", background: "#F0E7D7", margin: "24px 0 20px" }} />
+      <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 14px", fontWeight: 500 }}>
         Today&apos;s Parent Briefing
       </p>
 
       {/* 부모 선택 탭 */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "16px" }}>
-        {parentTemperatures.map((parent) => {
+        {parentTemperatures.map((parent, index) => {
           const isSelected = parent.parentId === selectedParent.parentId;
           return (
             <button
@@ -101,21 +102,21 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
               type="button"
               onClick={() => setSelectedParentId(parent.parentId)}
               style={{
-                border: isSelected ? "1.5px solid #FF8A65" : "1.5px solid #F0E4D8",
-                background: isSelected ? "linear-gradient(135deg, #FFE5DA, #FFF8F0)" : "white",
-                borderRadius: "16px",
-                padding: "14px",
+                border: isSelected ? "2px solid #6E4A39" : "1px solid #E8DECF",
+                background: isSelected ? "#F1E5C8" : PARENT_TONES[index] ?? "#FFFBF2",
+                borderRadius: "20px",
+                padding: isSelected ? "13px" : "14px",
                 textAlign: "left",
-                boxShadow: isSelected ? "0 4px 12px rgba(224,120,86,0.12)" : "0 1px 4px rgba(0,0,0,0.04)",
                 cursor: "pointer",
-                minWidth: 0
+                minWidth: 0,
+                transition: "background 0.15s, border-color 0.15s"
               }}
             >
-              <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 6px", fontWeight: 500 }}>
+              <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 6px", fontWeight: 500 }}>
                 {parent.displayName}
               </p>
               <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
-                <span style={{ fontSize: "26px", color: "#3D2419", fontWeight: 500, lineHeight: 1 }}>
+                <span style={{ fontSize: "26px", color: "#241E1A", fontWeight: 500, lineHeight: 1 }}>
                   {parent.temperature.toFixed(1)}°
                 </span>
                 <span style={{ fontSize: "12px", color: "#8A6B5C" }}>{parent.label}</span>
@@ -123,7 +124,7 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
               <p
                 style={{
                   fontSize: "12px",
-                  color: parent.delta >= 0 ? "#3A6B3A" : "#8A6B5C",
+                  color: parent.delta >= 0 ? "#6E4A39" : "#8A6B5C",
                   margin: "6px 0 0",
                   fontWeight: 600
                 }}
@@ -138,19 +139,19 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
       {/* 브리핑 카드 */}
       <div
         style={{
-          background: "white",
+          background: "#FFFBF2",
           borderRadius: "20px",
           padding: "20px",
-          boxShadow: "0 2px 12px rgba(61,36,25,0.06)"
+          border: "1px solid #E8DECF"
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-          <p style={{ fontSize: "12px", color: "#B07A5C", margin: 0, fontWeight: 500 }}>오늘의 추천</p>
+          <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>오늘의 추천</p>
           <span
             style={{
               fontSize: "12px",
-              color: "#3A6B3A",
-              background: "#E8F3E5",
+              color: "#241E1A",
+              background: "#D8E0A6",
               padding: "4px 10px",
               borderRadius: "999px",
               fontWeight: 500
@@ -169,7 +170,7 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
             <p
               style={{
                 fontSize: "18px",
-                color: "#3D2419",
+                color: "#241E1A",
                 margin: "0 0 12px",
                 fontWeight: 500,
                 lineHeight: 1.45
@@ -180,16 +181,16 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
 
             <div
               style={{
-                background: "#FFF1DA",
+                background: "#F6EDDB",
                 borderRadius: "16px",
                 padding: "16px",
                 marginBottom: "12px"
               }}
             >
-              <p style={{ fontSize: "12px", color: "#7A5A1A", margin: "0 0 6px", fontWeight: 500 }}>
+              <p style={{ fontSize: "12px", color: "#6E4A39", margin: "0 0 6px", fontWeight: 500 }}>
                 추천 대화 시작문
               </p>
-              <p style={{ fontSize: "15px", color: "#5F4534", margin: 0, lineHeight: 1.55 }}>
+              <p style={{ fontSize: "15px", color: "#3D332C", margin: 0, lineHeight: 1.55 }}>
                 {visibleBriefing.recommendedMessage}
               </p>
             </div>
@@ -199,11 +200,11 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
               onClick={() => setIsReasonOpen((v) => !v)}
               style={{
                 width: "100%",
-                border: "1px solid #F0E4D8",
-                background: "#FBF6F0",
-                borderRadius: "12px",
+                border: "1px solid #E8DECF",
+                background: "#FAF6EE",
+                borderRadius: "999px",
                 padding: "12px",
-                color: "#3D2419",
+                color: "#241E1A",
                 fontSize: "14px",
                 fontWeight: 500,
                 cursor: "pointer"
@@ -215,8 +216,8 @@ export function ParentBriefingCard({ userId, parentTemperatures, fallbackBriefin
             {isReasonOpen ? (
               <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
                 {visibleEvidence.map((item) => (
-                  <div key={item} style={{ background: "#E8F3E5", borderRadius: "12px", padding: "12px" }}>
-                    <p style={{ fontSize: "14px", color: "#1F4A1F", margin: 0, lineHeight: 1.5 }}>{item}</p>
+                  <div key={item} style={{ background: "#CDDCC8", borderRadius: "12px", padding: "12px" }}>
+                    <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, lineHeight: 1.5 }}>{item}</p>
                   </div>
                 ))}
                 <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "4px 0 0", lineHeight: 1.5 }}>

@@ -18,22 +18,22 @@ type SelectableOptionCardProps = {
 
 const themeClasses = {
   warm: {
-    base: "border-[#E6DDD3] bg-white text-[#5F4534] hover:border-[#E07856] hover:bg-[#FFE5DA] hover:text-[#8A3E25] focus-visible:ring-[#E07856]",
-    selected: "border-[#E07856] bg-[#FFE5DA] text-[#8A3E25] shadow-sm",
-    radio: "border-[#E6DDD3]",
-    radioSelected: "border-[#E07856] bg-[#E07856]"
+    base: "border-[#E8DECF] bg-[#FFFBF2] text-[#3D332C] hover:border-[#6E4A39] hover:bg-[#FAF0E4] focus-visible:ring-[#6E4A39]",
+    selected: "border-[#6E4A39] border-2 bg-[#F1E5C8] text-[#241E1A]",
+    radio: "border-[#D5C9BB]",
+    radioSelected: "border-[#6E4A39] bg-[#F1E5C8]"
   },
   green: {
-    base: "border-[#E6DDD3] bg-white text-[#3D2419] hover:border-[#A8C79A] hover:bg-[#F6FBF4] focus-visible:ring-[#7AB87A]",
-    selected: "border-[#7AB87A] bg-[#F6FBF4] text-[#3D2419] shadow-sm",
-    radio: "border-[#E6DDD3]",
-    radioSelected: "border-[#7AB87A] bg-[#7AB87A]"
+    base: "border-[#E8DECF] bg-[#FFFBF2] text-[#241E1A] hover:border-[#6E4A39] hover:bg-[#FAF0E4] focus-visible:ring-[#6E4A39]",
+    selected: "border-[#6E4A39] border-2 bg-[#F1E5C8] text-[#241E1A]",
+    radio: "border-[#D5C9BB]",
+    radioSelected: "border-[#6E4A39] bg-[#F1E5C8]"
   },
   soft: {
-    base: "border-[#E6DDD3] bg-white text-[#5F4534] hover:border-[#B07A5C] hover:bg-[#FFF8F0] focus-visible:ring-[#B07A5C]",
-    selected: "border-[#B07A5C] bg-[#FFF8F0] text-[#3D2419] shadow-sm",
-    radio: "border-[#E6DDD3]",
-    radioSelected: "border-[#B07A5C] bg-[#B07A5C]"
+    base: "border-[#E8DECF] bg-[#FFFBF2] text-[#3D332C] hover:border-[#6E4A39] hover:bg-[#FAF0E4] focus-visible:ring-[#6E4A39]",
+    selected: "border-[#6E4A39] border-2 bg-[#F1E5C8] text-[#241E1A]",
+    radio: "border-[#D5C9BB]",
+    radioSelected: "border-[#6E4A39] bg-[#F1E5C8]"
   }
 };
 
@@ -57,20 +57,24 @@ export function SelectableOptionCard({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "w-full border text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF8F0]",
-        size === "sm" && "min-h-[44px] rounded-[12px] px-2.5 py-2 text-[14px]",
-        size === "md" && "min-h-[62px] rounded-[16px] px-4 py-3 text-[16px]",
-        size === "lg" && "min-h-[72px] rounded-[20px] px-4 py-4 text-[21px]",
+        "w-full border text-left transition-[background-color,border-color,transform] duration-[120ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF6EE]",
+        size === "sm" && "min-h-[44px] rounded-[999px] px-2.5 py-2 text-[14px]",
+        size === "md" && "min-h-[62px] rounded-[999px] px-4 py-3 text-[16px]",
+        size === "lg" && "min-h-[72px] rounded-[999px] px-4 py-4 text-[21px]",
         selected ? classes.selected : classes.base,
-        disabled && "cursor-not-allowed border-[#E6DDD3] bg-[#E5DED6] text-[#9E948A] hover:border-[#E6DDD3] hover:bg-[#E5DED6] hover:text-[#9E948A]"
+        disabled && "cursor-not-allowed border-[#E8DECF] bg-[#D5CFC8] text-[#9A8B7D] hover:border-[#E8DECF] hover:bg-[#D5CFC8] hover:text-[#9A8B7D]"
       )}
     >
       <span className="flex w-full items-center justify-between gap-3">
         <span className="flex min-w-0 items-center gap-3">
           {leading ? <span className="shrink-0">{leading}</span> : null}
           <span className="min-w-0">
-          <span className="block font-medium leading-snug">{label}</span>
-          {description ? <span className="mt-1 block text-[13px] leading-snug text-[#8A6B5C]">{description}</span> : null}
+            <span className="block font-medium leading-snug">{label}</span>
+            {description ? (
+              <span className={cn("mt-1 block text-[13px] leading-snug", selected ? "text-[#6E4A39]" : "text-[#8A6B5C]")}>
+                {description}
+              </span>
+            ) : null}
           </span>
         </span>
         {indicator !== "none" ? (
@@ -82,7 +86,9 @@ export function SelectableOptionCard({
               selected ? classes.radioSelected : classes.radio
             )}
           >
-            {indicator === "radio" && selected ? <span className="h-1.5 w-1.5 rounded-full bg-white" /> : null}
+            {indicator === "radio" && selected ? (
+              <span className="h-1.5 w-1.5 rounded-full bg-[#6E4A39]" />
+            ) : null}
             {indicator === "toggle" ? (
               <span className={cn("h-5 w-5 rounded-full bg-white transition", selected ? "translate-x-2.5" : "-translate-x-2.5")} />
             ) : null}
@@ -100,21 +106,17 @@ type NextButtonProps = {
   onClick: () => void;
 };
 
-export function OnboardingNextButton({ children = "다음", disabled, theme = "warm", onClick }: NextButtonProps) {
+export function OnboardingNextButton({ children = "다음", disabled, onClick }: NextButtonProps) {
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "mt-4 w-full rounded-[16px] px-5 py-3.5 text-[16px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF8F0]",
-        theme === "warm" && "focus-visible:ring-[#E07856]",
-        theme === "green" && "focus-visible:ring-[#7AB87A]",
+        "mt-4 w-full rounded-[999px] px-5 py-3.5 text-[16px] font-semibold transition-[background-color,transform] duration-[120ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E4A39] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF6EE]",
         disabled
-          ? "cursor-not-allowed bg-[#E5DED6] text-[#9E948A]"
-          : theme === "green"
-            ? "bg-[#7AB87A] text-white shadow-sm hover:bg-[#6EA86E]"
-            : "bg-gradient-to-br from-[#FF8A65] to-[#E07856] text-white shadow-sm hover:brightness-[0.98]"
+          ? "cursor-not-allowed bg-[#D5CFC8] text-[#9A8B7D]"
+          : "bg-[#241E1A] text-[#FBF6EC] hover:opacity-90 active:bg-[#2D261F]"
       )}
     >
       {children}

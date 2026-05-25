@@ -49,14 +49,18 @@ export default function ParentHomePage() {
         <p style={{ fontSize: "var(--parent-font-caption, 15px)", color: "#8A6B5C", margin: 0, letterSpacing: "-0.005em" }}>
           {todayStr}
         </p>
-        <div style={{
-          width: "46px", height: "46px", borderRadius: "999px",
-          border: "1px solid #E8DECF", background: "#FFFBF2",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "14px", fontWeight: 500, color: "#241E1A"
-        }}>
+        <button
+          type="button"
+          onClick={() => router.push("/parent/settings")}
+          style={{
+            width: "46px", height: "46px", borderRadius: "999px",
+            border: "1px solid #E8DECF", background: "#FFFBF2",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "14px", fontWeight: 500, color: "#241E1A", cursor: "pointer"
+          }}
+        >
           설정
-        </div>
+        </button>
       </div>
 
       <h1 style={{
@@ -69,7 +73,7 @@ export default function ParentHomePage() {
       {/* 자녀 안부 카드 — lime 블록 */}
       <button
         type="button"
-        onClick={() => router.push("/parent/inbox")}
+        onClick={() => router.push(`/parent/inbox/${latestInbox.id}`)}
         style={{
           width: "100%", textAlign: "left",
           background: "#D8E0A6", borderRadius: "30px",
@@ -109,11 +113,11 @@ export default function ParentHomePage() {
         </div>
       </button>
 
-      {/* 답장 + 기분 남기기 버튼 */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "20px" }}>
+      {/* 답장 버튼 */}
+      <div style={{ marginBottom: "20px" }}>
         <button
           type="button"
-          onClick={() => router.push("/parent/inbox")}
+          onClick={() => router.push(`/parent/inbox/${latestInbox.id}`)}
           style={{
             width: "100%", background: "#241E1A", color: "#FBF6EC",
             border: "none", borderRadius: "999px",
@@ -124,18 +128,6 @@ export default function ParentHomePage() {
         >
           답장 보내기
           <ArrowDot color="#FBF6EC" size={16}/>
-        </button>
-        <button
-          type="button"
-          onClick={() => router.push("/parent/checkin")}
-          style={{
-            width: "100%", background: "#FFFBF2", color: "#241E1A",
-            border: "1px solid #E8DECF", borderRadius: "999px",
-            padding: "21px 26px", fontSize: "17px", fontWeight: 500,
-            cursor: "pointer", letterSpacing: "-0.012em"
-          }}
-        >
-          오늘 기분 남기기
         </button>
       </div>
 

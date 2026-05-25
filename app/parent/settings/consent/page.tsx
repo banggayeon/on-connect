@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { childProfile, defaultConsent } from "@/lib/mockData";
 import type { ConsentSettings } from "@/lib/mockData";
@@ -33,10 +32,8 @@ export default function ConsentSettingPage() {
 
   function handleToggle(key: keyof ConsentSettings) {
     if (consent[key]) {
-      // OFF로 변경 시 확인 모달
       setPendingKey(key);
     } else {
-      // ON으로 변경은 즉시
       saveConsent({ ...consent, [key]: true });
     }
   }
@@ -54,16 +51,18 @@ export default function ConsentSettingPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#3D2419" }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", color: "#241E1A" }}
         >
-          <ChevronLeft style={{ width: "var(--parent-icon-size)", height: "var(--parent-icon-size)" }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18L9 12L15 6" />
+          </svg>
         </button>
-        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#3D2419", margin: 0, fontWeight: 600 }}>
+        <h1 style={{ fontSize: "var(--parent-font-title)", color: "#241E1A", margin: 0, fontWeight: 600 }}>
           정보 공유 설정
         </h1>
       </div>
 
-      <p style={{ fontSize: "var(--parent-font-base)", color: "#6B4C3B", margin: "0 0 24px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "var(--parent-font-base)", color: "#8A6B5C", margin: "0 0 24px", lineHeight: 1.6 }}>
         {childProfile.name}이와 공유할 정보를 선택해주세요.<br />
         공유하지 않은 정보는 {childProfile.name}이가 볼 수 없어요.
       </p>
@@ -75,16 +74,16 @@ export default function ConsentSettingPage() {
             <div
               key={key}
               style={{
-                background: "white", borderRadius: "20px", padding: "20px",
-                boxShadow: "0 2px 12px rgba(61,36,25,0.06)",
+                background: "#FFFBF2", borderRadius: "26px", padding: "20px",
+                border: "1px solid #E8DECF",
                 display: "flex", alignItems: "center", gap: "14px",
               }}
             >
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", margin: "0 0 4px", fontWeight: 600 }}>
+                <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: "0 0 4px", fontWeight: 600 }}>
                   {label}
                 </p>
-                <p style={{ fontSize: "var(--parent-font-caption)", color: isOn ? "#2A6B2A" : "#9E9E9E", margin: 0 }}>
+                <p style={{ fontSize: "var(--parent-font-caption)", color: isOn ? "#3D332C" : "#9A8B7D", margin: 0 }}>
                   {isOn ? desc(childProfile.name) : "나만 볼 수 있어요"}
                 </p>
               </div>
@@ -94,18 +93,18 @@ export default function ConsentSettingPage() {
                 onClick={() => handleToggle(key)}
                 aria-pressed={isOn}
                 style={{
-                  width: "56px", height: "32px", borderRadius: "16px",
-                  background: isOn ? "#4CAF50" : "#D0D0D0",
+                  width: "44px", height: "24px", borderRadius: "999px",
+                  background: isOn ? "#241E1A" : "#D5CFC8",
                   border: "none", cursor: "pointer", position: "relative",
                   flexShrink: 0, transition: "background 0.2s",
                 }}
               >
                 <span
                   style={{
-                    position: "absolute", top: "4px",
-                    left: isOn ? "28px" : "4px",
-                    width: "24px", height: "24px", borderRadius: "50%",
-                    background: "white", boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                    position: "absolute", top: "3px",
+                    left: isOn ? "23px" : "3px",
+                    width: "18px", height: "18px", borderRadius: "50%",
+                    background: "white",
                     transition: "left 0.2s",
                   }}
                 />
@@ -124,11 +123,11 @@ export default function ConsentSettingPage() {
           }}
           onClick={(e) => { if (e.target === e.currentTarget) setPendingKey(null); }}
         >
-          <div style={{ background: "white", borderRadius: "24px", padding: "32px 24px", width: "100%", maxWidth: "380px" }}>
-            <p style={{ fontSize: "var(--parent-font-base)", color: "#3D2419", textAlign: "center", margin: "0 0 12px", fontWeight: 600 }}>
+          <div style={{ background: "#FFFBF2", borderRadius: "26px", padding: "32px 24px", width: "100%", maxWidth: "380px", border: "1px solid #E8DECF" }}>
+            <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", textAlign: "center", margin: "0 0 12px", fontWeight: 600 }}>
               정말 공유를 중단할까요?
             </p>
-            <p style={{ fontSize: "var(--parent-font-caption)", color: "#6B4C3B", textAlign: "center", margin: "0 0 28px", lineHeight: 1.6 }}>
+            <p style={{ fontSize: "var(--parent-font-caption)", color: "#8A6B5C", textAlign: "center", margin: "0 0 28px", lineHeight: 1.6 }}>
               {childProfile.name}이가 이 정보를<br />더 이상 볼 수 없어요.
             </p>
             <div style={{ display: "flex", gap: "12px" }}>
@@ -136,9 +135,9 @@ export default function ConsentSettingPage() {
                 type="button"
                 onClick={() => setPendingKey(null)}
                 style={{
-                  flex: 1, minHeight: "var(--parent-btn-height)", background: "#F5F0EC",
-                  border: "none", borderRadius: "14px", fontSize: "var(--parent-font-base)",
-                  color: "#3D2419", fontWeight: 500, cursor: "pointer",
+                  flex: 1, minHeight: "var(--parent-btn-height)", background: "#F0E7D7",
+                  border: "none", borderRadius: "999px", fontSize: "var(--parent-font-base)",
+                  color: "#241E1A", fontWeight: 500, cursor: "pointer",
                 }}
               >
                 아니요
@@ -148,9 +147,9 @@ export default function ConsentSettingPage() {
                 onClick={confirmOff}
                 style={{
                   flex: 1, minHeight: "var(--parent-btn-height)",
-                  background: "linear-gradient(135deg, #FF8A65, #E07856)",
-                  border: "none", borderRadius: "14px", fontSize: "var(--parent-font-base)",
-                  color: "white", fontWeight: 600, cursor: "pointer",
+                  background: "#241E1A",
+                  border: "none", borderRadius: "999px", fontSize: "var(--parent-font-base)",
+                  color: "#FBF6EC", fontWeight: 600, cursor: "pointer",
                 }}
               >
                 네, 중단할게요

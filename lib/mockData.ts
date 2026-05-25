@@ -190,13 +190,13 @@ export const careReport = {
   },
   weeklyCheckinsTitle: "이번 주 안부",
   weeklyCheckins: [
-    { day: "월", colorClass: "bg-leaf-500", status: "done" },
-    { day: "화", colorClass: "bg-leaf-500", status: "done" },
-    { day: "수", colorClass: "bg-coral-400", status: "attention" },
-    { day: "목", colorClass: "bg-honey-400", status: "light" },
-    { day: "금", colorClass: "bg-leaf-500", status: "done" },
-    { day: "토", colorClass: "bg-honey-400", status: "light" },
-    { day: "일", colorClass: "bg-cream-300", status: "upcoming" }
+    { day: "월", colorClass: "bg-mint", status: "done" },
+    { day: "화", colorClass: "bg-mint", status: "done" },
+    { day: "수", colorClass: "bg-blush", status: "attention" },
+    { day: "목", colorClass: "bg-peach", status: "light" },
+    { day: "금", colorClass: "bg-mint", status: "done" },
+    { day: "토", colorClass: "bg-peach", status: "light" },
+    { day: "일", colorClass: "bg-hair-soft", status: "upcoming" }
   ],
   healthAlert: {
     title: "건강 알림",
@@ -254,7 +254,7 @@ export const giftRecommendations = {
       name: mother.giftCandidates[0].name,
       meta: "건강 · 49,000원",
       badge: "엄마 추천 · 부담 낮음",
-      gradientClass: "from-leaf-300 to-leaf-500",
+      gradientClass: "bg-mint",
       aiReason: mother.giftCandidates[0].reason,
       careAction: mother.giftCandidates[0].careActionPairing
     },
@@ -263,7 +263,7 @@ export const giftRecommendations = {
       name: father.giftCandidates[0].name,
       meta: "실용 · 24,000원",
       badge: "아빠 추천 · 오늘 주문 가능",
-      gradientClass: "from-[#FFD9B8] to-honey-400",
+      gradientClass: "bg-peach",
       aiReason: father.giftCandidates[0].reason,
       careAction: father.giftCandidates[0].careActionPairing
     },
@@ -272,7 +272,7 @@ export const giftRecommendations = {
       name: father.giftCandidates[1].name,
       meta: "경험 · 60,000원",
       badge: "부자 외출 · 일정 확인 필요",
-      gradientClass: "from-coral-300 to-coral-400",
+      gradientClass: "bg-blush",
       aiReason: father.giftCandidates[1].reason,
       careAction: father.giftCandidates[1].careActionPairing
     }

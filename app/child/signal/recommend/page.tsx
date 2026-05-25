@@ -1,33 +1,32 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronRight, Sparkles } from "lucide-react";
 import { DetailScreen } from "@/components/child/DetailScreen";
 import { ParentToggle } from "@/components/child/ParentToggle";
 import { useSelectedParent } from "@/contexts/SelectedParentContext";
 import { careMessages } from "@/lib/mockData";
 
+const TONE_COLORS: Record<string, { bg: string; text: string }> = {
+  coral: { bg: "#F1D6CC", text: "#6E4A39" },
+  honey: { bg: "#F6D6BD", text: "#6E4A39" },
+  leaf:  { bg: "#CDDCC8", text: "#3D332C" },
+  sky:   { bg: "#D9D0E5", text: "#3D332C" }
+};
+
 export default function SignalRecommendPage() {
   const router = useRouter();
   const { parentProfile } = useSelectedParent();
 
-  const TONE_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-    coral: { bg: "#FFE5DA", text: "#8A3E25", border: "#F5C4B2" },
-    honey: { bg: "#FFF1DA", text: "#7A5A1A", border: "#F5E2B2" },
-    leaf: { bg: "#E8F3E5", text: "#3A6B3A", border: "#B8D9B8" },
-    sky: { bg: "#E0EDF5", text: "#2C5A7A", border: "#B0CCE0" }
-  };
-
   return (
-    <DetailScreen title="안부 추천" className="bg-gradient-to-b from-[#FFF1DA] to-white">
+    <DetailScreen title="안부 추천">
       <ParentToggle />
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-        <p style={{ fontSize: "14px", color: "#3D2419", margin: 0, fontWeight: 500 }}>
+        <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, fontWeight: 500 }}>
           {parentProfile.displayName}에게 보낼 안부
         </p>
-        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#7AB87A", fontWeight: 600 }}>
-          <Sparkles size={13} /> AI 추천
+        <span style={{ fontSize: "12px", color: "#241E1A", background: "#D8E0A6", padding: "3px 10px", borderRadius: "999px", fontWeight: 600 }}>
+          AI 추천
         </span>
       </div>
 
@@ -40,9 +39,9 @@ export default function SignalRecommendPage() {
               type="button"
               onClick={() => router.push(`/child/signal/recommend/${msg.id}`)}
               style={{
-                background: "white",
-                border: `1.5px solid ${tc.border}`,
-                borderRadius: "18px",
+                background: "#FFFBF2",
+                border: "1px solid #E8DECF",
+                borderRadius: "22px",
                 padding: "16px 18px",
                 cursor: "pointer",
                 textAlign: "left",
@@ -50,10 +49,12 @@ export default function SignalRecommendPage() {
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
-                <p style={{ fontSize: "16px", color: "#3D2419", margin: 0, fontWeight: 500, lineHeight: 1.4, flex: 1 }}>
+                <p style={{ fontSize: "16px", color: "#241E1A", margin: 0, fontWeight: 500, lineHeight: 1.4, flex: 1 }}>
                   {msg.text}
                 </p>
-                <ChevronRight size={16} style={{ color: "#B07A5C", flexShrink: 0, marginLeft: "8px", marginTop: "2px" }} />
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginLeft: "8px", marginTop: "2px" }}>
+                  <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                 <span
@@ -72,8 +73,8 @@ export default function SignalRecommendPage() {
                   <span
                     style={{
                       fontSize: "10px",
-                      background: "#E8F3E5",
-                      color: "#3A6B3A",
+                      background: "#D8E0A6",
+                      color: "#241E1A",
                       borderRadius: "999px",
                       padding: "3px 8px",
                       fontWeight: 600

@@ -1,20 +1,36 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Bell, ChevronRight, Shield, User } from "lucide-react";
 import { ChildAppShell } from "@/components/child/ChildAppShell";
 import { childProfile } from "@/lib/mockData";
+
+const SETTINGS_ITEMS = [
+  {
+    emoji: "🛡",
+    label: "동의 관리",
+    desc: "부모님이 공유한 정보 확인",
+    badge: "핵심",
+    path: "/child/settings/consent"
+  },
+  {
+    emoji: "🔔",
+    label: "알림 설정",
+    desc: "넛지 · 질문 · 안부 알림",
+    badge: null,
+    path: "/child/settings/notification"
+  }
+];
 
 export default function ChildSettingsPage() {
   const router = useRouter();
 
   return (
-    <ChildAppShell className="bg-gradient-to-b from-[#FBF6F0] via-cream-50 to-white">
+    <ChildAppShell>
       <header style={{ marginBottom: "24px" }}>
-        <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 4px", fontWeight: 500 }}>
+        <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500 }}>
           계정 및 앱 설정
         </p>
-        <h1 style={{ fontSize: "24px", color: "#3D2419", margin: 0, fontWeight: 500, lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: "26px", color: "#241E1A", margin: 0, fontWeight: 700, lineHeight: 1.25, letterSpacing: "-0.03em" }}>
           설정
         </h1>
       </header>
@@ -23,13 +39,13 @@ export default function ChildSettingsPage() {
         {/* 내 프로필 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "18px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
-          <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 14px", fontWeight: 500 }}>내 프로필</p>
+          <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 14px", fontWeight: 500 }}>내 프로필</p>
           <button
             type="button"
             onClick={() => router.push("/child/settings/profile")}
@@ -47,59 +63,45 @@ export default function ChildSettingsPage() {
                 style={{
                   width: "52px",
                   height: "52px",
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg, #FF8A65, #E07856)",
+                  borderRadius: "999px",
+                  background: "#F1D6CC",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  flexShrink: 0
+                  flexShrink: 0,
+                  fontSize: "22px"
                 }}
               >
-                <User size={22} style={{ color: "white" }} />
+                👤
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 2px", fontWeight: 600 }}>
+                <p style={{ fontSize: "17px", color: "#241E1A", margin: "0 0 2px", fontWeight: 600 }}>
                   {childProfile.name}
                 </p>
                 <p style={{ fontSize: "13px", color: "#8A6B5C", margin: 0 }}>
                   자녀 · {childProfile.age}세
                 </p>
               </div>
-              <ChevronRight size={16} style={{ color: "#B07A5C" }} />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
           </button>
-          <div
-            style={{ height: "1px", background: "#F5EDE6", marginBottom: "12px" }}
-          />
-          <p style={{ fontSize: "13px", color: "#B07A5C", margin: "0 0 4px" }}>연결된 부모님</p>
-          <p style={{ fontSize: "14px", color: "#3D2419", margin: 0, fontWeight: 500 }}>엄마, 아빠 · 2명 연결됨</p>
+          <div style={{ height: "1px", background: "#F0E7D7", marginBottom: "12px" }} />
+          <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 4px" }}>연결된 부모님</p>
+          <p style={{ fontSize: "14px", color: "#241E1A", margin: 0, fontWeight: 500 }}>엄마, 아빠 · 2명 연결됨</p>
         </div>
 
         {/* 설정 항목 리스트 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "6px 4px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
-          {[
-            {
-              icon: <Shield size={18} style={{ color: "#E07856" }} />,
-              label: "동의 관리",
-              desc: "부모님이 공유한 정보 확인",
-              badge: "핵심",
-              path: "/child/settings/consent"
-            },
-            {
-              icon: <Bell size={18} style={{ color: "#E8A04E" }} />,
-              label: "알림 설정",
-              desc: "넛지 · 질문 · 안부 알림",
-              badge: null,
-              path: "/child/settings/notification"
-            }
-          ].map((item, i, arr) => (
+          {SETTINGS_ITEMS.map((item, i, arr) => (
             <button
               key={item.label}
               type="button"
@@ -108,7 +110,7 @@ export default function ChildSettingsPage() {
                 width: "100%",
                 background: "none",
                 border: "none",
-                borderBottom: i < arr.length - 1 ? "1px solid #F5EDE6" : "none",
+                borderBottom: i < arr.length - 1 ? "1px solid #F0E7D7" : "none",
                 padding: "16px 14px",
                 cursor: "pointer",
                 textAlign: "left",
@@ -121,26 +123,27 @@ export default function ChildSettingsPage() {
                 style={{
                   width: "38px",
                   height: "38px",
-                  borderRadius: "12px",
-                  background: "#FBF6F0",
+                  borderRadius: "14px",
+                  background: "#F0E7D7",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  flexShrink: 0
+                  flexShrink: 0,
+                  fontSize: "18px"
                 }}
               >
-                {item.icon}
+                {item.emoji}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px" }}>
-                  <p style={{ fontSize: "15px", color: "#3D2419", margin: 0, fontWeight: 500 }}>{item.label}</p>
+                  <p style={{ fontSize: "15px", color: "#241E1A", margin: 0, fontWeight: 500 }}>{item.label}</p>
                   {item.badge && (
                     <span
                       style={{
                         fontSize: "10px",
-                        color: "#8A3E25",
-                        background: "#FFE5DA",
-                        borderRadius: "6px",
+                        color: "#241E1A",
+                        background: "#D8E0A6",
+                        borderRadius: "999px",
                         padding: "2px 7px",
                         fontWeight: 600
                       }}
@@ -151,7 +154,9 @@ export default function ChildSettingsPage() {
                 </div>
                 <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0 }}>{item.desc}</p>
               </div>
-              <ChevronRight size={16} style={{ color: "#B07A5C" }} />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           ))}
         </div>
@@ -159,10 +164,10 @@ export default function ChildSettingsPage() {
         {/* 앱 정보 */}
         <div
           style={{
-            background: "white",
-            borderRadius: "18px",
+            background: "#FFFBF2",
+            borderRadius: "26px",
             padding: "6px 4px",
-            boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+            border: "1px solid #E8DECF"
           }}
         >
           {["개인정보 처리방침", "서비스 이용약관", "문의하기"].map((label, i, arr) => (
@@ -170,20 +175,15 @@ export default function ChildSettingsPage() {
               key={label}
               style={{
                 padding: "15px 14px",
-                borderBottom: i < arr.length - 1 ? "1px solid #F5EDE6" : "none",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                cursor: "pointer"
+                borderBottom: i < arr.length - 1 ? "1px solid #F0E7D7" : "none"
               }}
             >
-              <p style={{ fontSize: "14px", color: "#3D2419", margin: 0 }}>{label}</p>
-              <ChevronRight size={16} style={{ color: "#B07A5C" }} />
+              <p style={{ fontSize: "14px", color: "#3D332C", margin: 0 }}>{label}</p>
             </div>
           ))}
         </div>
 
-        <p style={{ textAlign: "center", fontSize: "12px", color: "#C5A898", margin: "4px 0 8px" }}>
+        <p style={{ textAlign: "center", fontSize: "12px", color: "#9A8B7D", margin: "4px 0 8px" }}>
           온커넥트 v1.0.0
         </p>
       </div>

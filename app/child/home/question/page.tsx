@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronRight, ImagePlus, Send, Sparkles } from "lucide-react";
 import { DetailScreen } from "@/components/child/DetailScreen";
 import { mockDailyQuestions } from "@/lib/mockData";
 
@@ -21,23 +20,22 @@ export default function QuestionPage() {
   const [submitted, setSubmitted] = useState(!!today.childAnswer);
 
   return (
-    <DetailScreen title="오늘의 질문" className="bg-gradient-to-b from-[#FBF6F0] to-white">
+    <DetailScreen title="오늘의 질문">
       {/* 질문 카드 */}
       <div
         style={{
-          background: "linear-gradient(135deg, #FF8A65, #E07856)",
-          borderRadius: "24px",
+          background: "#F1E5C8",
+          borderRadius: "26px",
           padding: "28px 24px",
-          marginBottom: "16px",
-          boxShadow: "0 12px 28px rgba(224,120,86,0.3)"
+          marginBottom: "16px"
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px" }}>
           <span
             style={{
               fontSize: "11px",
-              color: "rgba(255,255,255,0.88)",
-              background: "rgba(255,255,255,0.22)",
+              color: "#6E4A39",
+              background: "rgba(255,255,255,0.6)",
               borderRadius: "999px",
               padding: "3px 10px",
               fontWeight: 500
@@ -45,11 +43,11 @@ export default function QuestionPage() {
           >
             {CATEGORY_LABELS[today.category] ?? today.category}
           </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "rgba(255,255,255,0.88)", fontWeight: 500 }}>
-            <Sparkles size={12} /> AI 질문
+          <span style={{ fontSize: "11px", color: "#6E4A39", fontWeight: 500 }}>
+            ✦ AI 질문
           </span>
         </div>
-        <p style={{ fontSize: "20px", color: "white", margin: 0, fontWeight: 500, lineHeight: 1.45 }}>
+        <p style={{ fontSize: "20px", color: "#241E1A", margin: 0, fontWeight: 700, lineHeight: 1.4, letterSpacing: "-0.02em" }}>
           {today.question}
         </p>
       </div>
@@ -57,17 +55,17 @@ export default function QuestionPage() {
       {/* 나의 답변 */}
       <div
         style={{
-          background: "white",
-          borderRadius: "18px",
+          background: "#FFFBF2",
+          borderRadius: "26px",
           padding: "18px",
-          boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+          border: "1px solid #E8DECF",
           marginBottom: "14px"
         }}
       >
-        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 10px", fontWeight: 500 }}>나의 답변</p>
+        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 10px", fontWeight: 500 }}>나의 답변</p>
         {submitted ? (
           <div>
-            <p style={{ fontSize: "15px", color: "#3D2419", margin: "0 0 10px", lineHeight: 1.55 }}>
+            <p style={{ fontSize: "15px", color: "#241E1A", margin: "0 0 10px", lineHeight: 1.55 }}>
               {myAnswer || "(답변 없음)"}
             </p>
             <button
@@ -75,7 +73,7 @@ export default function QuestionPage() {
               onClick={() => setSubmitted(false)}
               style={{
                 fontSize: "12px",
-                color: "#B07A5C",
+                color: "#8A6B5C",
                 background: "none",
                 border: "none",
                 cursor: "pointer",
@@ -95,12 +93,12 @@ export default function QuestionPage() {
               style={{
                 width: "100%",
                 minHeight: "100px",
-                border: "1.5px solid #F0E4D8",
-                borderRadius: "12px",
+                border: "1px solid #E8DECF",
+                borderRadius: "16px",
                 padding: "12px 14px",
                 fontSize: "14px",
-                color: "#3D2419",
-                background: "#FBF6F0",
+                color: "#241E1A",
+                background: "#FAF6EE",
                 resize: "none",
                 outline: "none",
                 lineHeight: 1.5,
@@ -115,16 +113,16 @@ export default function QuestionPage() {
                   display: "flex",
                   alignItems: "center",
                   gap: "6px",
-                  background: "#FBF6F0",
-                  border: "1px solid #F0E4D8",
-                  borderRadius: "10px",
+                  background: "#F0E7D7",
+                  border: "none",
+                  borderRadius: "999px",
                   padding: "8px 14px",
                   fontSize: "13px",
-                  color: "#8A6B5C",
+                  color: "#3D332C",
                   cursor: "pointer"
                 }}
               >
-                <ImagePlus size={15} /> 사진 첨부
+                📷 사진 첨부
               </button>
               <button
                 type="button"
@@ -135,19 +133,17 @@ export default function QuestionPage() {
                   gap: "6px",
                   flex: 1,
                   justifyContent: "center",
-                  background: myAnswer.trim()
-                    ? "linear-gradient(135deg, #FF8A65, #E07856)"
-                    : "#F0E4D8",
+                  background: myAnswer.trim() ? "#241E1A" : "#D5CFC8",
                   border: "none",
-                  borderRadius: "10px",
+                  borderRadius: "999px",
                   padding: "8px 14px",
                   fontSize: "13px",
-                  color: myAnswer.trim() ? "white" : "#B07A5C",
+                  color: myAnswer.trim() ? "#FBF6EC" : "#9A8B7D",
                   cursor: myAnswer.trim() ? "pointer" : "default",
                   fontWeight: 600
                 }}
               >
-                <Send size={14} /> 제출
+                ↑ 제출
               </button>
             </div>
           </>
@@ -157,37 +153,37 @@ export default function QuestionPage() {
       {/* 부모님 답변 */}
       <div
         style={{
-          background: "white",
-          borderRadius: "18px",
+          background: "#FFFBF2",
+          borderRadius: "26px",
           padding: "18px",
-          boxShadow: "0 2px 10px rgba(61,36,25,0.05)",
+          border: "1px solid #E8DECF",
           marginBottom: "14px"
         }}
       >
-        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 10px", fontWeight: 500 }}>어머니의 답변</p>
+        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 10px", fontWeight: 500 }}>어머니의 답변</p>
         {today.parentAnswer ? (
           <div
             style={{
-              background: "#FFF1DA",
-              borderRadius: "14px",
+              background: "#F6D6BD",
+              borderRadius: "18px",
               padding: "14px 16px"
             }}
           >
-            <p style={{ fontSize: "15px", color: "#3D2419", margin: 0, lineHeight: 1.55 }}>
+            <p style={{ fontSize: "15px", color: "#241E1A", margin: 0, lineHeight: 1.55 }}>
               {today.parentAnswer}
             </p>
           </div>
         ) : (
           <div
             style={{
-              background: "#FBF6F0",
-              borderRadius: "14px",
+              background: "#FAF6EE",
+              borderRadius: "18px",
               padding: "16px",
               textAlign: "center"
             }}
           >
-            <p style={{ fontSize: "14px", color: "#B07A5C", margin: "0 0 4px" }}>아직 어머니가 답하지 않으셨어요</p>
-            <p style={{ fontSize: "12px", color: "#C5A898", margin: 0 }}>양쪽 답변이 모이면 서로의 답이 공개돼요</p>
+            <p style={{ fontSize: "14px", color: "#8A6B5C", margin: "0 0 4px" }}>아직 어머니가 답하지 않으셨어요</p>
+            <p style={{ fontSize: "12px", color: "#9A8B7D", margin: 0 }}>양쪽 답변이 모이면 서로의 답이 공개돼요</p>
           </div>
         )}
       </div>
@@ -198,9 +194,9 @@ export default function QuestionPage() {
         onClick={() => router.push("/child/home/question/archive")}
         style={{
           width: "100%",
-          background: "white",
-          border: "1.5px solid #F0E4D8",
-          borderRadius: "16px",
+          background: "#FFFBF2",
+          border: "1px solid #E8DECF",
+          borderRadius: "999px",
           padding: "16px 18px",
           display: "flex",
           alignItems: "center",
@@ -208,8 +204,10 @@ export default function QuestionPage() {
           cursor: "pointer"
         }}
       >
-        <span style={{ fontSize: "14px", color: "#3D2419", fontWeight: 500 }}>지난 질문 아카이브 보기</span>
-        <ChevronRight size={16} style={{ color: "#B07A5C" }} />
+        <span style={{ fontSize: "14px", color: "#241E1A", fontWeight: 500 }}>지난 질문 아카이브 보기</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
       </button>
     </DetailScreen>
   );

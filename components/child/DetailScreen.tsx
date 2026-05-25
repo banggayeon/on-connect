@@ -1,13 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { AppScreen } from "@/components/AppScreen";
 
 export function DetailScreen({
   title,
   children,
-  className = "bg-gradient-to-b from-[#FBF6F0] to-white",
   rightElement
 }: {
   title: string;
@@ -18,16 +16,15 @@ export function DetailScreen({
   const router = useRouter();
 
   return (
-    <AppScreen className={className}>
-      {/* 상단 헤더 */}
+    <AppScreen>
       <div
         style={{
           position: "sticky",
           top: 0,
           zIndex: 10,
-          background: "rgba(251,246,240,0.92)",
+          background: "rgba(250,246,238,0.92)",
           backdropFilter: "blur(14px)",
-          borderBottom: "1px solid rgba(240,228,216,0.6)"
+          borderBottom: "1px solid #F0E7D7"
         }}
       >
         <div
@@ -46,25 +43,25 @@ export function DetailScreen({
             style={{
               width: "36px",
               height: "36px",
-              borderRadius: "50%",
-              background: "white",
-              border: "1px solid #F0E4D8",
+              borderRadius: "999px",
+              background: "#FFFBF2",
+              border: "1px solid #E8DECF",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              flexShrink: 0,
-              boxShadow: "0 2px 6px rgba(61,36,25,0.06)"
+              flexShrink: 0
             }}
           >
-            <ArrowLeft size={18} style={{ color: "#5F4534" }} />
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M11 13L7 9L11 5" stroke="#3D332C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
-          <h1 style={{ flex: 1, fontSize: "17px", color: "#3D2419", fontWeight: 600, margin: 0 }}>{title}</h1>
+          <h1 style={{ flex: 1, fontSize: "17px", color: "#241E1A", fontWeight: 600, margin: 0, letterSpacing: "-0.02em" }}>{title}</h1>
           {rightElement}
         </div>
       </div>
 
-      {/* 본문 */}
       <div style={{ padding: "20px 22px 80px" }}>{children}</div>
     </AppScreen>
   );

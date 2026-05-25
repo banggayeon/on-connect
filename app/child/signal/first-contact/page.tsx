@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
 import { DetailScreen } from "@/components/child/DetailScreen";
 import { useSelectedParent } from "@/contexts/SelectedParentContext";
 
 const GUIDES = [
   {
     period: "1주일 만",
-    days: 7,
     tag: "가볍게",
-    tagColor: { bg: "#FFF1DA", text: "#7A5A1A" },
+    tagTone: "#F6D6BD",
     desc: "시간이 많이 지나지 않아 자연스럽게 시작할 수 있어요.",
     messages: [
       { id: "g1a", text: "엄마 잘 지내셨어요? 요즘 어때요?" },
@@ -19,9 +17,8 @@ const GUIDES = [
   },
   {
     period: "1개월 만",
-    days: 30,
     tag: "근황 물어보기",
-    tagColor: { bg: "#FFE5DA", text: "#8A3E25" },
+    tagTone: "#F1D6CC",
     desc: "오래된 대화를 다시 연결할 때는 근황을 먼저 물어보는 게 좋아요.",
     messages: [
       { id: "g2a", text: "오랜만이에요 엄마. 요즘은 어떻게 지내세요? 화분은 잘 크고 있어요?" },
@@ -30,9 +27,8 @@ const GUIDES = [
   },
   {
     period: "3개월 이상",
-    days: 90,
     tag: "솔직하게",
-    tagColor: { bg: "#E8F3E5", text: "#3A6B3A" },
+    tagTone: "#CDDCC8",
     desc: "오래 연락이 끊겼을 때는 솔직하게 먼저 말씀드리는 게 더 따뜻하게 느껴질 수 있어요.",
     messages: [
       { id: "g3a", text: "요즘 연락 못 드려서 죄송해요 엄마. 잘 지내고 계시죠?" },
@@ -48,20 +44,19 @@ export default function FirstContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
-    <DetailScreen title="다시 연락하기" className="bg-gradient-to-b from-[#FBF6F0] to-white">
-      {/* 현황 표시 */}
+    <DetailScreen title="다시 연락하기">
       <div
         style={{
-          background: "linear-gradient(135deg, #FFF1DA, #FFE5DA)",
-          borderRadius: "18px",
+          background: "#F6D6BD",
+          borderRadius: "26px",
           padding: "18px 20px",
           marginBottom: "20px"
         }}
       >
-        <p style={{ fontSize: "13px", color: "#8A3E25", margin: "0 0 4px", fontWeight: 500 }}>
+        <p style={{ fontSize: "13px", color: "#6E4A39", margin: "0 0 4px", fontWeight: 500 }}>
           안부 현황
         </p>
-        <p style={{ fontSize: "16px", color: "#3D2419", margin: 0, fontWeight: 500, lineHeight: 1.4 }}>
+        <p style={{ fontSize: "16px", color: "#241E1A", margin: 0, fontWeight: 600, lineHeight: 1.4 }}>
           {parentProfile.displayName}과 마지막 연락이 4일 전이에요
         </p>
       </div>
@@ -71,10 +66,10 @@ export default function FirstContactPage() {
           <div
             key={guide.period}
             style={{
-              background: "white",
-              borderRadius: "18px",
+              background: "#FFFBF2",
+              borderRadius: "22px",
               overflow: "hidden",
-              boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+              border: "1px solid #E8DECF"
             }}
           >
             <button
@@ -92,20 +87,14 @@ export default function FirstContactPage() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span
-                  style={{
-                    fontSize: "13px",
-                    color: "#3D2419",
-                    fontWeight: 600
-                  }}
-                >
+                <span style={{ fontSize: "13px", color: "#241E1A", fontWeight: 600 }}>
                   {guide.period}
                 </span>
                 <span
                   style={{
                     fontSize: "11px",
-                    background: guide.tagColor.bg,
-                    color: guide.tagColor.text,
+                    background: guide.tagTone,
+                    color: "#3D332C",
                     borderRadius: "999px",
                     padding: "3px 10px",
                     fontWeight: 500
@@ -117,7 +106,7 @@ export default function FirstContactPage() {
               <span
                 style={{
                   fontSize: "14px",
-                  color: "#B07A5C",
+                  color: "#8A6B5C",
                   transform: openIdx === idx ? "rotate(90deg)" : "none",
                   transition: "transform 0.2s",
                   display: "inline-block"
@@ -139,15 +128,15 @@ export default function FirstContactPage() {
                       type="button"
                       onClick={() => setSelectedMsg(selectedMsg === msg.id ? null : msg.id)}
                       style={{
-                        background: selectedMsg === msg.id ? "#FFF1DA" : "#FBF6F0",
-                        border: selectedMsg === msg.id ? "2px solid #E8A04E" : "1.5px solid transparent",
-                        borderRadius: "14px",
+                        background: selectedMsg === msg.id ? "#241E1A" : "#FAF6EE",
+                        border: "none",
+                        borderRadius: "18px",
                         padding: "12px 14px",
                         textAlign: "left",
                         cursor: "pointer",
                         width: "100%",
                         fontSize: "14px",
-                        color: "#3D2419",
+                        color: selectedMsg === msg.id ? "#FBF6EC" : "#241E1A",
                         lineHeight: 1.5
                       }}
                     >
@@ -161,19 +150,16 @@ export default function FirstContactPage() {
         ))}
       </div>
 
-      {/* 전송 */}
       {!sent ? (
         <button
           type="button"
           onClick={() => { if (selectedMsg) setSent(true); }}
           style={{
             width: "100%",
-            background: selectedMsg
-              ? "linear-gradient(135deg, #FF8A65, #E07856)"
-              : "#F0E4D8",
-            color: selectedMsg ? "white" : "#B07A5C",
+            background: selectedMsg ? "#241E1A" : "#D5CFC8",
+            color: selectedMsg ? "#FBF6EC" : "#9A8B7D",
             border: "none",
-            borderRadius: "16px",
+            borderRadius: "999px",
             padding: "16px",
             fontSize: "16px",
             fontWeight: 600,
@@ -181,23 +167,21 @@ export default function FirstContactPage() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "8px",
-            boxShadow: selectedMsg ? "0 8px 20px rgba(224,120,86,0.28)" : "none"
+            gap: "8px"
           }}
         >
-          <Send size={18} />
-          {selectedMsg ? "이 문장으로 연락하기" : "문장을 선택해주세요"}
+          {selectedMsg ? "↑ 이 문장으로 연락하기" : "문장을 선택해주세요"}
         </button>
       ) : (
         <div
           style={{
-            background: "#E8F3E5",
-            borderRadius: "16px",
+            background: "#CDDCC8",
+            borderRadius: "999px",
             padding: "16px 18px",
             textAlign: "center"
           }}
         >
-          <p style={{ fontSize: "15px", color: "#1F4A1F", margin: 0, fontWeight: 600 }}>
+          <p style={{ fontSize: "15px", color: "#241E1A", margin: 0, fontWeight: 600 }}>
             연락을 보냈어요 ✓
           </p>
         </div>
