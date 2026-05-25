@@ -298,7 +298,7 @@ export const STRATEGY_LABELS: Record<string, { ko: string; description: string; 
   },
   warm_acknowledge: {
     ko: "따뜻하게 공감",
-    description: "상대의 마음을 읽었다는 걸 표현해보세요",
+    description: "이런 마음일 수 있다는 걸 가볍게 표현해보세요",
     icon: "🤗",
   },
   give_space: {
@@ -316,6 +316,39 @@ export const STRATEGY_LABELS: Record<string, { ko: string; description: string; 
     description: "미안한 마음을 먼저 표현하면 대화가 열려요",
     icon: "💌",
   },
+};
+
+// ============================================
+// 안부 추천 & 답장 추천 (Check-in / Reply Suggestion)
+// ============================================
+
+export type CheckInCategory = "weather" | "routine" | "memory" | "care" | "light";
+
+export type CheckInSuggestion = {
+  id: string;
+  category: CheckInCategory;
+  title: string;
+  message: string;
+  reason: string;
+  tone: "gentle" | "casual" | "polite" | "warm";
+  contextTags: string[];
+  bestTimeLabel?: string;
+  recipientName: string;
+  recipientRole: string;
+};
+
+export type ReplySuggestion = {
+  id: string;
+  text: string;
+  tone: "short" | "warm" | "reassuring";
+  label: string;
+};
+
+export type WeatherContext = {
+  condition: string;
+  temperature?: number;
+  summary: string;
+  checkInHint: string;
 };
 
 export type DemoFamilyDataset = {

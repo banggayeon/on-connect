@@ -528,6 +528,30 @@ export const mockCheckIns: CheckInRecord[] = [
   { id: "ci14", date: "2026-05-07", mood: 3, health: 4 },
 ];
 
+// ─── PendingReplyMessage ──────────────────────────────────────────────────────
+
+export interface PendingReplyMessage {
+  id: string;
+  parentId: "parent_mother" | "parent_father";
+  parentDisplayName: string;
+  message: string;
+  sentAt: string;
+  isReplied: boolean;
+  context?: string;
+}
+
+export const pendingReplyMessages: PendingReplyMessage[] = [
+  {
+    id: "pending_mom_dinner_2026_05_25",
+    parentId: "parent_mother",
+    parentDisplayName: "엄마",
+    message: "저녁은 먹었니? 요즘 바쁘지?",
+    sentAt: "2026-05-25T18:30:00",
+    isReplied: false,
+    context: "걱정이 섞인 안부일 수 있어요. 짧게라도 잘 지내고 있다고 알려드리면 좋아요."
+  }
+];
+
 // ─── InboxEntry ───────────────────────────────────────────────────────────────
 
 export interface InboxEntry {

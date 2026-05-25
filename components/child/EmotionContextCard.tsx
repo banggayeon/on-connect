@@ -73,7 +73,7 @@ export function EmotionContextCard({
       {/* 헤더 */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
         <p style={{ fontSize: "13px", fontWeight: 600, color: "#3D332C", margin: 0 }}>
-          {parentName}의 마음 읽기
+          {parentName}의 메시지 맥락
         </p>
         <span style={{ fontSize: "11px", color: confStyle.color, fontWeight: 500 }}>
           {confStyle.label}
