@@ -3,14 +3,14 @@ import { AppScreen } from "@/components/AppScreen";
 
 export function ChildAppShell({
   children,
-  className = "bg-gradient-to-b from-[#FFEDE0] via-cream-50 to-white"
+  className
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <AppScreen className={className}>
-      <div className="min-h-screen px-[22px] py-[28px]">
+    <AppScreen>
+      <div style={{ minHeight: "100vh", padding: "28px 22px 0" }}>
         {children}
         <BottomTabBar />
       </div>

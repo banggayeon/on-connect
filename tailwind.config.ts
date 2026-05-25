@@ -9,52 +9,60 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // v3 warm neutrals
+        ink: {
+          DEFAULT: "#241E1A",
+          2: "#3D332C"
+        },
+        brown: {
+          DEFAULT: "#6E4A39",
+          soft: "#8A6B5C",
+          mute: "#9A8B7D"
+        },
+        hair: {
+          DEFAULT: "#E8DECF",
+          soft: "#F0E7D7"
+        },
+        bg: {
+          DEFAULT: "#FAF6EE",
+          deep: "#F6EDDB",
+          surface: "#FFFBF2"
+        },
+        // v3 pastel blocks
+        lime: { DEFAULT: "#D8E0A6" },
+        lilac: { DEFAULT: "#D9D0E5" },
+        mint: { DEFAULT: "#CDDCC8" },
+        peach: { DEFAULT: "#F6D6BD" },
+        blush: { DEFAULT: "#F1D6CC" },
+        "cream-block": { DEFAULT: "#F1E5C8" },
+        // legacy aliases kept for compatibility
         cream: {
-          50: "#FFF8F0",
-          100: "#FBF6F0",
-          200: "#F5E8DC",
-          300: "#F0E4D8"
+          50: "#FFFBF2",
+          100: "#FAF6EE",
+          200: "#F6EDDB",
+          300: "#F0E7D7"
         },
         cocoa: {
-          900: "#3D2419",
-          700: "#5F4534",
+          900: "#241E1A",
+          700: "#3D332C",
           500: "#8A6B5C",
-          400: "#B07A5C"
-        },
-        coral: {
-          300: "#FFB088",
-          400: "#FF8A65",
-          500: "#E07856",
-          800: "#8A3E25"
-        },
-        leaf: {
-          100: "#E8F3E5",
-          300: "#A8D5A8",
-          500: "#7AB87A",
-          800: "#3A6B3A",
-          900: "#1F4A1F"
-        },
-        sky: {
-          100: "#E0EDF5",
-          300: "#B8D4E5",
-          500: "#7DA8C8",
-          800: "#2C5A7A",
-          900: "#1A3A55"
-        },
-        honey: {
-          100: "#FFF1DA",
-          400: "#E8A04E",
-          800: "#7A5A1A"
+          400: "#6E4A39"
         }
       },
       boxShadow: {
-        soft: "0 10px 24px rgba(61, 36, 25, 0.08)",
-        card: "0 2px 10px rgba(61, 36, 25, 0.05)",
-        phone: "0 22px 60px rgba(44, 36, 32, 0.22)"
+        soft: "0 10px 24px rgba(36,30,26,0.06)",
+        card: "0 1px 4px rgba(36,30,26,0.07)",
+        phone: "0 22px 60px rgba(36,30,26,0.18)"
       },
       borderRadius: {
-        app: "22px",
-        phone: "30px"
+        app: "24px",
+        phone: "34px",
+        pill: "999px"
+      },
+      letterSpacing: {
+        tight: "-0.022em",
+        tighter: "-0.03em",
+        tightest: "-0.035em"
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"]

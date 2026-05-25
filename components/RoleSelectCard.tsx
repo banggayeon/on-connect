@@ -1,5 +1,10 @@
 import { cn } from "@/lib/utils";
 
+const TONE_STYLES = {
+  parent: "#F1D6CC",
+  child:  "#CDDCC8"
+};
+
 export function RoleSelectCard({
   label,
   description,
@@ -16,22 +21,65 @@ export function RoleSelectCard({
   return (
     <div
       className={cn(
-        "rounded-[22px] border p-5 shadow-card",
-        selected ? "border-transparent bg-gradient-to-br from-honey-100 to-coral-300/40" : "border-cream-300 bg-white"
+        "rounded-[24px] p-[22px] flex items-center justify-between gap-4 text-left w-full",
+        selected ? "bg-[#241E1A]" : "bg-[#FFFBF2] border border-[#E8DECF]"
       )}
     >
-      <div className="mb-3 flex items-center gap-3">
-        <span
-          className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-full text-lg font-semibold text-white",
-            tone === "parent" ? "bg-gradient-to-br from-coral-300 to-coral-400" : "bg-gradient-to-br from-leaf-300 to-leaf-500"
-          )}
+      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+        <div
+          style={{
+            width: "46px",
+            height: "46px",
+            borderRadius: "999px",
+            background: selected ? "rgba(251,246,236,0.18)" : TONE_STYLES[tone],
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "16px",
+            fontWeight: 600,
+            color: selected ? "transparent" : "#241E1A"
+          }}
         >
-          {badge}
-        </span>
-        <p className="text-lg font-semibold text-cocoa-900">{label}</p>
+          {!selected && badge}
+        </div>
+        <div>
+          <p style={{
+            fontSize: "20px",
+            fontWeight: 700,
+            letterSpacing: "-0.02em",
+            color: selected ? "#FBF6EC" : "#241E1A",
+            margin: "0 0 3px"
+          }}>
+            {label}
+          </p>
+          <p style={{
+            fontSize: "13.5px",
+            color: selected ? "rgba(251,246,236,0.72)" : "#8A6B5C",
+            margin: 0,
+            letterSpacing: "-0.01em"
+          }}>
+            {description}
+          </p>
+        </div>
       </div>
-      <p className="text-sm leading-relaxed text-cocoa-500">{description}</p>
+      <div
+        style={{
+          width: "26px",
+          height: "26px",
+          borderRadius: "999px",
+          border: `1.5px solid ${selected ? "#FBF6EC" : "#241E1A"}`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: selected ? 1 : 0.35,
+          flexShrink: 0
+        }}
+      >
+        {selected && (
+          <div style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#FBF6EC" }} />
+        )}
+      </div>
     </div>
   );
 }
