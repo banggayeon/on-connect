@@ -153,23 +153,41 @@ export type DemoParentProfile = DemoPerson & {
 
 export type RelationshipTemperatureLabel = "아주 따뜻함" | "따뜻함" | "보통" | "조금 멀어요";
 
+export interface EmotionalQualityMetrics {
+  depthScore: number;
+  balanceScore: number;
+  depthLabel: string;
+  balanceLabel: string;
+}
+
 export type RelationshipScoreBreakdown = {
   checkin: {
-    weight: 0.4;
+    weight: number;
     count7Days: number;
     targetCount: number;
     score: number;
   };
   calls: {
-    weight: 0.4;
+    weight: number;
     count7Days: number;
     targetCount: number;
     score: number;
   };
   replySpeed: {
-    weight: 0.2;
+    weight: number;
     averageMinutes: number | null;
     score: number;
+  };
+  depth: {
+    weight: number;
+    score: number;
+    label: string;
+  };
+  balance: {
+    weight: number;
+    score: number;
+    label: string;
+    childInitiatedRatio: number;
   };
 };
 
@@ -181,6 +199,7 @@ export type RelationshipTemperatureResult = {
   delta: number;
   scoreBreakdown: RelationshipScoreBreakdown;
   reasons: string[];
+  insights: string[];
 };
 
 export type AiMockTask = "briefing" | "warm-reply" | "care-action" | "report";
@@ -207,6 +226,96 @@ export type AiMockResponse = {
     promptTemplateId: string;
     fallback: boolean;
   };
+};
+
+// ============================================
+// 정서 맥락 분석 결과 (Emotion Context Analysis)
+// ============================================
+// 설계 철학:
+// - 단일 메시지로 감정을 확정하지 않는다
+// - 메시지 + 대화 흐름 + 평소 패턴 + 연락 리듬을 함께 고려한다
+// - 결과는 "확정"이 아니라 "가능한 신호"로 제시한다
+// - 학술 근거: Conceptual Act Theory (Barrett) —
+//   감정은 고정된 라벨이 아니라 맥락 속에서 구성된다
+// ============================================
+
+export interface EmotionContextAnalysisResult {
+  confidence: "low" | "medium" | "high";
+  surfaceMeaning: string;
+  possibleSignals: Array<{
+    emotion: string;
+    likelihood: "low" | "medium" | "high";
+    reason: string;
+  }>;
+  contextFactors: Array<{
+    factor: string;
+    source: "message" | "pattern" | "rhythm" | "profile";
+    impact: "low" | "medium" | "high";
+  }>;
+  caution: string;
+  recommendedStrategy: {
+    style: string;
+    reason: string;
+  };
+  suggestedReplies: WarmReplyOption[];
+  _internal: {
+    granularityScore: number;
+    accommodationLevel: "under" | "appropriate" | "over";
+  };
+}
+
+export interface EmotionAnalysisRequest {
+  messageText: string;
+  senderRole: "parent" | "child";
+  senderName?: string;
+  receiverRole: "parent" | "child";
+  context?: {
+    recentMessages?: Array<{
+      text: string;
+      sender: "parent" | "child";
+      timestamp?: string;
+    }>;
+    daysSinceLastContact?: number;
+    usualMessageLength?: "short" | "medium" | "long";
+    usualTone?: string;
+    recentCheckInMoods?: number[];
+  };
+}
+
+export interface WarmReplyOption {
+  text: string;
+  tone: "warm" | "casual" | "formal";
+  emotionExpressed: string[];
+  expressionLevel: "minimal" | "moderate" | "rich";
+  reason: string;
+}
+
+export const STRATEGY_LABELS: Record<string, { ko: string; description: string; icon: string }> = {
+  light_check: {
+    ko: "가볍게 안부 확인",
+    description: "부담 없이 가벼운 한마디로 안부를 물어보세요",
+    icon: "👋",
+  },
+  warm_acknowledge: {
+    ko: "따뜻하게 공감",
+    description: "상대의 마음을 읽었다는 걸 표현해보세요",
+    icon: "🤗",
+  },
+  give_space: {
+    ko: "여유 주기",
+    description: "지금은 기다려주는 게 좋을 수 있어요",
+    icon: "🌿",
+  },
+  direct_call: {
+    ko: "직접 전화",
+    description: "텍스트보다 목소리가 더 전달될 상황이에요",
+    icon: "📞",
+  },
+  apologize_first: {
+    ko: "먼저 마음 전하기",
+    description: "미안한 마음을 먼저 표현하면 대화가 열려요",
+    icon: "💌",
+  },
 };
 
 export type DemoFamilyDataset = {
