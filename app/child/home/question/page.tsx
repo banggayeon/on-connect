@@ -1,213 +1,249 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { DetailScreen } from "@/components/child/DetailScreen";
 import { mockDailyQuestions } from "@/lib/mockData";
 
 const CATEGORY_LABELS: Record<string, string> = {
-  memory: "추억",
-  value: "가치관",
-  daily: "일상",
-  dream: "꿈",
-  relationship: "관계"
+  memory: "추억", value: "가치관", daily: "일상", dream: "꿈", relationship: "관계",
 };
 
-export default function QuestionPage() {
+const CATEGORY_TONES: Record<string, string> = {
+  memory: "#F1D6CC", value: "#CDDCC8", daily: "#F6D6BD", dream: "#D9D0E5", relationship: "#D8E0A6",
+};
+
+export default function ChildQuestionPage() {
   const router = useRouter();
   const today = mockDailyQuestions[0];
+
   const [myAnswer, setMyAnswer] = useState(today.childAnswer ?? "");
   const [submitted, setSubmitted] = useState(!!today.childAnswer);
+  const [listening, setListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const recognitionRef = useRef<InstanceType<typeof window.SpeechRecognition> | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    setSpeechSupported(!!SR);
+  }, []);
+
+  function toggleVoice() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return;
+    if (listening) {
+      recognitionRef.current?.stop();
+      setListening(false);
+      return;
+    }
+    const recognition = new SR();
+    recognition.lang = "ko-KR";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const transcript = Array.from(event.results).map((r) => r[0].transcript).join("");
+      setMyAnswer(transcript);
+    };
+    recognition.onend = () => setListening(false);
+    recognition.start();
+    recognitionRef.current = recognition;
+    setListening(true);
+  }
+
+  function handleSubmit() {
+    if (!myAnswer.trim()) return;
+    today.childAnswer = myAnswer;
+    setSubmitted(true);
+  }
+
+  const categoryTone = CATEGORY_TONES[today.category] ?? "#F0E7D7";
+  const bothAnswered = submitted && !!today.parentAnswer;
 
   return (
     <DetailScreen title="오늘의 질문">
-      {/* 질문 카드 */}
-      <div
-        style={{
-          background: "#F1E5C8",
-          borderRadius: "26px",
-          padding: "28px 24px",
-          marginBottom: "16px"
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px" }}>
-          <span
-            style={{
-              fontSize: "11px",
-              color: "#6E4A39",
-              background: "rgba(255,255,255,0.6)",
-              borderRadius: "999px",
-              padding: "3px 10px",
-              fontWeight: 500
-            }}
-          >
-            {CATEGORY_LABELS[today.category] ?? today.category}
-          </span>
-          <span style={{ fontSize: "11px", color: "#6E4A39", fontWeight: 500 }}>
-            ✦ AI 질문
-          </span>
+      {/* ── 카테고리 + 질문 ── */}
+      <div style={{ position: "relative", paddingLeft: 18, marginBottom: 32 }}>
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0,
+          width: 4, borderRadius: 999, background: categoryTone,
+        }} />
+        <div style={{
+          display: "inline-block", padding: "3px 10px",
+          background: categoryTone, borderRadius: 999,
+          fontSize: "11px", fontWeight: 600, color: "#241E1A",
+          letterSpacing: "-0.005em", marginBottom: 10,
+        }}>
+          {CATEGORY_LABELS[today.category] ?? today.category}
         </div>
-        <p style={{ fontSize: "20px", color: "#241E1A", margin: 0, fontWeight: 700, lineHeight: 1.4, letterSpacing: "-0.02em" }}>
+        <p style={{
+          fontSize: "22px", fontWeight: 700, lineHeight: 1.4,
+          letterSpacing: "-0.025em", color: "#241E1A", margin: 0,
+        }}>
           {today.question}
         </p>
       </div>
 
-      {/* 나의 답변 */}
-      <div
-        style={{
-          background: "#FFFBF2",
-          borderRadius: "26px",
-          padding: "18px",
-          border: "1px solid #E8DECF",
-          marginBottom: "14px"
-        }}
-      >
-        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 10px", fontWeight: 500 }}>나의 답변</p>
-        {submitted ? (
-          <div>
-            <p style={{ fontSize: "15px", color: "#241E1A", margin: "0 0 10px", lineHeight: 1.55 }}>
-              {myAnswer || "(답변 없음)"}
-            </p>
+      {/* ── 나의 답변 ── */}
+      <div style={{ marginBottom: 24 }}>
+        <div style={{
+          display: "flex", alignItems: "baseline", justifyContent: "space-between",
+          marginBottom: 12,
+        }}>
+          <span style={{ fontSize: "15px", fontWeight: 700, color: "#241E1A", letterSpacing: "-0.015em" }}>
+            나의 답변
+          </span>
+          {submitted && (
             <button
               type="button"
               onClick={() => setSubmitted(false)}
               style={{
-                fontSize: "12px",
-                color: "#8A6B5C",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                textDecoration: "underline"
+                background: "none", border: "none", cursor: "pointer",
+                fontSize: "12px", color: "#8A6B5C", padding: 0,
               }}
             >
               수정하기
             </button>
+          )}
+        </div>
+
+        {submitted ? (
+          <div style={{
+            position: "relative", paddingLeft: 18,
+          }}>
+            <div style={{
+              position: "absolute", left: 0, top: 0, bottom: 0,
+              width: 4, borderRadius: 999, background: "#CDDCC8",
+            }} />
+            <p style={{
+              fontSize: "16px", color: "#241E1A", margin: 0,
+              lineHeight: 1.65, letterSpacing: "-0.015em",
+            }}>
+              {myAnswer}
+            </p>
           </div>
         ) : (
           <>
-            <textarea
-              value={myAnswer}
-              onChange={(e) => setMyAnswer(e.target.value)}
-              placeholder="오늘 질문에 대한 나의 생각을 적어보세요..."
-              style={{
-                width: "100%",
-                minHeight: "100px",
-                border: "1px solid #E8DECF",
-                borderRadius: "16px",
-                padding: "12px 14px",
-                fontSize: "14px",
-                color: "#241E1A",
-                background: "#FAF6EE",
-                resize: "none",
-                outline: "none",
-                lineHeight: 1.5,
-                fontFamily: "inherit",
-                boxSizing: "border-box"
-              }}
-            />
-            <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-              <button
-                type="button"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  background: "#F0E7D7",
-                  border: "none",
-                  borderRadius: "999px",
-                  padding: "8px 14px",
-                  fontSize: "13px",
-                  color: "#3D332C",
-                  cursor: "pointer"
+            <div style={{ position: "relative" }}>
+              <textarea
+                ref={textareaRef}
+                value={myAnswer}
+                onChange={(e) => {
+                  setMyAnswer(e.target.value);
+                  e.currentTarget.style.height = "auto";
+                  e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
                 }}
-              >
-                📷 사진 첨부
-              </button>
-              <button
-                type="button"
-                onClick={() => { if (myAnswer.trim()) setSubmitted(true); }}
+                placeholder="오늘 질문에 대한 생각을 자유롭게 적어보세요"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  flex: 1,
-                  justifyContent: "center",
-                  background: myAnswer.trim() ? "#241E1A" : "#D5CFC8",
-                  border: "none",
-                  borderRadius: "999px",
-                  padding: "8px 14px",
-                  fontSize: "13px",
-                  color: myAnswer.trim() ? "#FBF6EC" : "#9A8B7D",
-                  cursor: myAnswer.trim() ? "pointer" : "default",
-                  fontWeight: 600
+                  width: "100%", minHeight: "120px",
+                  fontSize: "15px", lineHeight: 1.65,
+                  border: "1.5px solid #E8DECF", borderRadius: 16,
+                  padding: "14px",
+                  paddingRight: speechSupported ? "52px" : "14px",
+                  resize: "none", outline: "none",
+                  boxSizing: "border-box", fontFamily: "inherit",
+                  color: "#241E1A", background: "#FFFBF2",
                 }}
-              >
-                ↑ 제출
-              </button>
+              />
+              {speechSupported && (
+                <button
+                  type="button"
+                  onClick={toggleVoice}
+                  aria-label={listening ? "음성 입력 중지" : "음성으로 입력"}
+                  style={{
+                    position: "absolute", right: 10, bottom: 10,
+                    width: 38, height: 38, borderRadius: 999,
+                    background: listening ? "#241E1A" : "#F0E7D7",
+                    border: "none", cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "18px", color: listening ? "#FBF6EC" : "#3D332C",
+                  }}
+                >
+                  {listening ? "🔇" : "🎙"}
+                </button>
+              )}
             </div>
+            {listening && (
+              <p style={{ fontSize: "12.5px", color: "#6E4A39", margin: "8px 0 0", textAlign: "center" }}>
+                듣고 있어요…
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!myAnswer.trim()}
+              style={{
+                width: "100%", marginTop: 12, padding: "16px",
+                background: myAnswer.trim() ? "#241E1A" : "#E8DECF",
+                color: myAnswer.trim() ? "#FBF6EC" : "#A89B8C",
+                border: "none", borderRadius: 999,
+                fontSize: "15px", fontWeight: 700,
+                cursor: myAnswer.trim() ? "pointer" : "default",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              답변 제출하기
+            </button>
           </>
         )}
       </div>
 
-      {/* 부모님 답변 */}
-      <div
-        style={{
-          background: "#FFFBF2",
-          borderRadius: "26px",
-          padding: "18px",
-          border: "1px solid #E8DECF",
-          marginBottom: "14px"
-        }}
-      >
-        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 10px", fontWeight: 500 }}>어머니의 답변</p>
-        {today.parentAnswer ? (
-          <div
-            style={{
-              background: "#F6D6BD",
-              borderRadius: "18px",
-              padding: "14px 16px"
-            }}
-          >
-            <p style={{ fontSize: "15px", color: "#241E1A", margin: 0, lineHeight: 1.55 }}>
-              {today.parentAnswer}
+      {/* ── 부모님 답변 ── */}
+      <div style={{ borderTop: "1px solid #F0E7D7", paddingTop: 24, marginBottom: 28 }}>
+        <span style={{ fontSize: "15px", fontWeight: 700, color: "#241E1A", letterSpacing: "-0.015em" }}>
+          부모님 답변
+        </span>
+
+        {submitted ? (
+          bothAnswered ? (
+            <div style={{ position: "relative", paddingLeft: 18, marginTop: 14 }}>
+              <div style={{
+                position: "absolute", left: 0, top: 0, bottom: 0,
+                width: 4, borderRadius: 999, background: "#F6D6BD",
+              }} />
+              <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 6px", fontWeight: 600 }}>
+                어머니의 답변
+              </p>
+              <p style={{
+                fontSize: "16px", color: "#241E1A", margin: 0,
+                lineHeight: 1.65, letterSpacing: "-0.015em",
+              }}>
+                {today.parentAnswer}
+              </p>
+            </div>
+          ) : (
+            <p style={{
+              fontSize: "13px", color: "#8A6B5C", margin: "14px 0 0",
+              lineHeight: 1.6, letterSpacing: "-0.005em",
+            }}>
+              아직 부모님이 답변하지 않으셨어요 🌿<br/>
+              양쪽 답변이 모이면 서로의 답이 공개돼요.
             </p>
-          </div>
+          )
         ) : (
-          <div
-            style={{
-              background: "#FAF6EE",
-              borderRadius: "18px",
-              padding: "16px",
-              textAlign: "center"
-            }}
-          >
-            <p style={{ fontSize: "14px", color: "#8A6B5C", margin: "0 0 4px" }}>아직 어머니가 답하지 않으셨어요</p>
-            <p style={{ fontSize: "12px", color: "#9A8B7D", margin: 0 }}>양쪽 답변이 모이면 서로의 답이 공개돼요</p>
-          </div>
+          <p style={{
+            fontSize: "13px", color: "#8A6B5C", margin: "14px 0 0",
+            lineHeight: 1.6, letterSpacing: "-0.005em",
+          }}>
+            내 답변을 먼저 제출하면 볼 수 있어요.
+          </p>
         )}
       </div>
 
-      {/* 지난 질문 보기 */}
+      {/* ── 지난 질문 ── */}
       <button
         type="button"
         onClick={() => router.push("/child/home/question/archive")}
         style={{
-          width: "100%",
-          background: "#FFFBF2",
-          border: "1px solid #E8DECF",
-          borderRadius: "999px",
-          padding: "16px 18px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          cursor: "pointer"
+          width: "100%", background: "transparent",
+          border: "1.5px solid #E8DECF", borderRadius: 999,
+          padding: "16px 20px",
+          fontSize: "14px", fontWeight: 500,
+          color: "#8A6B5C", cursor: "pointer",
+          letterSpacing: "-0.01em",
         }}
       >
-        <span style={{ fontSize: "14px", color: "#241E1A", fontWeight: 500 }}>지난 질문 아카이브 보기</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        지난 질문 보기 →
       </button>
     </DetailScreen>
   );

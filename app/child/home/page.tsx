@@ -149,6 +149,7 @@ export default function ChildHomePage() {
   const pendingReplies = pendingReplyMessages.filter((m) => !m.isReplied);
   const firstPending = pendingReplies[0] ?? null;
 
+
   const familyRows = demoDataset.parents.map((parent) => {
     const temp = calculateRelationshipTemperature(parent.id, demoDataset, referenceDate);
     const { text: status, stale } = formatFamilyStatus(parent.contactRecords30Days ?? []);
@@ -163,7 +164,7 @@ export default function ChildHomePage() {
 
   function handleParentClick(parentId: string) {
     setSelectedParentId(parentId as "parent_mother" | "parent_father");
-    router.push("/child/home/temperature");
+    router.push("/child/home/menu");
   }
 
   return (
@@ -326,7 +327,7 @@ export default function ChildHomePage() {
           <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.02em", color: "#241E1A" }}>
             오늘의 안부
           </span>
-          <span style={{ fontSize: "12px", color: "#8A6B5C" }}>탭하면 다듬어드려요</span>
+          <span style={{ fontSize: "12px", color: "#8A6B5C" }}>마음을 전해요</span>
         </div>
         <div style={{
           display: "flex", gap: "8px", overflowX: "auto",
