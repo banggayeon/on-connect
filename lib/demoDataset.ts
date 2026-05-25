@@ -123,7 +123,7 @@ export const demoDataset = {
       agentSeedSummary: {
         relationshipTemperature: { valueCelsius: 36.8, trendCelsius: 2, progressPercent: 78, stateLabel: "따뜻함", rationale: "최근 식사/생신 대화 반응이 좋지만 건강 언급이 반복됨" },
         parentBriefing: { title: "엄마는 오늘 건강 확인보다 가벼운 식사 안부가 좋아요.", summary: "최근 허리 통증 언급이 있었지만 식사 주제에는 빠르게 반응했어요.", recommendedAction: "저녁 8시 전후로 오늘 저녁은 뭐 드셨어요?처럼 부담 없는 질문을 보내보세요." },
-        warmReplyAI: { incomingMessage: "오늘 저녁 뭐 먹니?", intent: "걱정보다 일상 관심 표현", suggestedReply: "잘 먹었어요. 엄마도 식사 따뜻하게 챙겨 드세요.", reason: "짧지만 안심되는 답장이 어머니의 말투 선호와 잘 맞음" },
+        warmReplyAI: { incomingMessage: "오늘 저녁 뭐 먹니?", intent: "걱정보다 일상 관심 표현", suggestedReply: "잘 먹었어요. 엄마도 식사 챙기세요.", reason: "짧지만 안심되는 답장이 어머니의 말투 선호와 잘 맞음" },
         careAction: { title: "짧은 저녁 안부 보내기", body: "건강 질문보다 식사와 휴식 이야기를 먼저 꺼내면 자연스럽습니다.", priority: "high" }
       }
     },

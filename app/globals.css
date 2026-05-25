@@ -3,26 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", system-ui, sans-serif;
-
-  /* v3 color tokens */
-  --ink:       #241E1A;
-  --ink2:      #3D332C;
-  --brown:     #6E4A39;
-  --brown-soft:#8A6B5C;
-  --mute:      #9A8B7D;
-  --hair:      #E8DECF;
-  --hair-soft: #F0E7D7;
-  --bg:        #FAF6EE;
-  --bg-deep:   #F6EDDB;
-  --surface:   #FFFBF2;
-  --lime:      #D8E0A6;
-  --lilac:     #D9D0E5;
-  --mint:      #CDDCC8;
-  --coral-soft:#F0C2AC;
-  --peach:     #F6D6BD;
-  --blush:     #F1D6CC;
-  --cream-block:#F1E5C8;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
 }
 
 * {
@@ -36,8 +17,10 @@ body {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 176, 136, 0.18), transparent 28%),
+    linear-gradient(180deg, #fbf6f0 0%, #f5e8dc 100%);
+  color: #3d2419;
   font-family: var(--font-sans);
 }
 

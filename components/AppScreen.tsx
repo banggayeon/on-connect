@@ -13,9 +13,8 @@ export function AppScreen({
     <main
       className={cn("min-h-screen w-full", className)}
       style={{
-        background: "#FAF6EE",
+        background: "#FBF6F0",
         fontFamily: "var(--font-sans)",
-        color: "#241E1A",
         ...style
       }}
     >

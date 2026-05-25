@@ -9,7 +9,8 @@ export function OnboardingStepLayout({
   description,
   children,
   cta = "다음",
-  senior = false
+  senior = false,
+  background = "bg-cream-50"
 }: {
   eyebrow: string;
   title: React.ReactNode;
@@ -20,7 +21,7 @@ export function OnboardingStepLayout({
   background?: string;
 }) {
   return (
-    <MobileFrame screenClassName={cn("flex flex-col")}>
+    <MobileFrame screenClassName={cn("flex flex-col", background)}>
       <ScreenHeader eyebrow={eyebrow} title={title} description={description} large={senior} />
       <div className="flex-1">{children}</div>
       <AppButton size={senior ? "lg" : "md"}>{cta}</AppButton>

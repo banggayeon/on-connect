@@ -3,8 +3,6 @@ import { buildPromptForTask } from "@/lib/ai/prompts";
 import { generateMockAiResponse } from "@/lib/ai/mockAiResponses";
 import { demoDataset } from "@/lib/demoDataset";
 import { calculateRelationshipTemperature } from "@/lib/relationshipEngine";
-// analyzeEmotionMock is available here for future pipeline enrichment
-// import { analyzeEmotionMock } from "@/lib/ai/emotionAnalyzer";
 import type { AiMockRequest, AiMockTask, DemoFamilyDataset, DemoParentProfile } from "@/lib/types";
 
 const DEFAULT_REFERENCE_DATE = "2026-05-16";

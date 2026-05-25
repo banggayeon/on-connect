@@ -15,15 +15,14 @@ export function MobileFrame({
   showStatus = true
 }: MobileFrameProps) {
   return (
-    <main className={cn("min-h-dvh px-4 py-6 sm:py-8", className)} style={{ background: "#F6EDDB" }}>
+    <main className={cn("min-h-dvh px-4 py-6 sm:py-8", className)}>
       <div className="mx-auto w-full max-w-[410px]">
-        <div className="rounded-[34px] p-1.5 shadow-phone" style={{ background: "#241E1A" }}>
+        <div className="rounded-[34px] bg-[#2C2420] p-1.5 shadow-phone">
           <section
             className={cn(
-              "relative min-h-[820px] overflow-hidden rounded-[28px] px-5 pb-6 pt-4",
+              "relative min-h-[820px] overflow-hidden rounded-[28px] bg-cream-50 px-5 pb-6 pt-4",
               screenClassName
             )}
-            style={{ background: "#FAF6EE" }}
           >
             {showStatus ? <StatusBar /> : null}
             {children}

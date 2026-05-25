@@ -4,24 +4,23 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppScreen } from "@/components/AppScreen";
 import { childProfile, consentSharing, parentProfile } from "@/lib/mockData";
-import { type FontSizeLevel, FONT_SIZE_CONFIGS } from "@/contexts/FontSizeContext";
 
 function ScreenShell({
   children,
-  bgDeep = false,
+  background = "#FFF8F0",
   senior = false
 }: {
   children: React.ReactNode;
-  bgDeep?: boolean;
+  background?: string;
   senior?: boolean;
 }) {
   return (
     <AppScreen>
       <div
         style={{
-          background: bgDeep ? "#F6EDDB" : "#FAF6EE",
+          background,
           minHeight: "100vh",
-          padding: "30px 26px 40px",
+          padding: "30px 22px 40px",
           display: "flex",
           flexDirection: "column",
           fontSize: senior ? "18px" : "16px"
@@ -37,23 +36,25 @@ function Header({
   eyebrow,
   title,
   description,
-  senior = false
+  senior = false,
+  eyebrowColor = "#3A6B3A"
 }: {
   eyebrow: string;
   title: React.ReactNode;
   description?: React.ReactNode;
   senior?: boolean;
+  eyebrowColor?: string;
 }) {
   return (
     <header style={{ marginBottom: "22px" }}>
-      <p style={{ fontSize: senior ? "15px" : "12.5px", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500, letterSpacing: "-0.005em" }}>
+      <p style={{ fontSize: senior ? "15px" : "13px", color: eyebrowColor, margin: "0 0 4px", fontWeight: 500 }}>
         {eyebrow}
       </p>
-      <h1 style={{ fontSize: senior ? "32px" : "28px", color: "#241E1A", margin: "0 0 6px", fontWeight: 700, lineHeight: 1.25, letterSpacing: "-0.03em" }}>
+      <h1 style={{ fontSize: senior ? "32px" : "28px", color: "#3D2419", margin: "0 0 6px", fontWeight: 500, lineHeight: 1.3 }}>
         {title}
       </h1>
       {description ? (
-        <p style={{ fontSize: senior ? "18px" : "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: senior ? "18px" : "15px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
           {description}
         </p>
       ) : null}
@@ -80,15 +81,17 @@ function NextButton({
       style={{
         marginTop: "20px",
         width: "100%",
-        background: disabled ? "#D5CFC8" : "#241E1A",
-        color: disabled ? "#9A8B7D" : "#FBF6EC",
+        background: disabled
+          ? "#E5DED6"
+          : "linear-gradient(135deg, #FF8A65, #E07856)",
+        color: disabled ? "#9E948A" : "white",
         border: "none",
-        borderRadius: "999px",
-        padding: senior ? "22px 26px" : "17px 22px",
-        fontSize: senior ? "18px" : "16px",
+        borderRadius: "18px",
+        padding: senior ? "18px" : "15px",
+        fontSize: senior ? "21px" : "16px",
         fontWeight: 500,
         cursor: disabled ? "not-allowed" : "pointer",
-        letterSpacing: "-0.012em"
+        boxShadow: disabled ? "none" : "0 6px 18px rgba(224,120,86,0.28)"
       }}
     >
       {label}
@@ -108,50 +111,46 @@ export function RoleChoiceScreen() {
   }
 
   return (
-    <ScreenShell bgDeep>
-      <Header eyebrow="시작하기" title="어느 쪽이세요?" description="선택에 따라 다른 화면이 준비돼요." />
+    <ScreenShell>
+      <Header eyebrow="단계 1/4" title="어느 쪽이세요?" description="선택에 따라 다른 화면이 준비돼요." eyebrowColor="#B07A5C" />
 
-      {/* 추상 도형 */}
-      <div style={{ height: "90px", position: "relative", marginBottom: "28px" }}>
-        <div style={{ position: "absolute", left: "4px", top: "22px", width: "72px", height: "72px", borderRadius: "999px", background: "#F6D6BD" }}/>
-        <div style={{ position: "absolute", left: "54px", top: "6px", width: "72px", height: "72px", borderRadius: "999px", background: "#D9D0E5", mixBlendMode: "multiply" }}/>
-        <div style={{ position: "absolute", left: "108px", top: "28px", width: "56px", height: "56px", borderRadius: "999px", background: "#D8E0A6", mixBlendMode: "multiply" }}/>
-        <div style={{ position: "absolute", right: "0px", top: "36px", width: "92px", height: "34px", borderRadius: "999px", background: "#241E1A" }}/>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {/* 부모님 옵션 */}
         <button
           type="button"
           onClick={() => setSelectedRole("parent")}
           style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "22px", borderRadius: "24px", gap: "14px", textAlign: "left",
-            background: selectedRole === "parent" ? "#241E1A" : "#FFFBF2",
-            color: selectedRole === "parent" ? "#FBF6EC" : "#241E1A",
-            border: selectedRole === "parent" ? "none" : "1px solid #E8DECF",
-            fontFamily: "inherit", cursor: "pointer", width: "100%"
+            background: selectedRole === "parent" ? "linear-gradient(135deg, #FFE5DA, #FFF8F0)" : "white",
+            border: selectedRole === "parent" ? "2px solid #E07856" : "1.5px solid #F0E4D8",
+            borderRadius: "18px",
+            padding: "16px",
+            textAlign: "left",
+            cursor: "pointer",
+            boxShadow: selectedRole === "parent" ? "0 4px 14px rgba(224,120,86,0.14)" : "0 1px 6px rgba(61,36,25,0.05)"
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <div style={{
-              width: "46px", height: "46px", borderRadius: "999px",
-              background: selectedRole === "parent" ? "rgba(251,246,236,0.18)" : "#F1D6CC",
-              flexShrink: 0
-            }}/>
-            <div>
-              <p style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 3px", color: "inherit" }}>부모님이에요</p>
-              <p style={{ fontSize: "13.5px", opacity: 0.7, margin: 0, letterSpacing: "-0.01em" }}>자녀의 안부를 받고, 짧게 답해요</p>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
+            <div
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #FFB088, #FF8A65)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontSize: "15px",
+                fontWeight: 500
+              }}
+            >
+              부
             </div>
+            <p style={{ fontSize: "17px", color: "#3D2419", margin: 0, fontWeight: 500 }}>부모님이에요</p>
           </div>
-          <div style={{
-            width: "26px", height: "26px", borderRadius: "999px",
-            border: `1.5px solid ${selectedRole === "parent" ? "#FBF6EC" : "#241E1A"}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            opacity: selectedRole === "parent" ? 1 : 0.35, flexShrink: 0
-          }}>
-            {selectedRole === "parent" && <div style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#FBF6EC" }}/>}
-          </div>
+          <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.4 }}>
+            자녀에게 안부를 보내고 답을 받아요 · 큰 글씨 지원
+          </p>
         </button>
 
         {/* 자녀 옵션 */}
@@ -159,41 +158,51 @@ export function RoleChoiceScreen() {
           type="button"
           onClick={() => setSelectedRole("child")}
           style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "22px", borderRadius: "24px", gap: "14px", textAlign: "left",
-            background: selectedRole === "child" ? "#241E1A" : "#FFFBF2",
-            color: selectedRole === "child" ? "#FBF6EC" : "#241E1A",
-            border: selectedRole === "child" ? "none" : "1px solid #E8DECF",
-            fontFamily: "inherit", cursor: "pointer", width: "100%"
+            background: selectedRole === "child"
+              ? "linear-gradient(135deg, #E8F3E5, #F6FBF4)"
+              : "white",
+            border: selectedRole === "child" ? "2px solid #7AB87A" : "1.5px solid #F0E4D8",
+            borderRadius: "18px",
+            padding: "16px",
+            textAlign: "left",
+            cursor: "pointer",
+            boxShadow: selectedRole === "child" ? "0 4px 14px rgba(122,184,122,0.14)" : "0 1px 6px rgba(61,36,25,0.05)"
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <div style={{
-              width: "46px", height: "46px", borderRadius: "999px",
-              background: selectedRole === "child" ? "rgba(251,246,236,0.18)" : "#CDDCC8",
-              flexShrink: 0
-            }}/>
-            <div>
-              <p style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 3px", color: "inherit" }}>자녀예요</p>
-              <p style={{ fontSize: "13.5px", opacity: 0.7, margin: 0, letterSpacing: "-0.01em" }}>부모님께 따뜻한 안부를 전해요</p>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
+            <div
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #A8D5A8, #7AB87A)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontSize: "15px",
+                fontWeight: 500
+              }}
+            >
+              자
             </div>
+            <p style={{ fontSize: "17px", color: "#3D2419", margin: 0, fontWeight: 500 }}>자녀예요</p>
           </div>
-          <div style={{
-            width: "26px", height: "26px", borderRadius: "999px",
-            border: `1.5px solid ${selectedRole === "child" ? "#FBF6EC" : "#241E1A"}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            opacity: selectedRole === "child" ? 1 : 0.35, flexShrink: 0
-          }}>
-            {selectedRole === "child" && <div style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#FBF6EC" }}/>}
-          </div>
+          <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.4 }}>
+            부모님 안부에 답하고 케어 정보를 확인해요
+          </p>
         </button>
       </div>
 
-      <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "14px 0 0", textAlign: "center" }}>
+      <p style={{ fontSize: "13px", color: "#B07A5C", margin: "14px 0 0", textAlign: "center" }}>
         언제든 설정에서 변경할 수 있어요.
       </p>
 
-      <NextButton disabled={!selectedRole} onClick={goNext} label="시작하기" />
+      <NextButton
+        disabled={!selectedRole}
+        onClick={goNext}
+        label="다음"
+      />
     </ScreenShell>
   );
 }
@@ -217,23 +226,47 @@ export function ChildProfileChoiceScreen() {
     <ScreenShell>
       <Header eyebrow="자녀 · 단계 1/4" title="당신을 알려주세요" description="부모님께 표시될 이름과 호칭이에요." />
 
-      <div style={{ background: "#FFFBF2", border: "1px solid #241E1A", borderRadius: "18px", padding: "18px", marginBottom: "10px" }}>
-        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 6px" }}>이름</p>
+      {/* 이름 입력 필드 */}
+      <div
+        style={{
+          background: "white",
+          border: "2px solid #7AB87A",
+          borderRadius: "16px",
+          padding: "16px",
+          marginBottom: "10px"
+        }}
+      >
+        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 6px" }}>이름</p>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="이름을 입력하세요"
           style={{
-            width: "100%", border: "none", outline: "none",
-            fontSize: "22px", color: "#241E1A", fontWeight: 500,
-            background: "transparent", padding: 0
+            width: "100%",
+            border: "none",
+            outline: "none",
+            fontSize: "22px",
+            color: "#3D2419",
+            fontWeight: 500,
+            background: "transparent",
+            padding: 0
           }}
         />
       </div>
 
-      <div style={{ background: "#FFFBF2", border: "1px solid #E8DECF", borderRadius: "18px", padding: "16px", marginBottom: "10px" }}>
-        <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 10px", fontWeight: 500 }}>부모님이 부르는 호칭</p>
+      {/* 호칭 선택 */}
+      <div
+        style={{
+          background: "white",
+          border: "1px solid #F0E4D8",
+          borderRadius: "16px",
+          padding: "16px",
+          marginBottom: "10px",
+          boxShadow: "0 1px 6px rgba(61,36,25,0.04)"
+        }}
+      >
+        <p style={{ fontSize: "12px", color: "#B07A5C", margin: "0 0 10px", fontWeight: 500 }}>부모님이 부르는 호칭</p>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
           {options.map((option) => (
             <button
@@ -241,13 +274,13 @@ export function ChildProfileChoiceScreen() {
               type="button"
               onClick={() => setSelectedNickname(option)}
               style={{
-                background: selectedNickname === option ? "#241E1A" : "#F6EDDB",
-                border: "none",
-                borderRadius: "999px",
-                padding: "12px 6px",
+                background: selectedNickname === option ? "#FFE5DA" : "#F5E8DC",
+                border: selectedNickname === option ? "1.5px solid #E07856" : "1.5px solid transparent",
+                borderRadius: "12px",
+                padding: "10px 6px",
                 textAlign: "center",
                 fontSize: "14px",
-                color: selectedNickname === option ? "#FBF6EC" : "#3D332C",
+                color: selectedNickname === option ? "#8A3E25" : "#5F4534",
                 fontWeight: selectedNickname === option ? 600 : 400,
                 cursor: "pointer"
               }}
@@ -258,9 +291,10 @@ export function ChildProfileChoiceScreen() {
         </div>
       </div>
 
-      <div style={{ background: "#CDDCC8", borderRadius: "14px", padding: "14px" }}>
-        <p style={{ fontSize: "13px", color: "#241E1A", margin: "0 0 4px", fontWeight: 500 }}>✦ 생신은 나중에 알려주세요</p>
-        <p style={{ fontSize: "13px", color: "#241E1A", opacity: 0.75, margin: 0, lineHeight: 1.5 }}>
+      {/* 생신 안내 */}
+      <div style={{ background: "#E8F3E5", borderRadius: "14px", padding: "14px" }}>
+        <p style={{ fontSize: "13px", color: "#3A6B3A", margin: "0 0 4px", fontWeight: 500 }}>✦ 생신은 나중에 알려주세요</p>
+        <p style={{ fontSize: "13px", color: "#1F4A1F", margin: 0, lineHeight: 1.5 }}>
           부모님이 가입하시면 자동으로 채워져요.
         </p>
       </div>
@@ -293,7 +327,7 @@ export function ChildReminderChoiceScreen() {
   }
 
   return (
-    <ScreenShell bgDeep>
+    <ScreenShell background="linear-gradient(180deg, #E8F3E5 0%, #FFF8F0 58%, #FFFFFF 100%)">
       <Header eyebrow="자녀 · 단계 3/4" title="언제 챙겨드릴까요?" description="여러 시간 동시에 선택할 수 있어요." />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "14px" }}>
@@ -305,29 +339,38 @@ export function ChildReminderChoiceScreen() {
               type="button"
               onClick={() => toggle(option.value)}
               style={{
-                background: selected ? "#241E1A" : "#FFFBF2",
-                border: selected ? "none" : "1px solid #E8DECF",
-                borderRadius: "18px",
-                padding: "16px 18px",
+                background: selected ? "#F6FBF4" : "white",
+                border: selected ? "2px solid #7AB87A" : "1px solid #F0E4D8",
+                borderRadius: "14px",
+                padding: "14px 16px",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                cursor: "pointer"
+                cursor: "pointer",
+                boxShadow: selected ? "0 2px 8px rgba(122,184,122,0.16)" : "none"
               }}
             >
               <div style={{ textAlign: "left" }}>
-                <p style={{ fontSize: "15px", color: selected ? "#FBF6EC" : "#241E1A", margin: "0 0 3px", fontWeight: 500 }}>{option.label}</p>
-                <p style={{ fontSize: "13px", color: selected ? "rgba(251,246,236,0.7)" : "#8A6B5C", margin: 0 }}>{option.description}</p>
+                <p style={{ fontSize: "15px", color: "#3D2419", margin: "0 0 3px", fontWeight: 500 }}>{option.label}</p>
+                <p style={{ fontSize: "13px", color: "#8A6B5C", margin: 0 }}>{option.description}</p>
               </div>
-              <div style={{
-                width: "22px", height: "22px", borderRadius: "6px",
-                background: selected ? "rgba(251,246,236,0.2)" : "transparent",
-                border: selected ? "none" : "1.5px solid #E8DECF",
-                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0
-              }}>
+              {/* 체크박스 스타일 인디케이터 */}
+              <div
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  borderRadius: "6px",
+                  background: selected ? "#7AB87A" : "transparent",
+                  border: selected ? "none" : "1.5px solid #D0C8C0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0
+                }}
+              >
                 {selected && (
                   <svg width="12" height="9" viewBox="0 0 12 9" fill="none">
-                    <path d="M1 4L4.5 7.5L11 1" stroke="#FBF6EC" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M1 4L4.5 7.5L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
               </div>
@@ -336,9 +379,10 @@ export function ChildReminderChoiceScreen() {
         })}
       </div>
 
-      <div style={{ background: "#F6D6BD", borderRadius: "14px", padding: "14px" }}>
-        <p style={{ fontSize: "13px", color: "#3D332C", margin: "0 0 4px", fontWeight: 500 }}>✦ 의무가 아니에요</p>
-        <p style={{ fontSize: "13px", color: "#241E1A", opacity: 0.75, margin: 0, lineHeight: 1.5 }}>
+      {/* 안내 카드 */}
+      <div style={{ background: "#FFE5DA", borderRadius: "14px", padding: "14px" }}>
+        <p style={{ fontSize: "13px", color: "#8A3E25", margin: "0 0 4px", fontWeight: 500 }}>✦ 의무가 아니에요</p>
+        <p style={{ fontSize: "13px", color: "#5F2A14", margin: 0, lineHeight: 1.5 }}>
           잊지 않게 살짝 떠올려드릴 뿐이에요.
         </p>
       </div>
@@ -348,32 +392,28 @@ export function ChildReminderChoiceScreen() {
   );
 }
 
-const FONT_SIZE_LEVELS: FontSizeLevel[] = ["xs", "sm", "md", "lg", "xl"];
-
 /* ─── 부모님 프로필 ─── */
 export function ParentProfileChoiceScreen() {
   const router = useRouter();
   const [selectedName, setSelectedName] = useState<string | null>(null);
-  const [fontSizeLevel, setFontSizeLevel] = useState<FontSizeLevel>("md");
+  const [largeText, setLargeText] = useState(false);
   const options = [
-    { value: "mom", label: parentProfile.name, badge: "엄", tone: "#F1D6CC" },
-    { value: "dad", label: "아빠", badge: "아", tone: "#F6D6BD" },
-    { value: "custom", label: "직접 입력하기", badge: "", tone: "" }
+    { value: "mom", label: parentProfile.name, badge: "엄", badgeBg: "#FFE5DA", badgeColor: "#8A3E25" },
+    { value: "dad", label: "아빠", badge: "아", badgeBg: "#FFF1DA", badgeColor: "#7A5A1A" },
+    { value: "custom", label: "직접 입력하기", badge: "", badgeBg: "", badgeColor: "" }
   ];
-
-  const currentConfig = FONT_SIZE_CONFIGS[fontSizeLevel];
 
   function goNext() {
     if (!selectedName) return;
     window.localStorage.setItem("role", "parent");
     window.localStorage.setItem("parentDisplayName", selectedName);
-    window.localStorage.setItem("parentFontSize", fontSizeLevel);
+    window.localStorage.setItem("largeText", String(largeText));
     router.push("/onboarding/parent/signal-time");
   }
 
   return (
     <ScreenShell senior>
-      <Header eyebrow="부모님 · 단계 2/3" title="호칭을 정해요" description="자녀에게 보일 이름이에요." senior />
+      <Header eyebrow="부모님 · 단계 2/3" title="호칭을 정해요" description="자녀에게 보일 이름이에요." senior eyebrowColor="#B07A5C" />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "14px" }}>
         {options.map((option) => (
@@ -382,74 +422,92 @@ export function ParentProfileChoiceScreen() {
             type="button"
             onClick={() => setSelectedName(option.label)}
             style={{
-              background: selectedName === option.label ? "#241E1A" : "#FFFBF2",
-              border: selectedName === option.label ? "none" : "1px solid #E8DECF",
-              borderRadius: "18px",
-              padding: "16px",
+              background: "white",
+              border: selectedName === option.label ? "2px solid #E07856" : "1px solid #F0E4D8",
+              borderRadius: "16px",
+              padding: "14px 16px",
               display: "flex",
               alignItems: "center",
-              gap: "14px",
-              cursor: "pointer"
+              gap: "12px",
+              cursor: "pointer",
+              boxShadow: selectedName === option.label ? "0 2px 8px rgba(224,120,86,0.14)" : "none"
             }}
           >
             {option.badge ? (
-              <div style={{
-                width: "40px", height: "40px", borderRadius: "999px",
-                background: selectedName === option.label ? "rgba(251,246,236,0.18)" : option.tone,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "15px", color: selectedName === option.label ? "rgba(251,246,236,0.5)" : "#241E1A",
-                fontWeight: 500, flexShrink: 0
-              }}>
-                {!selectedName || selectedName !== option.label ? option.badge : ""}
+              <div
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: option.badgeBg,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "15px",
+                  color: option.badgeColor,
+                  fontWeight: 500,
+                  flexShrink: 0
+                }}
+              >
+                {option.badge}
               </div>
             ) : (
-              <div style={{ width: "40px", height: "40px", flexShrink: 0 }}/>
+              <div style={{ width: "36px", height: "36px", flexShrink: 0 }} />
             )}
-            <p style={{ fontSize: "19px", color: selectedName === option.label ? "#FBF6EC" : "#241E1A", margin: 0, fontWeight: selectedName === option.label ? 600 : 400, letterSpacing: "-0.015em" }}>
+            <p style={{ fontSize: "19px", color: "#3D2419", margin: 0, fontWeight: selectedName === option.label ? 500 : 400 }}>
               {option.label}
             </p>
           </button>
         ))}
       </div>
 
-      {/* 글자 크기 선택 */}
-      <div style={{ background: "#F6D6BD", borderRadius: "18px", padding: "18px" }}>
-        <p style={{ fontSize: "16px", color: "#241E1A", margin: "0 0 12px", fontWeight: 600, letterSpacing: "-0.015em" }}>글자 크기</p>
-        <div style={{ display: "flex", gap: "6px", marginBottom: "14px" }}>
-          {FONT_SIZE_LEVELS.map((level) => {
-            const cfg = FONT_SIZE_CONFIGS[level];
-            const selected = fontSizeLevel === level;
-            return (
-              <button
-                key={level}
-                type="button"
-                onClick={() => setFontSizeLevel(level)}
-                aria-label={cfg.label}
-                style={{
-                  flex: 1, height: "52px",
-                  background: selected ? "#241E1A" : "#FFFBF2",
-                  border: selected ? "none" : "1px solid #E8DECF",
-                  borderRadius: "999px",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  cursor: "pointer"
-                }}
-              >
-                <span style={{ fontSize: `${cfg.baseSize}px`, color: selected ? "#FBF6EC" : "#241E1A", fontWeight: 500, lineHeight: 1 }}>
-                  가
-                </span>
-              </button>
-            );
-          })}
+      {/* 큰 글씨 모드 토글 */}
+      <button
+        type="button"
+        aria-pressed={largeText}
+        onClick={() => setLargeText((v) => !v)}
+        style={{
+          background: "#FFF1DA",
+          border: "none",
+          borderRadius: "16px",
+          padding: "16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          cursor: "pointer",
+          width: "100%",
+          textAlign: "left"
+        }}
+      >
+        <div>
+          <p style={{ fontSize: "19px", color: "#3D2419", margin: "0 0 3px", fontWeight: 500 }}>큰 글씨 모드</p>
+          <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0 }}>눈이 편안해요</p>
         </div>
-        <div style={{ background: "#FFFBF2", borderRadius: "14px", padding: "14px 16px" }}>
-          <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 6px", fontWeight: 500 }}>
-            미리보기 · {currentConfig.label}
-          </p>
-          <p style={{ fontSize: `${currentConfig.baseSize}px`, color: "#241E1A", margin: 0, lineHeight: currentConfig.spacing, fontWeight: 500 }}>
-            오늘 밥은 먹었니?
-          </p>
+        <div
+          style={{
+            width: "48px",
+            height: "28px",
+            borderRadius: "999px",
+            background: largeText ? "#E07856" : "#F0E4D8",
+            display: "flex",
+            alignItems: "center",
+            padding: "2px",
+            flexShrink: 0,
+            transition: "background 0.2s"
+          }}
+        >
+          <div
+            style={{
+              width: "24px",
+              height: "24px",
+              borderRadius: "50%",
+              background: "white",
+              marginLeft: largeText ? "auto" : 0,
+              transition: "margin 0.2s"
+            }}
+          />
         </div>
-      </div>
+      </button>
 
       <NextButton disabled={!selectedName} onClick={goNext} senior />
     </ScreenShell>
@@ -464,9 +522,9 @@ export function ParentSignalTimeChoiceScreen() {
   const shareOptions = useMemo(() => consentSharing.items, []);
 
   const timeOptions = [
-    { value: "morning", label: "아침 · 8시", hint: '"잘 먹었니?"', tone: "#F1E5C8" },
-    { value: "lunch",   label: "점심 · 12시", hint: '"점심은?"', tone: "#F6D6BD" },
-    { value: "evening", label: "저녁 · 7시", hint: '"오늘 어땠어?"', tone: "#D9D0E5" }
+    { value: "morning", label: "아침 · 8시", hint: '"잘 먹었니?"', dotBg: "linear-gradient(135deg, #FFD9B8, #E8A04E)" },
+    { value: "lunch", label: "점심 · 12시", hint: '"점심은?"', dotBg: "linear-gradient(135deg, #FFB088, #FF8A65)" },
+    { value: "evening", label: "저녁 · 7시", hint: '"오늘 어땠어?"', dotBg: "linear-gradient(135deg, #B8D4E5, #7DA8C8)" }
   ];
 
   function toggleScope(scope: string) {
@@ -481,9 +539,10 @@ export function ParentSignalTimeChoiceScreen() {
   }
 
   return (
-    <ScreenShell senior bgDeep>
-      <Header eyebrow="부모님 · 단계 3/3" title="언제 안부를 보내실래요?" description="버튼이 그 시간에 준비돼 있어요." senior />
+    <ScreenShell background="linear-gradient(180deg, #FFF1DA 0%, #FFF8F0 52%, #FFFFFF 100%)" senior>
+      <Header eyebrow="부모님 · 단계 3/3" title="언제 안부를 보내실래요?" description="버튼이 그 시간에 준비돼 있어요." senior eyebrowColor="#B07A5C" />
 
+      {/* 시간 선택 */}
       <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "18px" }}>
         {timeOptions.map((option) => (
           <button
@@ -491,41 +550,62 @@ export function ParentSignalTimeChoiceScreen() {
             type="button"
             onClick={() => setSelectedTime(option.value)}
             style={{
-              background: selectedTime === option.value ? "#241E1A" : "#FFFBF2",
-              border: selectedTime === option.value ? "none" : "1px solid #E8DECF",
-              borderRadius: "18px",
-              padding: "16px",
+              background: "white",
+              border: selectedTime === option.value ? "2px solid #E07856" : "1px solid #F0E4D8",
+              borderRadius: "16px",
+              padding: "14px 16px",
               display: "flex",
               alignItems: "center",
-              gap: "14px",
-              cursor: "pointer"
+              gap: "12px",
+              cursor: "pointer",
+              boxShadow: selectedTime === option.value ? "0 2px 8px rgba(224,120,86,0.14)" : "none"
             }}
           >
-            <div style={{
-              width: "36px", height: "36px", borderRadius: "999px",
-              background: selectedTime === option.value ? "rgba(251,246,236,0.18)" : option.tone,
-              flexShrink: 0
-            }}/>
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                background: option.dotBg,
+                flexShrink: 0
+              }}
+            />
             <div style={{ flex: 1, textAlign: "left" }}>
-              <p style={{ fontSize: "17px", color: selectedTime === option.value ? "#FBF6EC" : "#241E1A", margin: "0 0 2px", fontWeight: 500 }}>{option.label}</p>
-              <p style={{ fontSize: "13px", color: selectedTime === option.value ? "rgba(251,246,236,0.7)" : "#8A6B5C", margin: 0 }}>{option.hint}</p>
+              <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 2px", fontWeight: 500 }}>{option.label}</p>
+              <p style={{ fontSize: "13px", color: "#8A6B5C", margin: 0 }}>{option.hint}</p>
             </div>
-            <div style={{
-              width: "20px", height: "20px", borderRadius: "999px",
-              background: selectedTime === option.value ? "rgba(251,246,236,0.18)" : "transparent",
-              border: `1.5px solid ${selectedTime === option.value ? "#FBF6EC" : "#E8DECF"}`,
-              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0
-            }}>
-              {selectedTime === option.value && <div style={{ width: "7px", height: "7px", borderRadius: "999px", background: "#FBF6EC" }}/>}
+            <div
+              style={{
+                width: "18px",
+                height: "18px",
+                borderRadius: "50%",
+                background: selectedTime === option.value ? "#E07856" : "transparent",
+                border: selectedTime === option.value ? "none" : "1.5px solid #D0C8C0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0
+              }}
+            >
+              {selectedTime === option.value && (
+                <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "white" }} />
+              )}
             </div>
           </button>
         ))}
       </div>
 
       {/* 공유 정보 동의 */}
-      <div style={{ background: "#FFFBF2", borderRadius: "20px", padding: "18px", border: "1px solid #E8DECF" }}>
-        <p style={{ fontSize: "16px", color: "#8A6B5C", margin: "0 0 6px", fontWeight: 500 }}>{consentSharing.title}</p>
-        <p style={{ fontSize: "17px", color: "#241E1A", margin: "0 0 14px", lineHeight: 1.5 }}>{consentSharing.description}</p>
+      <div
+        style={{
+          background: "white",
+          borderRadius: "18px",
+          padding: "18px",
+          boxShadow: "0 2px 10px rgba(61,36,25,0.05)"
+        }}
+      >
+        <p style={{ fontSize: "16px", color: "#B07A5C", margin: "0 0 6px", fontWeight: 500 }}>{consentSharing.title}</p>
+        <p style={{ fontSize: "17px", color: "#3D2419", margin: "0 0 14px", lineHeight: 1.5 }}>{consentSharing.description}</p>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {shareOptions.map((item) => (
             <button
@@ -533,8 +613,8 @@ export function ParentSignalTimeChoiceScreen() {
               type="button"
               onClick={() => toggleScope(item.id)}
               style={{
-                background: sharedScopes.includes(item.id) ? "#CDDCC8" : "#FAF6EE",
-                border: sharedScopes.includes(item.id) ? "1px solid rgba(36,30,26,0.2)" : "1px solid #E8DECF",
+                background: sharedScopes.includes(item.id) ? "#E8F3E5" : "#FBF6F0",
+                border: sharedScopes.includes(item.id) ? "1.5px solid #7AB87A" : "1.5px solid #F0E4D8",
                 borderRadius: "14px",
                 padding: "12px 14px",
                 display: "flex",
@@ -545,20 +625,31 @@ export function ParentSignalTimeChoiceScreen() {
               }}
             >
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: "15px", color: "#241E1A", margin: "0 0 2px", fontWeight: 500 }}>{item.label}</p>
+                <p style={{ fontSize: "15px", color: "#3D2419", margin: "0 0 2px", fontWeight: 500 }}>{item.label}</p>
                 <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0 }}>{item.description}</p>
               </div>
-              <div style={{
-                width: "40px", height: "24px", borderRadius: "999px",
-                background: sharedScopes.includes(item.id) ? "#241E1A" : "#E8DECF",
-                display: "flex", alignItems: "center", padding: "2px",
-                flexShrink: 0, marginLeft: "10px"
-              }}>
-                <div style={{
-                  width: "20px", height: "20px", borderRadius: "50%",
-                  background: "white",
-                  marginLeft: sharedScopes.includes(item.id) ? "auto" : 0
-                }}/>
+              <div
+                style={{
+                  width: "40px",
+                  height: "24px",
+                  borderRadius: "999px",
+                  background: sharedScopes.includes(item.id) ? "#7AB87A" : "#F0E4D8",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "2px",
+                  flexShrink: 0,
+                  marginLeft: "10px"
+                }}
+              >
+                <div
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    borderRadius: "50%",
+                    background: "white",
+                    marginLeft: sharedScopes.includes(item.id) ? "auto" : 0
+                  }}
+                />
               </div>
             </button>
           ))}

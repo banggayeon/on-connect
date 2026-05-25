@@ -15,25 +15,10 @@ export function ScreenHeader({
 }) {
   return (
     <header className={cn("mb-5", className)}>
-      <p
-        className={cn("mb-1.5 font-medium", large ? "text-[15px]" : "text-[12.5px]")}
-        style={{ color: "#8A6B5C", letterSpacing: "-0.005em" }}
-      >
-        {eyebrow}
-      </p>
-      <h1
-        className={cn("font-bold leading-tight", large ? "text-[32px]" : "text-[28px]")}
-        style={{ color: "#241E1A", letterSpacing: "-0.03em", lineHeight: 1.25 }}
-      >
-        {title}
-      </h1>
+      <p className={cn("mb-1.5 font-medium text-cocoa-400", large ? "text-[16px]" : "text-[13px]")}>{eyebrow}</p>
+      <h1 className={cn("font-medium leading-tight text-cocoa-900", large ? "text-[30px]" : "text-[24px]")}>{title}</h1>
       {description ? (
-        <p
-          className={cn("mt-2 leading-relaxed", large ? "text-[17px]" : "text-[14px]")}
-          style={{ color: "#8A6B5C", letterSpacing: "-0.005em" }}
-        >
-          {description}
-        </p>
+        <p className={cn("mt-2 leading-relaxed text-cocoa-500", large ? "text-[17px]" : "text-[14px]")}>{description}</p>
       ) : null}
     </header>
   );
