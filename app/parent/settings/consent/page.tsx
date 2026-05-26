@@ -6,11 +6,27 @@ import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { childProfile, defaultConsent } from "@/lib/mockData";
 import type { ConsentSettings } from "@/lib/mockData";
 
-const CONSENT_ITEMS: { key: keyof ConsentSettings; label: string; desc: (childName: string) => string }[] = [
-  { key: "healthShare",   label: "건강 기록",  desc: (childName) => `체크인한 건강 상태를 ${childName}이가 볼 수 있어요` },
-  { key: "moodShare",     label: "기분 기록",  desc: (childName) => `체크인한 기분 상태를 ${childName}이가 볼 수 있어요` },
-  { key: "memoShare",     label: "생활 메모",  desc: (childName) => `기록한 메모를 ${childName}이가 볼 수 있어요` },
-  { key: "activityShare", label: "활동 기록",  desc: (childName) => `활동 기록을 ${childName}이가 볼 수 있어요` },
+const CONSENT_ITEMS: { key: keyof ConsentSettings; label: string; desc: (childName: string) => string; aiNote: string }[] = [
+  {
+    key: "healthShare",   label: "건강 기록",
+    desc: (childName) => `체크인한 건강 상태를 ${childName}이가 볼 수 있어요`,
+    aiNote: "건강 상태는 안부 추천 타이밍에 참고돼요",
+  },
+  {
+    key: "moodShare",     label: "기분 기록",
+    desc: (childName) => `체크인한 기분 상태를 ${childName}이가 볼 수 있어요`,
+    aiNote: "기분 기록은 대화 전 브리핑에 참고될 수 있어요",
+  },
+  {
+    key: "memoShare",     label: "생활 메모",
+    desc: (childName) => `기록한 메모를 ${childName}이가 볼 수 있어요`,
+    aiNote: "메모 내용은 관계 리포트 주제 분석에 활용돼요",
+  },
+  {
+    key: "activityShare", label: "활동 기록",
+    desc: (childName) => `활동 기록을 ${childName}이가 볼 수 있어요`,
+    aiNote: "활동 흐름은 안부 추천 주제 선정에 참고돼요",
+  },
 ];
 
 export default function ConsentSettingPage() {
@@ -68,7 +84,7 @@ export default function ConsentSettingPage() {
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        {CONSENT_ITEMS.map(({ key, label, desc }) => {
+        {CONSENT_ITEMS.map(({ key, label, desc, aiNote }) => {
           const isOn = consent[key];
           return (
             <div
@@ -83,9 +99,14 @@ export default function ConsentSettingPage() {
                 <p style={{ fontSize: "var(--parent-font-base)", color: "#241E1A", margin: "0 0 4px", fontWeight: 600 }}>
                   {label}
                 </p>
-                <p style={{ fontSize: "var(--parent-font-caption)", color: isOn ? "#3D332C" : "#9A8B7D", margin: 0 }}>
+                <p style={{ fontSize: "var(--parent-font-caption)", color: isOn ? "#3D332C" : "#9A8B7D", margin: "0 0 6px" }}>
                   {isOn ? desc(childProfile.name) : "나만 볼 수 있어요"}
                 </p>
+                {isOn && (
+                  <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
+                    이 정보는 AI 추천에 사용될 수 있어요 · {aiNote}
+                  </p>
+                )}
               </div>
               {/* 토글 */}
               <button

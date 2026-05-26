@@ -195,7 +195,8 @@ export default function ChildHomePage() {
 
       {/* ── 히어로: 미답장 있을 때 ── */}
       {firstPending ? (
-        <div style={{ position: "relative", paddingLeft: "16px", marginBottom: "28px" }}>
+        <div style={{ background: "#FFFBF2", borderRadius: 20, padding: "14px 32px", marginBottom: "28px" }}>
+        <div style={{ position: "relative", paddingLeft: "16px" }}>
           <div style={{
             position: "absolute", left: 0, top: 6, bottom: 56,
             width: 3, borderRadius: 999, background: "#F6D6BD",
@@ -255,9 +256,11 @@ export default function ChildHomePage() {
             <ArrowIcon />
           </button>
         </div>
+        </div>
       ) : (
         /* ── 히어로: 미답장 없을 때 ── */
-        <div style={{ position: "relative", paddingLeft: "16px", marginBottom: "28px" }}>
+        <div style={{ background: "#FFFBF2", borderRadius: 20, padding: "14px 32px", marginBottom: "28px" }}>
+        <div style={{ position: "relative", paddingLeft: "16px" }}>
           <div style={{
             position: "absolute", left: 0, top: 4, bottom: 56,
             width: 3, borderRadius: 999, background: "#D8E0A6",
@@ -290,13 +293,14 @@ export default function ChildHomePage() {
             안부 추천 보기
           </button>
         </div>
+        </div>
       )}
 
       {/* ── 가족 섹션 ── */}
-      <div style={{ marginBottom: "22px" }}>
+      <div style={{ background: "#FFFBF2", borderRadius: 20, padding: "2px 32px 0", marginBottom: "22px" }}>
         <div style={{
           display: "flex", alignItems: "baseline", justifyContent: "space-between",
-          marginBottom: "4px",
+          padding: "14px 0 4px",
         }}>
           <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.02em", color: "#241E1A" }}>
             가족

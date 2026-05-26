@@ -124,7 +124,9 @@ export default function ChildSignalPage() {
           {MAY_CELLS.map((day, i) => {
             const inMonth = day !== null;
             const hasContact = inMonth && mayContactDays.has(day!);
+            const isPast = inMonth && day! < todayDay;
             const isToday = day === todayDay;
+            const noContactPast = isPast && !hasContact;
             return (
               <button
                 key={i}
@@ -145,11 +147,18 @@ export default function ChildSignalPage() {
                 }}
               >
                 {inMonth ? day : ""}
-                {/* 연락한 날: 작은 복숭아색 점 */}
+                {/* 연락한 날: 초록 점 */}
                 {hasContact && (
                   <div style={{
                     position: "absolute", bottom: 4, left: "50%", transform: "translateX(-50%)",
-                    width: 4, height: 4, borderRadius: 999, background: "#F6D6BD",
+                    width: 4, height: 4, borderRadius: 999, background: "#CDDCC8",
+                  }} />
+                )}
+                {/* 지난 날 중 연락 없는 날: 흐린 점 */}
+                {noContactPast && (
+                  <div style={{
+                    position: "absolute", bottom: 4, left: "50%", transform: "translateX(-50%)",
+                    width: 4, height: 4, borderRadius: 999, background: "#DDD5C5",
                   }} />
                 )}
                 {/* 오늘 테두리 */}
@@ -166,9 +175,16 @@ export default function ChildSignalPage() {
         </div>
       </div>
 
-      <p style={{ fontSize: "12.5px", color: "#8A6B5C", lineHeight: 1.5, margin: "0 0 28px" }}>
-        표시는 연락한 날이에요. 비어 있어도 괜찮아요.
-      </p>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, margin: "0 0 28px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <div style={{ width: 7, height: 7, borderRadius: 999, background: "#CDDCC8", flexShrink: 0 }} />
+          <span style={{ fontSize: "11.5px", color: "#8A6B5C" }}>연락한 날</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <div style={{ width: 7, height: 7, borderRadius: 999, background: "#DDD5C5", flexShrink: 0 }} />
+          <span style={{ fontSize: "11.5px", color: "#8A6B5C" }}>연락 없었던 날</span>
+        </div>
+      </div>
 
       {/* ── 오늘 기분 ── */}
       <div>

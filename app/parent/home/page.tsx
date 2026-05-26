@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ParentAppShell } from "@/components/parent/ParentAppShell";
 import { childProfile, mockInbox } from "@/lib/mockData";
-import type { ReplySuggestion } from "@/lib/types";
 
 const MOOD_EMOJIS: { emoji: string; label: string }[] = [
   { emoji: "😄", label: "아주 좋아요" },
@@ -22,10 +21,18 @@ type StoredCheckIn = {
   recipientName: string;
 };
 
-const MOCK_QUICK_REPLIES: ReplySuggestion[] = [
-  { id: "qr-1", text: "응, 잘 있어~ 거기는 어때?",          tone: "short",      label: "짧게" },
-  { id: "qr-2", text: "연락해줘서 기분 좋다 😊 나도 잘 지내고 있어!", tone: "warm",       label: "따뜻하게" },
-  { id: "qr-3", text: "걱정 마~ 잘 있어. 너도 건강하게 지내!", tone: "reassuring", label: "안심" },
+const MOCK_QUICK_REPLIES = [
+  { id: "qr-1", text: "응, 잘 있어~ 거기는 어때?",          label: "짧게" },
+  { id: "qr-2", text: "연락해줘서 기분 좋다 😊 나도 잘 지내고 있어!", label: "따뜻하게" },
+  { id: "qr-3", text: "걱정 마~ 잘 있어. 너도 건강하게 지내!", label: "안심" },
+];
+
+const COMM_TOOLS = [
+  { key: "flow",     icon: "📬", accent: "#F1E5C8", title: "연결 흐름",    desc: "주고받은 안부 기록 보기",        href: "/parent/inbox" },
+  { key: "greeting", icon: "✉️", accent: "#D8E0A6", title: "안부 추천",    desc: "AI가 자녀에게 보낼 문장을 만들어요", href: "/parent/greeting" },
+  { key: "reply",    icon: "✍️", accent: "#D9D0E5", title: "말 다듬기",    desc: "하고 싶은 말을 부드럽게 바꿔드려요", href: "/parent/reply" },
+  { key: "briefing", icon: "📋", accent: "#CDDCC8", title: "대화 전 브리핑", desc: "연락하기 전 알아두면 좋을 흐름",   href: "/parent/briefing" },
+  { key: "report",   icon: "📊", accent: "#F1D6CC", title: "관계 리포트",  desc: "대화 흐름과 주제 한눈에 보기",    href: "/parent/report" },
 ];
 
 function ArrowIcon({ color = "#FBF6EC", size = 16 }: { color?: string; size?: number }) {
@@ -39,9 +46,6 @@ function ArrowIcon({ color = "#FBF6EC", size = 16 }: { color?: string; size?: nu
 export default function ParentHomePage() {
   const router = useRouter();
   const [quickMood, setQuickMood] = useState<number | null>(null);
-  const [showSendModal, setShowSendModal] = useState(false);
-  const [sendText, setSendText] = useState("");
-  const [sentDone, setSentDone] = useState(false);
   const [receivedCheckIn, setReceivedCheckIn] = useState<StoredCheckIn | null>(null);
   const [selectedReply, setSelectedReply] = useState<string | null>(null);
   const [checkInReplied, setCheckInReplied] = useState(false);
@@ -61,12 +65,6 @@ export default function ParentHomePage() {
       if (raw) setReceivedCheckIn(JSON.parse(raw) as StoredCheckIn);
     } catch { /* ignore */ }
   }, []);
-
-  function handleSend() {
-    if (!sendText.trim()) return;
-    setSentDone(true);
-    setTimeout(() => { setShowSendModal(false); setSendText(""); setSentDone(false); }, 1500);
-  }
 
   function handleQuickReply(text: string) {
     setSelectedReply(text);
@@ -318,86 +316,50 @@ export default function ParentHomePage() {
         </button>
       </div>
 
-      {/* ── {childName}이에게 안부 보내기 버튼 ── */}
-      <button
-        type="button"
-        onClick={() => setShowSendModal(true)}
-        style={{
-          width: "100%", background: "transparent",
-          border: "1.5px solid #E8DECF", borderRadius: 999,
-          padding: "20px 26px",
-          fontSize: "var(--parent-font-base, 18px)", fontWeight: 600,
-          cursor: "pointer", letterSpacing: "-0.012em",
-          color: "#241E1A", marginBottom: 8,
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-        }}
-      >
-        {childName}이에게 먼저 안부 보내기
-      </button>
-
-      {/* ── 안부 보내기 모달 ── */}
-      {showSendModal && (
-        <div
-          style={{
-            position: "fixed", inset: 0,
-            background: "rgba(36,30,26,0.45)", zIndex: 50,
-            display: "flex", flexDirection: "column", justifyContent: "flex-end",
-          }}
-          onClick={(e) => { if (e.target === e.currentTarget) setShowSendModal(false); }}
-        >
-          <div style={{
-            background: "#FBF6EC", borderRadius: "24px 24px 0 0",
-            padding: "28px 26px 48px",
-          }}>
-            {/* handle */}
-            <div style={{ width: 36, height: 4, borderRadius: 999, background: "#DDD5C5", margin: "0 auto 22px" }} />
-            <p style={{
-              fontSize: "var(--parent-font-base, 20px)", color: "#241E1A",
-              fontWeight: 700, margin: "0 0 18px", letterSpacing: "-0.02em",
-            }}>
-              {childName}이에게 안부 보내기
-            </p>
-            {sentDone ? (
-              <p style={{
-                fontSize: "var(--parent-font-base, 20px)", color: "#8A6B5C",
-                textAlign: "center", padding: "28px 0",
+      {/* ── 소통 도움 ── */}
+      <div style={{ marginBottom: 8 }}>
+        <p style={{
+          fontSize: "var(--parent-font-base, 18px)", fontWeight: 700,
+          color: "#241E1A", margin: "0 0 14px", letterSpacing: "-0.015em",
+        }}>
+          소통 도움
+        </p>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {COMM_TOOLS.map((item, idx) => (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => router.push(item.href)}
+              style={{
+                display: "flex", alignItems: "center", gap: 16,
+                padding: "16px 0", background: "none", border: "none",
+                cursor: "pointer", textAlign: "left",
+                borderBottom: idx < COMM_TOOLS.length - 1 ? "1px solid #F0E7D7" : "none",
+              }}
+            >
+              <div style={{
+                width: 50, height: 50, borderRadius: 16,
+                background: item.accent, flexShrink: 0,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "22px",
               }}>
-                전달했어요!
-              </p>
-            ) : (
-              <>
-                <textarea
-                  value={sendText}
-                  onChange={(e) => setSendText(e.target.value)}
-                  placeholder="안부를 적어보세요"
-                  style={{
-                    width: "100%", minHeight: "130px",
-                    fontSize: "var(--parent-font-base, 20px)",
-                    border: "1.5px solid #E8DECF", borderRadius: 20,
-                    padding: "18px", resize: "none", outline: "none",
-                    boxSizing: "border-box", fontFamily: "inherit",
-                    color: "#241E1A", background: "#FFFBF2", lineHeight: 1.6,
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={handleSend}
-                  style={{
-                    width: "100%", marginTop: 14,
-                    background: "#241E1A", color: "#FBF6EC",
-                    border: "none", borderRadius: 999,
-                    padding: "22px 26px",
-                    fontSize: "var(--parent-font-base, 18px)", fontWeight: 600,
-                    cursor: "pointer", letterSpacing: "-0.012em",
-                  }}
-                >
-                  보내기
-                </button>
-              </>
-            )}
-          </div>
+                {item.icon}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: "var(--parent-font-base, 18px)", fontWeight: 700, color: "#241E1A", letterSpacing: "-0.015em" }}>
+                  {item.title}
+                </div>
+                <div style={{ fontSize: "var(--parent-font-caption, 14px)", color: "#8A6B5C", marginTop: 3, letterSpacing: "-0.005em" }}>
+                  {item.desc}
+                </div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 12L10 8L6 4" stroke="#8A6B5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
     </ParentAppShell>
   );
 }
