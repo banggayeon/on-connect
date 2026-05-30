@@ -1,4 +1,4 @@
-export type FamilyRole = "child" | "mother" | "father";
+export type FamilyRole = "child" | "mother" | "father" | "friend" | "acquaintance";
 
 export type TonePreference = "warm" | "practical" | "playful" | "brief" | "polite";
 
@@ -10,7 +10,7 @@ export type ConsentScope =
   | "giftHints"
   | "location";
 
-export type ContactChannel = "call" | "text" | "photo" | "video" | "missed";
+export type ContactChannel = "call" | "text" | "photo" | "video" | "missed" | "copy";
 
 export type ContactDirection = "childToParent" | "parentToChild";
 
@@ -140,7 +140,10 @@ export type AgentSeedSummary = {
 };
 
 export type DemoParentProfile = DemoPerson & {
-  role: "mother" | "father";
+  role: "mother" | "father" | "friend" | "acquaintance";
+  relationshipType?: "family" | "friend" | "acquaintance";
+  desiredFrequency?: "weekly" | "monthly" | "quarterly";
+  isMutual?: boolean;
   preferenceProfile: ParentPreferenceProfile;
   contactLogs?: ContactRecord[];
   replyLogs?: ReplyLog[];

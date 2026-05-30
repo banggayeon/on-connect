@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ChildAppShell } from "@/components/child/ChildAppShell";
 import { GreetingModal } from "@/components/child/GreetingModal";
 import { useSelectedParent } from "@/contexts/SelectedParentContext";
 import { demoDataset, pendingReplyMessages } from "@/lib/mockData";
-import { calculateRelationshipTemperature } from "@/lib/relationshipEngine";
+import { getContactNudge, type ContactNudge } from "@/lib/contactTiming";
+import { getRecentContact, daysSince } from "@/lib/contactLog";
 import type { ContactRecord } from "@/lib/types";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -61,11 +62,11 @@ function ArrowIcon({ color = "#FBF6EC", size = 14 }: { color?: string; size?: nu
 // ── FamilyRow ─────────────────────────────────────────────────────────────────
 
 function FamilyRow({
-  avatar, tone, name, status, stale, temperature, onClick, divider,
+  avatar, tone, name, status, stale, nudge, onClick, divider,
 }: {
   avatar: string; tone: string; name: string;
   status: string; stale: boolean;
-  temperature: number; onClick: () => void; divider?: boolean;
+  nudge: ContactNudge; onClick: () => void; divider?: boolean;
 }) {
   return (
     <button
@@ -92,8 +93,14 @@ function FamilyRow({
           {status}
         </div>
       </div>
-      <div style={{ fontSize: "12px", color: "#8A6B5C", fontWeight: 500, letterSpacing: "-0.005em", flexShrink: 0 }}>
-        {temperature.toFixed(1)}°
+      <div style={{
+        fontSize: "12px",
+        color: nudge.level === "overdue" ? "#C0624A" : nudge.level === "soon" ? "#B8814A" : "#8A6B5C",
+        fontWeight: nudge.level !== "good" ? 600 : 500,
+        letterSpacing: "-0.005em",
+        flexShrink: 0,
+      }}>
+        {nudge.label}
       </div>
       <div style={{ marginLeft: 4, color: "#6E4A39", flexShrink: 0 }}>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -146,17 +153,30 @@ export default function ChildHomePage() {
   const today = new Date().toLocaleDateString("ko-KR", { month: "long", day: "numeric", weekday: "long" });
   const referenceDate = demoDataset.generatedAt;
 
+  const [loggedContacts, setLoggedContacts] = useState<Record<string, string>>({});
+  useEffect(() => {
+    const entries: Record<string, string> = {};
+    demoDataset.parents.forEach(p => {
+      const logged = getRecentContact(p.id);
+      if (logged) entries[p.id] = logged.date;
+    });
+    setLoggedContacts(entries);
+  }, []);
+
   const pendingReplies = pendingReplyMessages.filter((m) => !m.isReplied);
   const firstPending = pendingReplies[0] ?? null;
 
 
   const familyRows = demoDataset.parents.map((parent) => {
-    const temp = calculateRelationshipTemperature(parent.id, demoDataset, referenceDate);
-    const { text: status, stale } = formatFamilyStatus(parent.contactRecords30Days ?? []);
+    const records = parent.contactRecords30Days ?? [];
+    const daysFromRecords = getDaysSinceContact(records);
+    const loggedDate = loggedContacts[parent.id];
+    const days = loggedDate ? Math.min(daysFromRecords, daysSince(loggedDate)) : daysFromRecords;
+    const { text: status, stale } = formatFamilyStatus(records);
     return {
       parentId: parent.id,
       name: parent.displayName,
-      temperature: temp.temperature,
+      nudge: getContactNudge(days, parent.desiredFrequency),
       status,
       stale,
     };
@@ -190,7 +210,7 @@ export default function ChildHomePage() {
         fontSize: "30px", lineHeight: 1.22, fontWeight: 700, letterSpacing: "-0.03em",
         margin: "14px 0 26px", color: "#241E1A",
       }}>
-        오늘, 한 번 더<br/>가까워져요
+        오늘 연락해볼<br/>사람이 있어요
       </h1>
 
       {/* ── 히어로: 미답장 있을 때 ── */}
@@ -303,7 +323,7 @@ export default function ChildHomePage() {
           padding: "14px 0 4px",
         }}>
           <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.02em", color: "#241E1A" }}>
-            가족
+            챙기고 싶은 사람
           </span>
           <span style={{ fontSize: "12px", color: "#8A6B5C" }}>{familyRows.length}명</span>
         </div>
@@ -315,7 +335,7 @@ export default function ChildHomePage() {
             name={p.name}
             status={p.status}
             stale={p.stale}
-            temperature={p.temperature}
+            nudge={p.nudge}
             divider={idx < familyRows.length - 1}
             onClick={() => handleParentClick(p.parentId)}
           />

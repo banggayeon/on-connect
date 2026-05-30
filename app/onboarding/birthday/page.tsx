@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function OnboardingRolePage() {
+export default function BirthdayPage() {
   redirect("/onboarding/signup");
 }

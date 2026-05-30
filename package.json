@@ -8,13 +8,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1",
     "lucide-react": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.2.4",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "latest",
     "@types/react": "latest",

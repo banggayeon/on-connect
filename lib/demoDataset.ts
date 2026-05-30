@@ -175,6 +175,109 @@ export const demoDataset = {
         careAction: { title: "주말 짧은 산책 제안", body: "등산 사진에 반응한 뒤 무릎 부담이 적은 코스로 같이 걷자고 제안하세요.", priority: "medium" }
       }
     }
+    ,
+    {
+      id: "friend_jimin",
+      role: "friend",
+      name: "김지민",
+      displayName: "지민",
+      age: 27,
+      relationLabel: "대학 친구",
+      relationshipType: "friend",
+      desiredFrequency: "monthly",
+      isMutual: false,
+      preferenceProfile: {
+        interests: ["영화", "맛집 탐방", "여행"],
+        birthday: { month: 3, day: 15, label: "지민 생일" },
+        preferredContactWindows: [],
+        tonePreferences: ["warm", "playful"],
+        avoidedTopics: [],
+        consentSettings: []
+      },
+      contactRecords30Days: [
+        {
+          id: "jimin_contact_2026_02_28",
+          parentId: "friend_jimin",
+          date: "2026-02-28",
+          channel: "text",
+          direction: "parentToChild",
+          summary: "이직 준비 중이라고 연락 옴. 면접 결과 나오면 얘기해주겠다고 함.",
+          sentiment: "warm",
+          responseLatencyMinutes: 45,
+          tags: ["career", "job_change"]
+        }
+      ],
+      conversationMemos: [
+        {
+          id: "jimin_memo_career",
+          parentId: "friend_jimin",
+          date: "2026-02-28",
+          title: "이직 준비 중",
+          memo: "이직 준비 중이라고 했고 면접 결과가 나오면 연락하겠다고 했음.",
+          extractedTopics: ["career", "job_change", "interview"],
+          suggestedFollowUp: "저번에 이직 준비한다고 했는데 어떻게 됐어? 라고 자연스럽게 물어보기"
+        }
+      ],
+      careSignals: [],
+      giftCandidates: [],
+      agentSeedSummary: {
+        relationshipTemperature: { valueCelsius: 28.0, trendCelsius: -2, progressPercent: 40, stateLabel: "뜸해진 상태", rationale: "3개월째 연락이 없음" },
+        parentBriefing: { title: "지민에게 먼저 말을 거는 게 좋을 타이밍이에요.", summary: "이직 준비 결과가 어떻게 됐는지 자연스럽게 시작할 수 있어요.", recommendedAction: "저번에 이직 얘기를 꺼냈는데 어떻게 됐는지 가볍게 물어보세요." },
+        warmReplyAI: { incomingMessage: "나 이직 준비 중인데 면접 결과 나오면 얘기할게", intent: "근황 공유", suggestedReply: "어떻게 됐어? 잘 됐으면 좋겠다", reason: "오래된 이야기를 자연스럽게 이어받는 문장" },
+        careAction: { title: "이직 결과 가볍게 물어보기", body: "오래됐지만 그 이야기를 이어받으면 어색하지 않아요.", priority: "medium" }
+      }
+    },
+    {
+      id: "acquaintance_junseo",
+      role: "acquaintance",
+      name: "박준서",
+      displayName: "준서",
+      age: 29,
+      relationLabel: "전 직장 동료",
+      relationshipType: "acquaintance",
+      desiredFrequency: "quarterly",
+      isMutual: false,
+      preferenceProfile: {
+        interests: ["운동", "게임", "커피"],
+        birthday: { month: 9, day: 8, label: "준서 생일" },
+        preferredContactWindows: [],
+        tonePreferences: ["brief", "practical"],
+        avoidedTopics: [],
+        consentSettings: []
+      },
+      contactRecords30Days: [
+        {
+          id: "junseo_contact_2025_11_15",
+          parentId: "acquaintance_junseo",
+          date: "2025-11-15",
+          channel: "text",
+          direction: "childToParent",
+          summary: "프로젝트 마무리 축하 문자를 보냄. 수고했다고 짧게 답장 옴.",
+          sentiment: "warm",
+          responseLatencyMinutes: 120,
+          tags: ["work", "project"]
+        }
+      ],
+      conversationMemos: [
+        {
+          id: "junseo_memo_project",
+          parentId: "acquaintance_junseo",
+          date: "2025-11-15",
+          title: "같이 마무리한 프로젝트 언급",
+          memo: "같이 고생했던 프로젝트 끝날 때 연락한 게 마지막. 요즘 어떻게 지내는지 근황 모름.",
+          extractedTopics: ["work", "project", "old_colleague"],
+          suggestedFollowUp: "요즘 어디서 뭐 하고 지내는지 가볍게 안부 물어보기"
+        }
+      ],
+      careSignals: [],
+      giftCandidates: [],
+      agentSeedSummary: {
+        relationshipTemperature: { valueCelsius: 22.0, trendCelsius: -1, progressPercent: 25, stateLabel: "소식이 뜸해요", rationale: "6개월 이상 연락 없음" },
+        parentBriefing: { title: "준서에게 짧게 안부 한마디 건네기 좋아요.", summary: "오래됐지만 부담 없이 시작할 수 있는 사이예요.", recommendedAction: "요즘 어때, 잘 지내지? 처럼 가볍게 시작해보세요." },
+        warmReplyAI: { incomingMessage: "ㅎㅎ 나도 수고했어", intent: "짧은 인사", suggestedReply: "요즘 어떻게 지내? 오랜만에 커피 한잔 해요", reason: "오래됐지만 부담 없는 제안" },
+        careAction: { title: "가벼운 안부로 시작하기", body: "길게 설명할 필요 없이 요즘 어때 한마디로 충분해요.", priority: "low" }
+      }
+    }
   ]
 } satisfies DemoFamilyDataset;
 

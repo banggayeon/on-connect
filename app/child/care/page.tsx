@@ -51,13 +51,13 @@ export default function ChildCarePage() {
     <ChildAppShell>
       <header style={{ marginBottom: "16px" }}>
         <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "0 0 4px", fontWeight: 500 }}>
-          부모님 근황
+          최근 흐름
         </p>
         <h1 style={{ fontSize: "26px", color: "#241E1A", margin: "0 0 6px", fontWeight: 700, lineHeight: 1.25, letterSpacing: "-0.03em" }}>
-          최근 대화 요약
+          대화 흐름
         </h1>
         <p style={{ fontSize: "14px", color: "#8A6B5C", margin: 0, lineHeight: 1.5 }}>
-          대화 기반으로 요약한 근황과 케어 액션이에요.
+          대화에서 이어갈 수 있는 이야기를 모았어요.
         </p>
       </header>
 
@@ -80,11 +80,8 @@ export default function ChildCarePage() {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
             <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>
-              {parentProfile.displayName} 근황 요약
+              {parentProfile.displayName} 최근 흐름
             </p>
-            <span style={{ fontSize: "11px", color: "#241E1A", background: "#D8E0A6", padding: "3px 8px", borderRadius: "999px", fontWeight: 600 }}>
-              AI
-            </span>
           </div>
           <p style={{ fontSize: "16px", color: "#241E1A", margin: "0 0 12px", fontWeight: 600, lineHeight: 1.4 }}>
             {summary.headline}
@@ -145,10 +142,7 @@ export default function ChildCarePage() {
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>케어 액션 추천</p>
-            <span style={{ fontSize: "11px", color: "#241E1A", background: "#D8E0A6", padding: "3px 8px", borderRadius: "999px", fontWeight: 600 }}>
-              AI
-            </span>
+            <p style={{ fontSize: "12px", color: "#8A6B5C", margin: 0, fontWeight: 500 }}>부담 없이 해볼 수 있어요</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {actions.map((action) => (

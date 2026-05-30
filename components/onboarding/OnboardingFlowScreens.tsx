@@ -87,7 +87,7 @@ export function WelcomeScreen() {
           서로의 안부를<br/>부담 없이.
         </h1>
         <p style={{ fontSize: "15.5px", color: "#3D332C", margin: 0, lineHeight: 1.65, opacity: 0.8, marginBottom: "28px" }}>
-          가족에게 맞는 화면으로 시작해요.<br/>나중에 다시 바꿀 수 있어요.
+          끊기기 쉬운 관계를<br/>부담 없는 한마디로 다시 이어요.
         </p>
 
         <div
@@ -102,7 +102,7 @@ export function WelcomeScreen() {
         >
           <p style={{ fontSize: "12px", color: "#8A6B5C", margin: "0 0 12px", fontWeight: 500 }}>오늘 준비된 것</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {["관계 온도", "Warm Reply AI", "동의 기반 케어 신호"].map((item) => (
+            {["연락 타이밍 알림", "맥락 기반 첫 문장 추천", "대화 흐름 메모"].map((item) => (
               <div
                 key={item}
                 style={{
@@ -122,7 +122,7 @@ export function WelcomeScreen() {
         </div>
 
         <div style={{ width: "100%", marginTop: "auto" }}>
-          <PrimaryButton onClick={() => router.push("/onboarding/role")}>시작하기</PrimaryButton>
+          <PrimaryButton onClick={() => router.push("/onboarding/signup")}>시작하기</PrimaryButton>
           <p style={{ fontSize: "13px", color: "#8A6B5C", margin: "14px 0 0" }}>이미 계정이 있어요 · 로그인</p>
         </div>
       </main>
